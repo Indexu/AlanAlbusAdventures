@@ -16,6 +16,7 @@ Naming conventions:
     * Do not write Id or id.
  
 Class structure, in this order:
+ * Nested classes
  * Public members
  * Private members
  * Constructor (if applicable)
@@ -27,9 +28,9 @@ Class structure, in this order:
 
 Brackets are mandatory for statement blocks (for, if, while, etc...).
 
-"case" statements should be indented inside a swtich block.
+"case" statements should be indented inside a switch block.
 
-Never ommit "public" or "private" from method or variable declaration.
+Never ommit the "public" or "private" keywords from method or variable declaration.
 
 Have 1 line between methods.
 
