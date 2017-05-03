@@ -1,3 +1,9 @@
+### Custom ###
+*.unity
+*.unity.meta
+!Main.unity
+!Main.unity.meta
+
 
 # Created by https://www.gitignore.io/api/macos,linux,unity,windows,sublimetext,monodevelop,visualstudio,visualstudiocode
 
