@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 61906509932244230}
   - component: {fileID: 114688826759277608}
   - component: {fileID: 114131838973500692}
+  - component: {fileID: 114877393507725176}
   m_Layer: 8
   m_Name: Albus
   m_TagString: Player
@@ -100,7 +101,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d86cfd3d2857a4ec496620be2e0e5e1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 10
   currentHealth: 10
   magicResistance: 1
   physicalResistance: 1
@@ -122,13 +122,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerID: 1
-  speed: 100
-  damage: 1
   projectileForce: 10
-  fireRate: 0.5
   knockbackForce: 40
   magicalDamage: 1
   projectile: {fileID: 1035552101150598, guid: 5d1950b306e9f47ad8dd2362e5f321ba, type: 2}
+--- !u!114 &114877393507725176
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1544241633990776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c86a1a51cee1e43049d830f30337b866, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementSpeed: 1
+  maxHealth: 10
+  critHitChance: 10
+  critHitDamage: 2
+  baseDamage: 1
+  attackSpeed: 1
+  statPoints: 0
+  movementSpeedText: {fileID: 0}
+  maxHealthText: {fileID: 0}
+  critHitChanceText: {fileID: 0}
+  critHitDamageText: {fileID: 0}
+  baseDamageText: {fileID: 0}
+  attackSpeedText: {fileID: 0}
+  statsTable: {fileID: 0}
 --- !u!212 &212532801386670756
 SpriteRenderer:
   m_ObjectHideFlags: 1

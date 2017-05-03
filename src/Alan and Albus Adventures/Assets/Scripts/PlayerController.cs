@@ -6,16 +6,14 @@ using Rewired;
 public class PlayerController : MonoBehaviour 
 {
 	public int playerID; // ReWired player ID
-	public float speed;
-	public float damage;
 	public float projectileForce;
-	public float fireRate;
 	public float knockbackForce;
 	public bool magicalDamage;
 	public GameObject projectile;
 
 	private Rigidbody2D rb2d;
 	private VitalityController vc;
+	private Stats stats;
 	private Player player;
 	private Vector2 moveVector;
 	private Vector2 rotationVector;
@@ -23,6 +21,7 @@ public class PlayerController : MonoBehaviour
 	private bool knockback;
 	private float nextFire;
 	private bool doShoot;
+	private bool inStatsScreen;
 
 	public void Knockback(Vector2 direction)
 	{
@@ -36,7 +35,9 @@ public class PlayerController : MonoBehaviour
 		player = ReInput.players.GetPlayer(playerID);
 		rb2d = GetComponent<Rigidbody2D>();
 		vc = GetComponent<VitalityController>();
+		stats = GetComponent<Stats>();
 		rotationVector = Vector2.up;
+		inStatsScreen = false;
 	}
 
 	private void Update()
@@ -75,9 +76,25 @@ public class PlayerController : MonoBehaviour
 
 	private void CheckInput()
 	{
-		if (player.GetButton ("Shoot"))
+		if (inStatsScreen)
 		{
-			doShoot = true;
+			if (player.GetButtonUp("Stats Screen"))
+			{
+				inStatsScreen = false;
+				stats.HideStats();
+			}
+		}
+		else
+		{
+			if (player.GetButton("Shoot"))
+			{
+				doShoot = true;
+			}
+			if (player.GetButtonUp("Stats Screen"))
+			{
+				inStatsScreen = true;
+				stats.ShowStats();
+			}
 		}
 	}
 
@@ -85,15 +102,21 @@ public class PlayerController : MonoBehaviour
 	{	
 		if (nextFire < Time.time)
 		{
-			nextFire = Time.time + fireRate;
+			nextFire = Time.time + stats.attackSpeed;
 
 			var projectileInstance = Instantiate(projectile, transform.position, transform.rotation) as GameObject;
 			projectileInstance.GetComponent<Rigidbody2D>().AddForce(rotationVector.normalized * projectileForce, ForceMode2D.Impulse);
 
 			var projectileComponent = projectileInstance.GetComponent<Projectile>();
-			projectileComponent.damage = damage;
+			projectileComponent.damage = stats.baseDamage;
 			projectileComponent.isMagical = magicalDamage;
 			projectileComponent.playerFired = true;
+
+			if (Random.value * 100 < stats.critHitChance)
+			{
+				projectileComponent.damage *= stats.critHitDamage;
+			}
+
 			projectileComponent.Init();
 		}
 
@@ -128,7 +151,7 @@ public class PlayerController : MonoBehaviour
 		moveVector.x = player.GetAxis("Move Horizontal");
 		moveVector.y = player.GetAxis("Move Vertical");
 
-		rb2d.AddForce(moveVector * speed);
+		rb2d.AddForce(moveVector * stats.movementSpeed);
 	}
 
 	private void CheckKnockback()

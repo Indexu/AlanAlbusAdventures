@@ -155,13 +155,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d86cfd3d2857a4ec496620be2e0e5e1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 10
+  currentHealth: 10
   magicResistance: 1
   physicalResistance: 1
   isDead: 0
   isInvincible: 0
   isInvincibilityFrame: 0
   invincibilityFrameTime: 0
+  healthText: {fileID: 0}
+  healthSlider: {fileID: 0}
 --- !u!114 &114324679443999514
 MonoBehaviour:
   m_ObjectHideFlags: 1

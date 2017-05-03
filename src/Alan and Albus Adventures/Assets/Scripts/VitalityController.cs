@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class VitalityController : MonoBehaviour 
 {
-	public float maxHealth;
 	public float currentHealth;
 	public float magicResistance;
 	public float physicalResistance;
@@ -17,6 +16,7 @@ public class VitalityController : MonoBehaviour
 	public Slider healthSlider;
 
 	private float nextDamage;
+	private Stats stats;
 
 	public void Damage(float amount, bool isMagical)
 	{
@@ -44,6 +44,15 @@ public class VitalityController : MonoBehaviour
 		currentHealth += amount;
 	}
 
+	private void Start()
+	{
+		if (gameObject.tag == "Player")
+		{
+			stats = GetComponent<Stats>();
+			UpdateUI();
+		}
+	}
+
 	private void CheckHealth()
 	{
 		if (currentHealth <= 0)
@@ -67,7 +76,7 @@ public class VitalityController : MonoBehaviour
 
 	private void UpdateUI()
 	{
-		healthText.text = currentHealth + "/" + maxHealth;
-		healthSlider.value = currentHealth / maxHealth;
+		healthText.text = currentHealth + "/" + stats.maxHealth;
+		healthSlider.value = currentHealth / stats.maxHealth;
 	}
 }
