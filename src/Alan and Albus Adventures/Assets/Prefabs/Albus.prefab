@@ -38,7 +38,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1544241633990776}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.43, y: -3.06, z: 0}
+  m_LocalPosition: {x: -9.7, y: -3.06, z: 0}
   m_LocalScale: {x: 0.05, y: 0.05, z: 0.1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -100,13 +100,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d86cfd3d2857a4ec496620be2e0e5e1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 10
+  maxHealth: 10
+  currentHealth: 10
   magicResistance: 1
   physicalResistance: 1
   isDead: 0
   isInvincible: 0
   isInvincibilityFrame: 0
   invincibilityFrameTime: 0.8
+  healthText: {fileID: 0}
+  healthSlider: {fileID: 0}
 --- !u!114 &114688826759277608
 MonoBehaviour:
   m_ObjectHideFlags: 1
