@@ -32,13 +32,13 @@ public class Projectile : MonoBehaviour
 		}
 	}
 
-	private void OnCollisionEnter2D(Collision2D collision)
+	private void OnTriggerEnter2D(Collider2D collider)
 	{
-		var tag = collision.gameObject.tag;
+		var tag = collider.gameObject.tag;
 
 		if (tag == "Player" || tag == "Enemy")
 		{
-			var vitalityController = collision.gameObject.GetComponent<VitalityController> ();
+			var vitalityController = collider.gameObject.GetComponent<VitalityController> ();
 			vitalityController.Damage (damage, isMagical);
 		}
 

@@ -155,13 +155,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d86cfd3d2857a4ec496620be2e0e5e1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 10
+  currentHealth: 10
   magicResistance: 1
   physicalResistance: 1
   isDead: 0
   isInvincible: 0
   isInvincibilityFrame: 0
   invincibilityFrameTime: 0
+  healthText: {fileID: 0}
+  healthSlider: {fileID: 0}
+  doUpdateUI: 0
 --- !u!114 &114324679443999514
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -213,7 +216,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: d5591a60b628f4346b2168dab15fc97c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a4c967fdfd6f141dead417a05d163307, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

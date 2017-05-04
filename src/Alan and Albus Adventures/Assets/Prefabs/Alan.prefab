@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 61123557452763130}
   - component: {fileID: 114465285615356236}
   - component: {fileID: 114592696447939018}
+  - component: {fileID: 114823482315256710}
   m_Layer: 8
   m_Name: Alan
   m_TagString: Player
@@ -38,7 +39,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1350687940162552}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.19, y: -3, z: 0}
+  m_LocalPosition: {x: -6.2, y: -3, z: 0}
   m_LocalScale: {x: 0.05, y: 0.05, z: 0.1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -56,7 +57,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 15
+  m_LinearDrag: 12
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -101,10 +102,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerID: 0
-  speed: 130
-  damage: 1
   projectileForce: 10
-  fireRate: 0.5
   knockbackForce: 40
   magicalDamage: 0
   projectile: {fileID: 1035552101150598, guid: 5d1950b306e9f47ad8dd2362e5f321ba, type: 2}
@@ -119,13 +117,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d86cfd3d2857a4ec496620be2e0e5e1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 10
+  currentHealth: 10
   magicResistance: 1
   physicalResistance: 1
   isDead: 0
   isInvincible: 0
   isInvincibilityFrame: 0
   invincibilityFrameTime: 0.8
+  healthText: {fileID: 0}
+  healthSlider: {fileID: 0}
+  doUpdateUI: 0
+--- !u!114 &114823482315256710
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1350687940162552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c86a1a51cee1e43049d830f30337b866, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementSpeed: 100
+  maxHealth: 10
+  critHitChance: 10
+  critHitDamage: 2
+  baseDamage: 1
+  attackSpeed: 1
+  statPoints: 6
+  movementSpeedText: {fileID: 0}
+  maxHealthText: {fileID: 0}
+  critHitChanceText: {fileID: 0}
+  critHitDamageText: {fileID: 0}
+  baseDamageText: {fileID: 0}
+  attackSpeedText: {fileID: 0}
+  statPointsText: {fileID: 0}
+  selectedBorder: {fileID: 0}
+  statsTable: {fileID: 0}
 --- !u!212 &212962836753314218
 SpriteRenderer:
   m_ObjectHideFlags: 1
