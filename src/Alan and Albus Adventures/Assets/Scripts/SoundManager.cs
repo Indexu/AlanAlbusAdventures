@@ -4,10 +4,9 @@ using UnityEngine;
 
 public class SoundManager : MonoBehaviour {
 	public AudioSource soundEffect;
-	public static SoundManager instance { get; private set; }
 
 	void Awake() {
-		instance = this;
+		//here we will start the theme
 	}
 	
 	// Update is called once per frame
