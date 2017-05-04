@@ -14,6 +14,7 @@ public class VitalityController : MonoBehaviour
 	public float invincibilityFrameTime;
 	public Text healthText;
 	public Slider healthSlider;
+	public bool doUpdateUI;
 
 	private float nextDamage;
 	private Stats stats;
@@ -30,7 +31,7 @@ public class VitalityController : MonoBehaviour
 
 			if (gameObject.tag == "Player")
 			{
-				UpdateUI();
+				doUpdateUI = true;
 			}
 
 			CheckHealth();
@@ -48,7 +49,19 @@ public class VitalityController : MonoBehaviour
 	{
 		if (gameObject.tag == "Player")
 		{
-			stats = GetComponent<Stats>();
+			doUpdateUI = true;
+			stats = GetComponent<Stats> ();
+		}
+		else
+		{
+			doUpdateUI = false;
+		}
+	}
+
+	private void OnGUI()
+	{
+		if (doUpdateUI)
+		{
 			UpdateUI();
 		}
 	}
@@ -68,15 +81,15 @@ public class VitalityController : MonoBehaviour
 		}	
 	}
 
-	private IEnumerator InvincibiltyFrame()
-	{
-		yield return new WaitForSeconds(invincibilityFrameTime);
-		isInvincibilityFrame = false;
-	}
-
 	private void UpdateUI()
 	{
 		healthText.text = currentHealth + "/" + stats.maxHealth;
 		healthSlider.value = currentHealth / stats.maxHealth;
+	}
+
+	private IEnumerator InvincibiltyFrame()
+	{
+		yield return new WaitForSeconds(invincibilityFrameTime);
+		isInvincibilityFrame = false;
 	}
 }

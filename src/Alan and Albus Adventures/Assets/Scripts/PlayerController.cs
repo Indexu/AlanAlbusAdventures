@@ -53,7 +53,7 @@ public class PlayerController : MonoBehaviour
 	{
 		CheckKnockback();
 
-		if (!vc.isDead)
+		if (!vc.isDead && !inStatsScreen)
 		{
 			Rotation();
 			Movement();
@@ -82,6 +82,18 @@ public class PlayerController : MonoBehaviour
 			{
 				inStatsScreen = false;
 				stats.HideStats();
+			}
+			if (player.GetButtonUp("DPad Up"))
+			{
+				stats.Up();
+			}
+			if (player.GetButtonUp("DPad Down"))
+			{
+				stats.Down();
+			}
+			if (player.GetButtonUp("Confirm"))
+			{
+				stats.UpgradeStat();
 			}
 		}
 		else

@@ -150,6 +150,8 @@ MonoBehaviour:
   critHitDamageText: {fileID: 0}
   baseDamageText: {fileID: 0}
   attackSpeedText: {fileID: 0}
+  statPointsText: {fileID: 0}
+  selectedBorder: {fileID: 0}
   statsTable: {fileID: 0}
 --- !u!212 &212962836753314218
 SpriteRenderer:

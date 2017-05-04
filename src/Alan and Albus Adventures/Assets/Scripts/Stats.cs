@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Stats : MonoBehaviour 
 {
 	public float movementSpeed;
-	public float maxHealth;
+	public int maxHealth;
 	public float critHitChance;
 	public float critHitDamage;
 	public float baseDamage;
@@ -19,42 +19,139 @@ public class Stats : MonoBehaviour
 	public Text critHitDamageText;
 	public Text baseDamageText;
 	public Text attackSpeedText;
+	public Text statPointsText;
+	public RectTransform selectedBorder;
 	public GameObject statsTable;
+
+	private VitalityController vc;
+
+	private const float maxHealthYPos = 248f;
+	private const float movementSpeedYPos = 123.7f;
+	private const float attackSpeedYPos = 0f;
+	private const float critHitChanceYPos = -123.6f;
+	private const float critHitDamageYPos = -247.3f;
+	private const float baseDamageYPos = -371f;
+
+	private const int maxHealthIndex = 1;
+	private const int movementSpeedIndex = 2;
+	private const int attackSpeedIndex = 3;
+	private const int critHitChanceIndex = 4;
+	private const int critHitDamageIndex = 5;
+	private const int baseDamageIndex = 6;
+
+	private int selectedStat = maxHealthIndex;
+	private const int minSelectedStat = maxHealthIndex;
+	private const int maxSelectedStat = baseDamageIndex;
+	private bool doUpdateUI;
+	private bool doSetSelectedBorder;
 
 	public void UpgradeMovementSpeed()
 	{
-		statPoints--;
 		movementSpeed += 15;
 	}
 
 	public void UpgradeMaxHealth()
 	{
-		statPoints--;
-		maxHealth += 2f;
+		maxHealth += 2;
+		vc.currentHealth += 2;
 	}
 
 	public void UpgradeCritHitChance()
 	{
-		statPoints--;
 		critHitChance += 5f;
 	}
 
 	public void UpgradeCritHitDamage()
 	{
-		statPoints--;
 		critHitDamage += 0.2f;
 	}
 
 	public void UpgradeBaseDamage()
 	{
-		statPoints--;
 		baseDamage += 1f;
 	}
 
 	public void UpgradeAttackSpeed()
 	{
-		statPoints--;
-		attackSpeed -= 0.15f;
+		attackSpeed -= 0.1f;
+	}
+
+	public void UpgradeStat()
+	{
+		if (0 < statPoints)
+		{
+			statPoints--;
+
+			switch (selectedStat)
+			{
+			case maxHealthIndex:
+				{
+					UpgradeMaxHealth();
+					break;
+				}
+
+			case movementSpeedIndex:
+				{
+					UpgradeMovementSpeed();
+					break;
+				}
+
+			case attackSpeedIndex:
+				{
+					UpgradeAttackSpeed();
+					break;
+				}
+
+			case critHitChanceIndex:
+				{
+					UpgradeCritHitChance();
+					break;
+				}
+
+			case critHitDamageIndex:
+				{
+					UpgradeCritHitDamage();
+					break;
+				}
+
+			case baseDamageIndex:
+				{
+					UpgradeBaseDamage();
+					break;
+				}
+
+			default:
+				{
+					break;
+				}
+			}
+
+			doUpdateUI = true;
+		}
+	}
+
+	public void Down()
+	{
+		selectedStat++;
+
+		if (maxSelectedStat < selectedStat)
+		{
+			selectedStat = maxHealthIndex;
+		}
+
+		doSetSelectedBorder = true;
+	}
+
+	public void Up()
+	{
+		selectedStat--;
+
+		if (selectedStat < minSelectedStat)
+		{
+			selectedStat = baseDamageIndex;
+		}
+
+		doSetSelectedBorder = true;
 	}
 
 	public void UpdateUI()
@@ -64,12 +161,14 @@ public class Stats : MonoBehaviour
 		critHitChanceText.text = critHitChance + "%";
 		critHitDamageText.text = critHitDamage + "x";
 		baseDamageText.text = baseDamage.ToString();
-		attackSpeedText.text = attackSpeed + "s";
+		attackSpeedText.text = attackSpeed.ToString("0.00") + "s";
+		statPointsText.text = statPoints.ToString();
+		vc.doUpdateUI = true;
 	}
 
 	public void ShowStats()
 	{
-		UpdateUI();
+		doUpdateUI = true;
 		statsTable.SetActive(true);
 	}
 
@@ -81,5 +180,69 @@ public class Stats : MonoBehaviour
 	private void Start()
 	{
 		HideStats();
+		vc = GetComponent<VitalityController>();
+		doUpdateUI = true;
+		doSetSelectedBorder = true;
+	}
+
+	private void OnGUI()
+	{
+		if (doUpdateUI)
+		{
+			doUpdateUI = false;
+			UpdateUI();
+		}
+		if (doSetSelectedBorder)
+		{
+			doSetSelectedBorder = false;
+			SetSelectedBorder();
+		}
+	}
+
+	private void SetSelectedBorder()
+	{
+		switch (selectedStat)
+		{
+			case maxHealthIndex:
+			{
+				selectedBorder.localPosition = new Vector3(selectedBorder.localPosition.x, maxHealthYPos, selectedBorder.localPosition.z);
+				break;
+			}
+
+			case movementSpeedIndex:
+			{
+				selectedBorder.localPosition = new Vector3(selectedBorder.localPosition.x, movementSpeedYPos, selectedBorder.localPosition.z);
+				break;
+			}
+				
+			case attackSpeedIndex:
+			{
+				selectedBorder.localPosition = new Vector3(selectedBorder.localPosition.x, attackSpeedYPos, selectedBorder.localPosition.z);
+				break;
+			}
+
+			case critHitChanceIndex:
+			{
+				selectedBorder.localPosition = new Vector3(selectedBorder.localPosition.x, critHitChanceYPos, selectedBorder.localPosition.z);
+				break;
+			}
+				
+			case critHitDamageIndex:
+			{
+				selectedBorder.localPosition = new Vector3(selectedBorder.localPosition.x, critHitDamageYPos, selectedBorder.localPosition.z);
+				break;
+			}
+				
+			case baseDamageIndex:
+			{
+				selectedBorder.localPosition = new Vector3(selectedBorder.localPosition.x, baseDamageYPos, selectedBorder.localPosition.z);
+				break;
+			}
+				
+			default:
+			{
+				break;
+			}
+		}
 	}
 }
