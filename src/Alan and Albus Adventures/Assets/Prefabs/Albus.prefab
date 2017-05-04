@@ -39,7 +39,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1544241633990776}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -9.7, y: -3.06, z: 0}
+  m_LocalPosition: {x: -3.43, y: -3.06, z: 0}
   m_LocalScale: {x: 0.05, y: 0.05, z: 0.1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -127,6 +127,7 @@ MonoBehaviour:
   knockbackForce: 40
   magicalDamage: 1
   projectile: {fileID: 1035552101150598, guid: 5d1950b306e9f47ad8dd2362e5f321ba, type: 2}
+  projectileSound: {fileID: 8300000, guid: 8878449d9c32536458a9b1dfe64bb7c0, type: 3}
 --- !u!114 &114877393507725176
 MonoBehaviour:
   m_ObjectHideFlags: 1
