@@ -15,13 +15,17 @@ public class GameManager : MonoBehaviour
 	private Vector3 door;
 	private Direction direction;
 	private GameObject[] players;
+	private GameObject currentRoom;
+	private int enemies;
+	private List<DoorController> doors;
 
-	public void changeRooms(Vector3 room, Vector3 door, Direction dir)
+	public void changeRooms(GameObject room, Vector3 door, Direction dir)
 	{
 		changingRooms = true;
 
+		currentRoom = room;
 		oldRoom = mainCamera.position;
-		newRoom = room;
+		newRoom = room.transform.position;
 		this.door = door;
 		direction = dir;
 
@@ -29,11 +33,22 @@ public class GameManager : MonoBehaviour
 		vector.z = -10f;
 	}
 
+	public void EnemyKilled()
+	{
+		enemies--;
+
+		if (enemies == 0)
+		{
+			UnlockDoors();
+		}
+	}
+
 	private void Start()
 	{
 		mainCamera = GameObject.FindGameObjectWithTag("MainCamera").transform;
 		players = GameObject.FindGameObjectsWithTag("Player");
 		changingRooms = false;
+		doors = new List<DoorController>();
 	}
 
 	private void Update()
@@ -70,6 +85,49 @@ public class GameManager : MonoBehaviour
 		foreach (GameObject player in players)
 		{
 			player.transform.position = door;
+		}
+
+		ActivateEnemies();
+	}
+
+	private void ActivateEnemies()
+	{
+		doors.Clear();
+
+		var children = currentRoom.GetComponentsInChildren<Transform>();
+		foreach (var child in children)
+		{
+			if (child.gameObject.tag == "Enemy")
+			{
+				child.gameObject.SetActive(true);
+				enemies++;
+			}
+			else if (child.gameObject.tag == "Door")
+			{
+				var door = child.gameObject.GetComponent<DoorController>();
+				doors.Add(door);
+			}
+		}
+
+		if (enemies != 0)
+		{
+			LockDoors();
+		}
+	}
+
+	private void LockDoors()
+	{
+		foreach (var door in doors)
+		{
+			door.Lock();
+		}
+	}
+
+	private void UnlockDoors()
+	{
+		foreach (var door in doors)
+		{
+			door.Unlock();
 		}
 	}
 }

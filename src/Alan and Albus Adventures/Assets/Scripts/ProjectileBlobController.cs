@@ -14,7 +14,13 @@ public class ProjectileBlobController : Enemy {
 	private Vector2 moveVector;
 	private float nextVector;
 
-	// Update is called once per frame
+	protected override void Start()
+	{
+		base.Start();
+
+		nextFire = 0;
+	}
+
 	protected override void FixedUpdate() 
 	{		
 		base.FixedUpdate();
@@ -41,7 +47,7 @@ public class ProjectileBlobController : Enemy {
 		{
 			nextFire = Time.time + fireRate;
 
-			var projectileInstance = Instantiate(projectile, transform.position, transform.rotation) as GameObject;
+			var projectileInstance = (GameObject)Instantiate(projectile, transform.position, transform.rotation);
 			projectileInstance.GetComponent<Rigidbody2D>().AddForce(targetVector.normalized * projectileForce, ForceMode2D.Impulse);
 
 			var projectileComponent = projectileInstance.GetComponent<Projectile>();
