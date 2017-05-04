@@ -102,12 +102,12 @@ public class VitalityController : MonoBehaviour
 	{
 		if (boss)
 		{
-			healthText.text = currentHealth + "/" + bossMaxHealth;
+			healthText.text = currentHealth.ToString("0") + "/" + bossMaxHealth;
 			healthSlider.value = currentHealth / bossMaxHealth;
 		}
 		else
 		{
-			healthText.text = currentHealth + "/" + stats.maxHealth;
+			healthText.text = currentHealth.ToString("0") + "/" + stats.maxHealth;
 			healthSlider.value = currentHealth / stats.maxHealth;
 		}
 	}
