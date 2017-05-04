@@ -110,6 +110,7 @@ MonoBehaviour:
   invincibilityFrameTime: 0.8
   healthText: {fileID: 0}
   healthSlider: {fileID: 0}
+  doUpdateUI: 0
 --- !u!114 &114688826759277608
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -137,19 +138,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c86a1a51cee1e43049d830f30337b866, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 1
+  movementSpeed: 100
   maxHealth: 10
   critHitChance: 10
   critHitDamage: 2
   baseDamage: 1
   attackSpeed: 1
-  statPoints: 0
+  statPoints: 6
   movementSpeedText: {fileID: 0}
   maxHealthText: {fileID: 0}
   critHitChanceText: {fileID: 0}
   critHitDamageText: {fileID: 0}
   baseDamageText: {fileID: 0}
   attackSpeedText: {fileID: 0}
+  statPointsText: {fileID: 0}
+  selectedBorder: {fileID: 0}
   statsTable: {fileID: 0}
 --- !u!212 &212532801386670756
 SpriteRenderer:

@@ -126,6 +126,7 @@ MonoBehaviour:
   invincibilityFrameTime: 0.8
   healthText: {fileID: 0}
   healthSlider: {fileID: 0}
+  doUpdateUI: 0
 --- !u!114 &114823482315256710
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -143,7 +144,7 @@ MonoBehaviour:
   critHitDamage: 2
   baseDamage: 1
   attackSpeed: 1
-  statPoints: 0
+  statPoints: 6
   movementSpeedText: {fileID: 0}
   maxHealthText: {fileID: 0}
   critHitChanceText: {fileID: 0}
