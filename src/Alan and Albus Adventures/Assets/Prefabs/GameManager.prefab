@@ -52,3 +52,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraSpeed: 2.5
+  bossUI: {fileID: 0}
+  winText: {fileID: 0}
+  pauseScreen: {fileID: 0}
+  isPaused: 0

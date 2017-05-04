@@ -155,7 +155,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d86cfd3d2857a4ec496620be2e0e5e1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentHealth: 10
+  currentHealth: 15
   magicResistance: 1
   physicalResistance: 1
   isDead: 0
@@ -164,6 +164,8 @@ MonoBehaviour:
   invincibilityFrameTime: 0
   healthText: {fileID: 0}
   healthSlider: {fileID: 0}
+  boss: 0
+  player: 0
   doUpdateUI: 0
 --- !u!114 &114324679443999514
 MonoBehaviour:
@@ -179,6 +181,7 @@ MonoBehaviour:
   speed: 15
   damage: 1
   magicalDamage: 0
+  Attacking: 0
   projectileForce: 10
   fireRate: 1
   minTime: 0.5

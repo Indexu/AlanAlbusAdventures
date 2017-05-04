@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ProjectileBlobController : Enemy {
-
+public class BlobertController : Boss 
+{
 	public float projectileForce;
 	public float fireRate;
-	public float minTime;
-	public float maxTime;
 	public GameObject projectile;
 
 	private float nextFire;
@@ -22,27 +20,21 @@ public class ProjectileBlobController : Enemy {
 	}
 
 	protected override void FixedUpdate() 
-	{	
+	{		
 		if (Attacking)
 		{
 			base.FixedUpdate();
 
 			Shoot();
-			
 		}
 	}
 
 	protected override void Move()
 	{
-		if (nextVector < Time.time)
-		{
-			moveVector.x = Random.Range(-1f, 1f);
-			moveVector.y = Random.Range(-1f, 1f);
+		targetVector.x = target.transform.position.x - transform.position.x;
+		targetVector.y = target.transform.position.y - transform.position.y;
 
-			nextVector = Time.time + Random.Range(minTime, maxTime);
-		}
-
-		rb2d.AddForce(moveVector * speed);
+		rb2d.AddForce(targetVector.normalized * speed);
 	}
 
 	private void Shoot()

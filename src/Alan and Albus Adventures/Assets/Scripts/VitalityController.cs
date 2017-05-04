@@ -14,30 +14,35 @@ public class VitalityController : MonoBehaviour
 	public float invincibilityFrameTime;
 	public Text healthText;
 	public Slider healthSlider;
+	public bool boss;
+	public bool player;
 	public bool doUpdateUI;
 
 	private float nextDamage;
 	private Stats stats;
 	private GameManager gameManager;
+	private float bossMaxHealth;
 
 	public void Damage(float amount, bool isMagical)
 	{
 		if(!isInvincible && !isInvincibilityFrame && !isDead)
 		{
-			isInvincibilityFrame = true;
-
 			amount /= (isMagical ? magicResistance : physicalResistance);
 
 			currentHealth -= amount;
 
-			if (gameObject.tag == "Player")
+			if (player || boss)
 			{
 				doUpdateUI = true;
 			}
 
 			CheckHealth();
 
-			StartCoroutine(InvincibiltyFrame());
+			if (player)
+			{
+				isInvincibilityFrame = true;
+				StartCoroutine(InvincibiltyFrame());
+			}
 		}
 	}
 
@@ -52,12 +57,19 @@ public class VitalityController : MonoBehaviour
 
 		if (gameObject.tag == "Player")
 		{
+			player = true;
 			doUpdateUI = true;
-			stats = GetComponent<Stats> ();
+			stats = GetComponent<Stats>();
 		}
 		else
 		{
+			player = false;
 			doUpdateUI = false;
+		}
+
+		if (boss)
+		{
+			bossMaxHealth = currentHealth;
 		}
 	}
 
@@ -73,9 +85,10 @@ public class VitalityController : MonoBehaviour
 	{
 		if (currentHealth <= 0)
 		{
-			if (gameObject.tag == "Player")
+			if (player)
 			{
 				isDead = true;
+				gameManager.PlayerKilled();
 			}
 			else
 			{
@@ -87,8 +100,16 @@ public class VitalityController : MonoBehaviour
 
 	private void UpdateUI()
 	{
-		healthText.text = currentHealth + "/" + stats.maxHealth;
-		healthSlider.value = currentHealth / stats.maxHealth;
+		if (boss)
+		{
+			healthText.text = currentHealth.ToString("0") + "/" + bossMaxHealth;
+			healthSlider.value = currentHealth / bossMaxHealth;
+		}
+		else
+		{
+			healthText.text = currentHealth.ToString("0") + "/" + stats.maxHealth;
+			healthSlider.value = currentHealth / stats.maxHealth;
+		}
 	}
 
 	private IEnumerator InvincibiltyFrame()

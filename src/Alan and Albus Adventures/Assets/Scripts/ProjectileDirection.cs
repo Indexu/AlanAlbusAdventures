@@ -6,15 +6,15 @@ using Rewired;
 public class ProjectileDirection : MonoBehaviour {
 	
 	public int playerID;
-    	public float radius;
+    public float radius;
 	private Vector2 playerPos;
 	private Player player;
 	public bool magicalDamage;
 	public float projectileForce;
 	public GameObject projectile;
 	public AudioClip projectileSound;
-	public SoundManager soundManager;
 	private float nextFire;
+
 	private void Start()
 	{
 		player = ReInput.players.GetPlayer(playerID);
@@ -35,7 +35,7 @@ public class ProjectileDirection : MonoBehaviour {
 	{	
 		if (nextFire < Time.time)
 		{
-			soundManager.PlaySingle(projectileSound);
+			SoundManager.instance.PlaySingle(projectileSound);
 			
 			nextFire = Time.time + stats.attackSpeed;
 
