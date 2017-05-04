@@ -6,7 +6,7 @@ using Rewired;
 public class ProjectileDirection : MonoBehaviour {
 	
 	public int playerID;
-    public float radius;
+    	public float radius;
 	private Vector2 playerPos;
 	private Player player;
 	public bool magicalDamage;
