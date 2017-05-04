@@ -10,6 +10,8 @@ public class PlayerController : MonoBehaviour
 	public float knockbackForce;
 	public bool magicalDamage;
 	public GameObject projectile;
+	public AudioClip projectileSound;
+
 
 	private Rigidbody2D rb2d;
 	private VitalityController vc;
@@ -114,6 +116,8 @@ public class PlayerController : MonoBehaviour
 	{	
 		if (nextFire < Time.time)
 		{
+			SoundManager.instance.PlaySingle(projectileSound);
+			
 			nextFire = Time.time + stats.attackSpeed;
 
 			var projectileInstance = Instantiate(projectile, transform.position, transform.rotation) as GameObject;
