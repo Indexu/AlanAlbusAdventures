@@ -6,6 +6,10 @@ TagManager:
   tags:
   - Projectile
   - Enemy
+  - GameManager
+  - Door
+  - Background
+  - Testing
   layers:
   - Default
   - TransparentFX
@@ -42,6 +46,9 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Ground
+    uniqueID: 3070872863
     locked: 0
   - name: Projectile
     uniqueID: 2955478655

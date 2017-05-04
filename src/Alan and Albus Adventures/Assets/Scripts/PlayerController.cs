@@ -6,11 +6,8 @@ using Rewired;
 public class PlayerController : MonoBehaviour 
 {
 	public int playerID; // ReWired player ID
-	public float projectileForce;
 	public float knockbackForce;
-	public bool magicalDamage;
-	public GameObject projectile;
-
+	public ProjectileDirection projectileDirection;
 	private Rigidbody2D rb2d;
 	private VitalityController vc;
 	public DoorController door;
@@ -20,7 +17,6 @@ public class PlayerController : MonoBehaviour
 	private Vector2 rotationVector;
 	private Vector2 knockbackVector;
 	private bool knockback;
-	private float nextFire;
 	private bool doShoot;
 	private bool inStatsScreen;
 
@@ -61,7 +57,8 @@ public class PlayerController : MonoBehaviour
 
 			if (doShoot)
 			{
-				Shoot();
+				projectileDirection.Shoot(stats, rotationVector);
+				doShoot = false;
 			}
 		}
 	}
@@ -122,31 +119,6 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 
-	private void Shoot()
-	{	
-		if (nextFire < Time.time)
-		{
-			nextFire = Time.time + stats.attackSpeed;
-
-			var projectileInstance = Instantiate(projectile, transform.position, transform.rotation) as GameObject;
-			projectileInstance.GetComponent<Rigidbody2D>().AddForce(rotationVector.normalized * projectileForce, ForceMode2D.Impulse);
-
-			var projectileComponent = projectileInstance.GetComponent<Projectile>();
-			projectileComponent.damage = stats.baseDamage;
-			projectileComponent.isMagical = magicalDamage;
-			projectileComponent.playerFired = true;
-
-			if (Random.value * 100 < stats.critHitChance)
-			{
-				projectileComponent.damage *= stats.critHitDamage;
-			}
-
-			projectileComponent.Init();
-		}
-
-		doShoot = false;
-	}
-
 	private void Rotation()
 	{
 		float x = player.GetAxis("Look Horizontal");
@@ -156,17 +128,7 @@ public class PlayerController : MonoBehaviour
 		{
 			rotationVector.x = x;
 			rotationVector.y = y;
-
-			float angle = Mathf.Atan2 (-rotationVector.x, rotationVector.y);
-
-			angle *= Mathf.Rad2Deg;
-
-			rb2d.freezeRotation = false;
-			rb2d.MoveRotation (angle);
-		}
-		else
-		{
-			rb2d.freezeRotation = true;
+			projectileDirection.SetCrosshair(rotationVector);
 		}
 	}
 
