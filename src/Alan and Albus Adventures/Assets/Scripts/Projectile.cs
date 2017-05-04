@@ -24,7 +24,6 @@ public class Projectile : MonoBehaviour
 		else
 		{
 			var enemies = GameObject.FindGameObjectsWithTag("Enemy");
-			Debug.Log(enemies.Length);
 			foreach (GameObject enemy in enemies)
 			{
 				Physics2D.IgnoreCollision(enemy.GetComponent<Collider2D>(), collider);

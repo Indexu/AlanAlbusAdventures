@@ -18,6 +18,7 @@ public class VitalityController : MonoBehaviour
 
 	private float nextDamage;
 	private Stats stats;
+	private GameManager gameManager;
 
 	public void Damage(float amount, bool isMagical)
 	{
@@ -47,6 +48,8 @@ public class VitalityController : MonoBehaviour
 
 	private void Start()
 	{
+		gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+
 		if (gameObject.tag == "Player")
 		{
 			doUpdateUI = true;
@@ -76,6 +79,7 @@ public class VitalityController : MonoBehaviour
 			}
 			else
 			{
+				gameManager.EnemyKilled();
 				GameObject.Destroy(gameObject);
 			}
 		}	

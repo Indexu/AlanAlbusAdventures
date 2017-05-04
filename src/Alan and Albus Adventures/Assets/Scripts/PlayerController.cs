@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
 	public ProjectileDirection projectileDirection;
 	private Rigidbody2D rb2d;
 	private VitalityController vc;
+	public DoorController door;
 	private Stats stats;
 	private Player player;
 	private Vector2 moveVector;
@@ -62,13 +63,20 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 
-	private void OnCollisionEnter2D(Collision2D collision)
+	private void OnTriggerEnter2D(Collider2D collider)
 	{
-		// Uncomment for no collision between players
-    	// if (collision.gameObject.tag == "Player")
-		// {
-		//	  Physics2D.IgnoreCollision(collision.collider, GetComponent<Collider2D>());
-		// }
+		if (collider.gameObject.tag == "Door")
+		{
+			door = collider.gameObject.GetComponent<DoorController>();
+		}
+	}
+
+	private void OnTriggerExit2D(Collider2D collider)
+	{
+		if (collider.gameObject.tag == "Door")
+		{
+			door = null;
+		}
 	}
 
 	private void CheckInput()
@@ -103,6 +111,10 @@ public class PlayerController : MonoBehaviour
 			{
 				inStatsScreen = true;
 				stats.ShowStats();
+			}
+			if (player.GetButtonUp("Confirm") && door != null)
+			{
+				door.GoThrough();
 			}
 		}
 	}
