@@ -158,6 +158,9 @@ MonoBehaviour:
   speed: 12
   damage: 2
   magicalDamage: 1
+  Attacking: 0
+  name: 
+  nameText: {fileID: 0}
   projectileForce: 20
   fireRate: 0.8
   projectile: {fileID: 1035552101150598, guid: 5d1950b306e9f47ad8dd2362e5f321ba, type: 2}
@@ -172,7 +175,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d86cfd3d2857a4ec496620be2e0e5e1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentHealth: 50
+  currentHealth: 200
   magicResistance: 1
   physicalResistance: 1
   isDead: 0
@@ -181,6 +184,8 @@ MonoBehaviour:
   invincibilityFrameTime: 0
   healthText: {fileID: 0}
   healthSlider: {fileID: 0}
+  boss: 0
+  player: 0
   doUpdateUI: 0
 --- !u!212 &212407990224719220
 SpriteRenderer:

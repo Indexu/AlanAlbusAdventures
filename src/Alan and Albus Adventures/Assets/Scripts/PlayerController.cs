@@ -135,7 +135,10 @@ public class PlayerController : MonoBehaviour
 			}
 			if (player.GetButtonUp("Confirm") && door != null)
 			{
-				door.GoThrough();
+				if (!gameManager.changingRooms)
+				{
+					door.GoThrough();
+				}
 			}
 			if (player.GetButtonUp("Pause"))
 			{

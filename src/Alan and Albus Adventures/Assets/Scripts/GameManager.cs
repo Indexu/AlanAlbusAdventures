@@ -12,9 +12,10 @@ public class GameManager : MonoBehaviour
 	public Text winText;
 	public GameObject pauseScreen;
 	public bool isPaused;
+	public bool changingRooms;
 
+	private SoundManager soundManager;
 	private Transform mainCamera;
-	private bool changingRooms;
 	private Vector3 newRoom;
 	private Vector3 oldRoom;
 	private Vector3 vector;
@@ -97,6 +98,7 @@ public class GameManager : MonoBehaviour
 
 	private void Start()
 	{
+		soundManager = GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>();
 		mainCamera = GameObject.FindGameObjectWithTag("MainCamera").transform;
 		players = GameObject.FindGameObjectsWithTag("Player");
 		changingRooms = false;

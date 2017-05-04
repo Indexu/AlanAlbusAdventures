@@ -155,7 +155,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d86cfd3d2857a4ec496620be2e0e5e1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentHealth: 10
+  currentHealth: 15
   magicResistance: 1
   physicalResistance: 1
   isDead: 0
@@ -164,6 +164,8 @@ MonoBehaviour:
   invincibilityFrameTime: 0
   healthText: {fileID: 0}
   healthSlider: {fileID: 0}
+  boss: 0
+  player: 0
   doUpdateUI: 0
 --- !u!114 &114125428037720236
 MonoBehaviour:
@@ -179,6 +181,7 @@ MonoBehaviour:
   speed: 15
   damage: 1
   magicalDamage: 0
+  Attacking: 0
 --- !u!212 &212955403847223468
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -209,7 +212,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -2142754077
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: a4c967fdfd6f141dead417a05d163307, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

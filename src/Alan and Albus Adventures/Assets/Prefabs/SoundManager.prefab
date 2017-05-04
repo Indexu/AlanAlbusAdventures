@@ -131,11 +131,11 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 408ffade74e110c46a169d3d1206a406, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -177,7 +177,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   spreadCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -201,7 +201,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
 --- !u!114 &114130126990171916
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -214,3 +214,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   soundEffect: {fileID: 82412737794122916}
+  theme: {fileID: 82837866514310386}

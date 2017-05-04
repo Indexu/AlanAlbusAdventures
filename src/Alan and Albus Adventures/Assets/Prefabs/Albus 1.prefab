@@ -133,7 +133,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementSpeed: 100
-  maxHealth: 10
+  maxHealth: 30
   critHitChance: 10
   critHitDamage: 2
   baseDamage: 1
@@ -177,7 +177,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d86cfd3d2857a4ec496620be2e0e5e1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentHealth: 10
+  currentHealth: 30
   magicResistance: 1
   physicalResistance: 1
   isDead: 0
@@ -186,6 +186,8 @@ MonoBehaviour:
   invincibilityFrameTime: 0.8
   healthText: {fileID: 0}
   healthSlider: {fileID: 0}
+  boss: 0
+  player: 0
   doUpdateUI: 0
 --- !u!114 &114788960184840176
 MonoBehaviour:
@@ -201,7 +203,6 @@ MonoBehaviour:
   playerID: 1
   knockbackForce: 40
   projectileDirection: {fileID: 114247891959450244}
-  door: {fileID: 0}
 --- !u!212 &212127291947229680
 SpriteRenderer:
   m_ObjectHideFlags: 1
