@@ -7,6 +7,7 @@ public abstract class Enemy : MonoBehaviour
 	public float speed;
 	public float damage;
 	public bool magicalDamage;
+	public bool Attacking;
 
 	protected Rigidbody2D rb2d;
 	protected GameObject target;
@@ -20,9 +21,12 @@ public abstract class Enemy : MonoBehaviour
 	}
 	
 	protected virtual void FixedUpdate() 
-	{		
-		GetTarget();
-		Move();
+	{	
+		if (Attacking)
+		{
+			GetTarget();
+			Move();
+		}
 	}
 
 	protected void OnTriggerStay2D(Collider2D collider)

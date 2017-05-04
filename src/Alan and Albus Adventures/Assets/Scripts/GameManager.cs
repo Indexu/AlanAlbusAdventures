@@ -1,11 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using Rewired;
 
 public class GameManager : MonoBehaviour 
 {
 	public float cameraSpeed;
+	public GameObject bossUI;
+	public Text winText;
+	public GameObject pauseScreen;
+	public bool isPaused;
 
 	private Transform mainCamera;
 	private bool changingRooms;
@@ -18,11 +24,14 @@ public class GameManager : MonoBehaviour
 	private GameObject currentRoom;
 	private int enemies;
 	private List<DoorController> doors;
+	private bool bossFight;
+	private int deadPlayers;
 
-	public void changeRooms(GameObject room, Vector3 door, Direction dir)
+	public void changeRooms(GameObject room, Vector3 door, Direction dir, bool boss)
 	{
 		changingRooms = true;
 
+		bossFight = boss;
 		currentRoom = room;
 		oldRoom = mainCamera.position;
 		newRoom = room.transform.position;
@@ -40,6 +49,49 @@ public class GameManager : MonoBehaviour
 		if (enemies == 0)
 		{
 			UnlockDoors();
+
+			if (bossFight)
+			{
+				EndBossFight();
+			}
+		}
+	}
+
+	public void PlayerKilled()
+	{
+		deadPlayers++;
+
+		if (deadPlayers == 2)
+		{
+			Pause();
+		}
+	}
+
+	public void Pause()
+	{
+		isPaused = true;
+		Time.timeScale = 0f;
+		pauseScreen.SetActive(true);
+	}
+
+	public void Unpause()
+	{
+		isPaused = false;
+		Time.timeScale = 1f;
+		pauseScreen.SetActive(false);
+	}
+
+	public void Reset()
+	{
+		Unpause();
+		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+	}
+
+	public void DeadReset()
+	{
+		if (deadPlayers == 2)
+		{
+			Reset();
 		}
 	}
 
@@ -49,6 +101,10 @@ public class GameManager : MonoBehaviour
 		players = GameObject.FindGameObjectsWithTag("Player");
 		changingRooms = false;
 		doors = new List<DoorController>();
+		bossUI.SetActive(false);
+		winText.gameObject.SetActive(false);
+		pauseScreen.SetActive(false);
+		isPaused = false;
 	}
 
 	private void Update()
@@ -99,8 +155,17 @@ public class GameManager : MonoBehaviour
 		{
 			if (child.gameObject.tag == "Enemy")
 			{
-				child.gameObject.SetActive(true);
+				child.gameObject.GetComponent<Enemy>().Attacking = true;
 				enemies++;
+
+				if (bossFight)
+				{
+					var vc = child.gameObject.GetComponent<VitalityController>();
+					if (vc.boss)
+					{
+						vc.doUpdateUI = true;
+					}
+				}
 			}
 			else if (child.gameObject.tag == "Door")
 			{
@@ -112,6 +177,11 @@ public class GameManager : MonoBehaviour
 		if (enemies != 0)
 		{
 			LockDoors();
+
+			if (bossFight)
+			{
+				StartBossFight();
+			}
 		}
 	}
 
@@ -129,5 +199,17 @@ public class GameManager : MonoBehaviour
 		{
 			door.Unlock();
 		}
+	}
+
+	private void StartBossFight()
+	{
+		bossUI.SetActive(true);
+	}
+
+	private void EndBossFight()
+	{
+		bossFight = false;
+		bossUI.SetActive(false);
+		winText.gameObject.SetActive(true);
 	}
 }

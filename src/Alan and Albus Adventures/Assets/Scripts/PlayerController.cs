@@ -8,9 +8,11 @@ public class PlayerController : MonoBehaviour
 	public int playerID; // ReWired player ID
 	public float knockbackForce;
 	public ProjectileDirection projectileDirection;
+
 	private Rigidbody2D rb2d;
 	private VitalityController vc;
-	public DoorController door;
+	private DoorController door;
+	private GameManager gameManager;
 	private Stats stats;
 	private Player player;
 	private Vector2 moveVector;
@@ -35,6 +37,7 @@ public class PlayerController : MonoBehaviour
 		stats = GetComponent<Stats>();
 		rotationVector = Vector2.up;
 		inStatsScreen = false;
+		gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
 	}
 
 	private void Update()
@@ -42,6 +45,13 @@ public class PlayerController : MonoBehaviour
 		if (!vc.isDead)
 		{
 			CheckInput();
+		}
+		else
+		{
+			if (player.GetButtonUp("Confirm"))
+			{
+				gameManager.DeadReset();
+			}
 		}
 	}
 	
@@ -81,7 +91,18 @@ public class PlayerController : MonoBehaviour
 
 	private void CheckInput()
 	{
-		if (inStatsScreen)
+		if (gameManager.isPaused)
+		{
+			if (player.GetButtonUp("Pause"))
+			{
+				gameManager.Unpause();
+			}
+			if (player.GetButtonUp("Confirm"))
+			{
+				gameManager.Reset();
+			}
+		}
+		else if (inStatsScreen)
 		{
 			if (player.GetButtonUp("Stats Screen"))
 			{
@@ -115,6 +136,10 @@ public class PlayerController : MonoBehaviour
 			if (player.GetButtonUp("Confirm") && door != null)
 			{
 				door.GoThrough();
+			}
+			if (player.GetButtonUp("Pause"))
+			{
+				gameManager.Pause();
 			}
 		}
 	}

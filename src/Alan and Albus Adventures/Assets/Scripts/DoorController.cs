@@ -10,6 +10,7 @@ public enum Direction
 public class DoorController : MonoBehaviour 
 {
 	public bool locked;
+	public bool leadsToBoss;
 	public GameObject connectedRoom;
 	public Transform connectedDoor;
 	public Direction direction;
@@ -23,7 +24,7 @@ public class DoorController : MonoBehaviour
 	{
 		if (playersAdjacent == requiredPlayers)
 		{
-			gameManager.changeRooms(connectedRoom, connectedDoor.position, direction);
+			gameManager.changeRooms(connectedRoom, connectedDoor.position, direction, leadsToBoss);
 			halo.enabled = false;
 		}
 	}
