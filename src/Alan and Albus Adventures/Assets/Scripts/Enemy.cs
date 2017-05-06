@@ -30,17 +30,17 @@ public abstract class Enemy : MonoBehaviour
         }
     }
 
-    protected void OnTriggerStay2D(Collider2D collider)
+    protected void OnCollisionStay2D(Collision2D collision)
     {
-        if (collider.gameObject.tag == "Player")
+        if (collision.gameObject.tag == "Player")
         {
-            var collisionVitalityController = collider.gameObject.GetComponent<VitalityController>();
+            var collisionVitalityController = collision.gameObject.GetComponent<VitalityController>();
 
             if (!collisionVitalityController.isInvincibilityFrame || collisionVitalityController.isInvincible)
             {
                 collisionVitalityController.Damage(damage, magicalDamage);
 
-                var forceVector = collider.gameObject.transform.position - transform.position;
+                var forceVector = collision.gameObject.transform.position - transform.position;
 
                 collisionVitalityController.Knockback(forceVector, knockbackForceOnTouch);
             }
