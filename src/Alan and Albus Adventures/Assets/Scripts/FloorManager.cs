@@ -34,11 +34,7 @@ public class FloorManager : MonoBehaviour
     public void GenerateFloor()
     {
         GenerateCoords();
-
-        for (int i = 0; i < roomCoords.Count; i++)
-        {
-            Debug.Log("X: " + roomCoords[i].X + " Y: " + roomCoords[i].Y);
-        }
+        InstantiateRooms();
     }
 
     private void Start ()
@@ -154,6 +150,28 @@ public class FloorManager : MonoBehaviour
             {
                 availableCoords.Add(newPoint);
             }
+        }
+    }
+
+    private void InstantiateRooms()
+    {
+        var sizeVector = room.GetComponent<Renderer>().bounds.size;
+
+        var floor = new GameObject()
+        {
+            name = "Floor"
+        };
+
+        var x = 0f;
+        var y = 0f;
+        Vector3 position = new Vector3();
+
+        foreach (Point roomCoord in roomCoords)
+        {
+            position.x = sizeVector.x * roomCoord.X;
+            position.y = sizeVector.y * roomCoord.Y;
+
+            grid[roomCoord.X, roomCoord.Y] = Instantiate(room, position, Quaternion.identity, floor.transform);
         }
     }
 }
