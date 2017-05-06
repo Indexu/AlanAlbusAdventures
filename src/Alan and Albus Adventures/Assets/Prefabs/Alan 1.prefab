@@ -56,7 +56,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1982120085269070}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.44, y: -2.96, z: 0}
+  m_LocalPosition: {x: -8.45, y: -3.26, z: 0}
   m_LocalScale: {x: 0.05, y: 0.05, z: 0.1}
   m_Children:
   - {fileID: 4962124986724642}
@@ -88,7 +88,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 12
+  m_LinearDrag: 50
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -138,7 +138,6 @@ MonoBehaviour:
   projectileForce: 10
   projectile: {fileID: 1035552101150598, guid: 5d1950b306e9f47ad8dd2362e5f321ba, type: 2}
   projectileSound: {fileID: 8300000, guid: e08c6ebfc990cf94b9ebd2703e831c49, type: 3}
-  soundManager: {fileID: 0}
 --- !u!114 &114100942056328564
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -150,7 +149,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c86a1a51cee1e43049d830f30337b866, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 100
+  movementSpeed: 11
   maxHealth: 30
   critHitChance: 10
   critHitDamage: 2
@@ -201,7 +200,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerID: 0
-  knockbackForce: 40
+  knockbackForce: 100
   projectileDirection: {fileID: 114062160457536394}
 --- !u!212 &212554700095030402
 SpriteRenderer:

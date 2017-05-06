@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
 	private Vector2 rotationVector;
 	private Vector2 knockbackVector;
 	private bool knockback;
-	private bool doShoot;
+	private bool doAttack;
 	private bool inStatsScreen;
 
 	public void Knockback(Vector2 direction)
@@ -28,7 +28,6 @@ public class PlayerController : MonoBehaviour
 		knockbackVector = direction.normalized;
 	}
 
-	// Use this for initialization
 	private void Start() 
 	{
 		player = ReInput.players.GetPlayer(playerID);
@@ -65,10 +64,18 @@ public class PlayerController : MonoBehaviour
 			Rotation();
 			Movement();
 
-			if (doShoot)
+			if (doAttack)
 			{
-				projectileDirection.Shoot(stats, rotationVector);
-				doShoot = false;
+				if (playerID == 0)
+				{
+					projectileDirection.Slash(stats, rotationVector);
+				}
+				else
+				{
+					projectileDirection.Shoot(stats, rotationVector);
+				}
+
+				doAttack = false;
 			}
 		}
 	}
@@ -124,9 +131,9 @@ public class PlayerController : MonoBehaviour
 		}
 		else
 		{
-			if (player.GetButton("Shoot"))
+			if (player.GetButton("Attack"))
 			{
-				doShoot = true;
+				doAttack = true;
 			}
 			if (player.GetButtonUp("Stats Screen"))
 			{
@@ -165,7 +172,7 @@ public class PlayerController : MonoBehaviour
 		moveVector.x = player.GetAxis("Move Horizontal");
 		moveVector.y = player.GetAxis("Move Vertical");
 
-		rb2d.AddForce(moveVector * stats.movementSpeed);
+		rb2d.AddForce(moveVector * stats.movementSpeed, ForceMode2D.Impulse);
 	}
 
 	private void CheckKnockback()
