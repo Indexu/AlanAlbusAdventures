@@ -2,86 +2,87 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Enemy : MonoBehaviour 
+public abstract class Enemy : MonoBehaviour
 {
-	public float speed;
-	public float damage;
-	public bool magicalDamage;
-	public bool Attacking;
+    public float speed;
+    public float damage;
+    public bool magicalDamage;
+    public bool Attacking;
+    public float knockbackForceOnTouch;
 
-	protected Rigidbody2D rb2d;
-	protected GameObject target;
-	protected Vector2 targetVector;
-	protected const float targetSwitchThreshold = 0.6f;
+    protected Rigidbody2D rb2d;
+    protected GameObject target;
+    protected Vector2 targetVector;
+    protected const float targetSwitchThreshold = 0.6f;
 
-	protected virtual void Start() 
-	{
-		rb2d = GetComponent<Rigidbody2D>();
-		target = null;
-	}
-	
-	protected virtual void FixedUpdate() 
-	{	
-		if (Attacking)
-		{
-			GetTarget();
-			Move();
-		}
-	}
+    protected virtual void Start()
+    {
+        rb2d = GetComponent<Rigidbody2D>();
+        target = null;
+    }
 
-	protected void OnTriggerStay2D(Collider2D collider)
-	{
-		if (collider.gameObject.tag == "Player")
-		{
-			var collisionVitalityController = collider.gameObject.GetComponent<VitalityController>();
+    protected virtual void FixedUpdate()
+    {
+        if (Attacking)
+        {
+            GetTarget();
+            Move();
+        }
+    }
 
-			if (!collisionVitalityController.isInvincibilityFrame || collisionVitalityController.isInvincible)
-			{
-				collisionVitalityController.Damage(damage, magicalDamage);
+    protected void OnTriggerStay2D(Collider2D collider)
+    {
+        if (collider.gameObject.tag == "Player")
+        {
+            var collisionVitalityController = collider.gameObject.GetComponent<VitalityController>();
 
-				var forceVector = collider.gameObject.transform.position - transform.position;
+            if (!collisionVitalityController.isInvincibilityFrame || collisionVitalityController.isInvincible)
+            {
+                collisionVitalityController.Damage(damage, magicalDamage);
 
-				collider.gameObject.GetComponent<PlayerController>().Knockback(forceVector);
-			}
-		}
-	}
+                var forceVector = collider.gameObject.transform.position - transform.position;
 
-	protected void GetTarget()
-	{
-		var players = GameObject.FindGameObjectsWithTag("Player");
+                collisionVitalityController.Knockback(forceVector, knockbackForceOnTouch);
+            }
+        }
+    }
 
-		if (players[0].GetComponent<VitalityController>().isDead)
-		{
-			target = players[1];
-		}
-		else if (players[1].GetComponent<VitalityController>().isDead)
-		{
-			target = players[0];
-		}
-		else
-		{
-			var player1Dist = Vector2.Distance(transform.position, players[0].transform.position);
-			var player2Dist = Vector2.Distance(transform.position, players[1].transform.position);
+    protected void GetTarget()
+    {
+        var players = GameObject.FindGameObjectsWithTag("Player");
 
-			if (target != null)
-			{
-				if (target == players[0] && player2Dist < (player1Dist * targetSwitchThreshold))
-				{
-					target = players[1];
-				}
-				else if (target == players[1] && player1Dist < (player2Dist * targetSwitchThreshold))
-				{
-					target = players[0];
-				}
-			}
-			else
-			{
-				target = (player1Dist < player2Dist ? players[0] : players[1]);
-			}
-		}
+        if (players[0].GetComponent<VitalityController>().isDead)
+        {
+            target = players[1];
+        }
+        else if (players[1].GetComponent<VitalityController>().isDead)
+        {
+            target = players[0];
+        }
+        else
+        {
+            var player1Dist = Vector2.Distance(transform.position, players[0].transform.position);
+            var player2Dist = Vector2.Distance(transform.position, players[1].transform.position);
 
-		targetVector = target.transform.position - transform.position;
-	}
+            if (target != null)
+            {
+                if (target == players[0] && player2Dist < (player1Dist * targetSwitchThreshold))
+                {
+                    target = players[1];
+                }
+                else if (target == players[1] && player1Dist < (player2Dist * targetSwitchThreshold))
+                {
+                    target = players[0];
+                }
+            }
+            else
+            {
+                target = (player1Dist < player2Dist ? players[0] : players[1]);
+            }
+        }
 
-	protected abstract void Move();
+        targetVector = target.transform.position - transform.position;
+    }
+
+    protected abstract void Move();
 }

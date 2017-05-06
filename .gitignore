@@ -3,6 +3,7 @@
 *.unity.meta
 !Main.unity
 !Main.unity.meta
+.vscode/
 
 
 # Created by https://www.gitignore.io/api/macos,linux,unity,windows,sublimetext,monodevelop,visualstudio,visualstudiocode
