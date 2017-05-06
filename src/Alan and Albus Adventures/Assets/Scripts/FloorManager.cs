@@ -24,8 +24,12 @@ public class FloorManager : MonoBehaviour
     }
 
     public int gridLength;
-    public GameObject room;
     public int floorLevel;
+    public GameObject room;
+    public GameObject doorwayUp;
+    public GameObject doorwayDown;
+    public GameObject doorwayLeft;
+    public GameObject doorwayRight;
 
     private GameObject[,] grid;
     private List<Point> roomCoords;
@@ -35,6 +39,7 @@ public class FloorManager : MonoBehaviour
     {
         GenerateCoords();
         InstantiateRooms();
+        ConnectRooms();
     }
 
     private void Start ()
@@ -161,17 +166,123 @@ public class FloorManager : MonoBehaviour
         {
             name = "Floor"
         };
-
-        var x = 0f;
-        var y = 0f;
+         
         Vector3 position = new Vector3();
 
-        foreach (Point roomCoord in roomCoords)
+        foreach (var roomCoord in roomCoords)
         {
             position.x = sizeVector.x * roomCoord.X;
             position.y = sizeVector.y * roomCoord.Y;
 
             grid[roomCoord.X, roomCoord.Y] = Instantiate(room, position, Quaternion.identity, floor.transform);
         }
+    }
+
+    private void ConnectRooms()
+    {
+        for (int i = 0; i < gridLength; i++)
+        {
+            for (int j = 0; j < gridLength; j++)
+            {
+                if (grid[i, j] != null)
+                {
+                    ConnectAdjacentRooms(grid[i, j], new Point(i, j));
+                }
+            }
+        }
+    }
+
+    private void ConnectAdjacentRooms(GameObject centerRoom, Point point)
+    {
+        // Up?
+        if (point.Y != 0)
+        {
+            if (grid[point.X, point.Y - 1] != null)
+            {
+                ConnectRooms(centerRoom, grid[point.X, point.Y - 1], Direction.down);
+            }
+        }
+        // Down?
+        if (point.Y != gridLength - 1)
+        {
+            if (grid[point.X, point.Y + 1] != null)
+            {
+                ConnectRooms(centerRoom, grid[point.X, point.Y + 1], Direction.up);
+            }
+        }
+        // Left
+        if (point.X != 0)
+        {
+            if (grid[point.X - 1, point.Y] != null)
+            {
+                ConnectRooms(centerRoom, grid[point.X - 1, point.Y], Direction.left);
+            }
+        }
+        // Right
+        if (point.X != gridLength - 1)
+        {
+            if (grid[point.X + 1, point.Y] != null)
+            {
+                ConnectRooms(centerRoom, grid[point.X + 1, point.Y], Direction.right);
+            }
+        }
+    }
+
+    private void ConnectRooms(GameObject room1, GameObject room2, Direction direction)
+    {
+        Transform door1;
+        Transform door2;
+        DoorController dc1;
+        DoorController dc2;
+
+        if (direction == Direction.up)
+        {
+            door1 = GetDoorwayByName(room1, doorwayUp.transform.name);
+            door2 = GetDoorwayByName(room2, doorwayDown.transform.name);
+        }
+        else if (direction == Direction.down)
+        {
+            door1 = GetDoorwayByName(room1, doorwayDown.transform.name);
+            door2 = GetDoorwayByName(room2, doorwayUp.transform.name);
+        }
+        else if (direction == Direction.left)
+        {
+            door1 = GetDoorwayByName(room1, doorwayLeft.transform.name);
+            door2 = GetDoorwayByName(room2, doorwayRight.transform.name);
+        }
+        else
+        {
+            door1 = GetDoorwayByName(room1, doorwayRight.transform.name);
+            door2 = GetDoorwayByName(room2, doorwayLeft.transform.name);
+        }
+
+        if (door1 != null && door2 != null)
+        {
+            door1.gameObject.SetActive(true);
+            door2.gameObject.SetActive(true);
+
+            dc1 = door1.gameObject.GetComponent<DoorController>();
+            dc2 = door2.gameObject.GetComponent<DoorController>();
+
+            dc1.connectedRoom = room2;
+            dc1.connectedDoor = door2;
+            dc2.connectedRoom = room1;
+            dc2.connectedDoor = door1;
+        }
+    }
+
+    private Transform GetDoorwayByName(GameObject room, string name)
+    {
+        var children = room.GetComponentsInChildren<Transform>(true);
+
+        foreach (var child in children)
+        {
+            if (child.name == name)
+            {
+                return child;
+            }
+        }
+
+        return null;
     }
 }

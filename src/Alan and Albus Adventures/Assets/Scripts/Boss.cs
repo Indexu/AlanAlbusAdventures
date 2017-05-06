@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public abstract class Boss : Enemy 
 {
-	public string name;
+	public string BossName;
 	public Text nameText;
 
 	protected override void Start()
