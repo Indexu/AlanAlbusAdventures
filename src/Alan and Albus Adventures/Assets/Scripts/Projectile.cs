@@ -31,6 +31,11 @@ public class Projectile : MonoBehaviour
 		}
 	}
 
+    private void Start()
+    {
+        GetComponent<TrailRenderer>().sortingLayerName = "Projectiles";
+    }
+
 	private void OnTriggerEnter2D(Collider2D collider)
 	{
 		var tag = collider.gameObject.tag;

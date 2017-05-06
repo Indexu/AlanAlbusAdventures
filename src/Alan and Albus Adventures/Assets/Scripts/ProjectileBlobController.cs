@@ -2,63 +2,64 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ProjectileBlobController : Enemy {
+public class ProjectileBlobController : Enemy
+{
 
-	public float projectileForce;
-	public float fireRate;
-	public float minTime;
-	public float maxTime;
-	public GameObject projectile;
+    public float projectileForce;
+    public float fireRate;
+    public float minTime;
+    public float maxTime;
+    public GameObject projectile;
 
-	private float nextFire;
-	private Vector2 moveVector;
-	private float nextVector;
+    private float nextFire;
+    private Vector2 moveVector;
+    private float nextVector;
 
-	protected override void Start()
-	{
-		base.Start();
+    protected override void Start()
+    {
+        base.Start();
 
-		nextFire = 0;
-	}
+        nextFire = 0;
+    }
 
-	protected override void FixedUpdate() 
-	{	
-		if (Attacking)
-		{
-			base.FixedUpdate();
+    protected override void FixedUpdate()
+    {
+        if (Attacking)
+        {
+            base.FixedUpdate();
 
-			Shoot();
-			
-		}
-	}
+            Shoot();
 
-	protected override void Move()
-	{
-		if (nextVector < Time.time)
-		{
-			moveVector.x = Random.Range(-1f, 1f);
-			moveVector.y = Random.Range(-1f, 1f);
+        }
+    }
 
-			nextVector = Time.time + Random.Range(minTime, maxTime);
-		}
+    protected override void Move()
+    {
+        if (nextVector < Time.time)
+        {
+            moveVector.x = Random.Range(-1f, 1f);
+            moveVector.y = Random.Range(-1f, 1f);
 
-		rb2d.AddForce(moveVector * speed);
-	}
+            nextVector = Time.time + Random.Range(minTime, maxTime);
+        }
 
-	private void Shoot()
-	{
-		if (nextFire < Time.time)
-		{
-			nextFire = Time.time + fireRate;
+        rb2d.AddForce(moveVector * speed, ForceMode2D.Impulse);
+    }
 
-			var projectileInstance = (GameObject)Instantiate(projectile, transform.position, transform.rotation);
-			projectileInstance.GetComponent<Rigidbody2D>().AddForce(targetVector.normalized * projectileForce, ForceMode2D.Impulse);
+    private void Shoot()
+    {
+        if (nextFire < Time.time)
+        {
+            nextFire = Time.time + fireRate;
 
-			var projectileComponent = projectileInstance.GetComponent<Projectile>();
-			projectileComponent.damage = damage;
-			projectileComponent.isMagical = magicalDamage;
-			projectileComponent.playerFired = false;
-			projectileComponent.Init();
-		}
-	}
+            var projectileInstance = (GameObject)Instantiate(projectile, transform.position, transform.rotation);
+            projectileInstance.GetComponent<Rigidbody2D>().AddForce(targetVector.normalized * projectileForce, ForceMode2D.Impulse);
+
+            var projectileComponent = projectileInstance.GetComponent<Projectile>();
+            projectileComponent.damage = damage;
+            projectileComponent.isMagical = magicalDamage;
+            projectileComponent.playerFired = false;
+            projectileComponent.Init();
+        }
+    }
 }

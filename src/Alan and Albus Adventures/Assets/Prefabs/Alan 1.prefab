@@ -21,7 +21,8 @@ GameObject:
   - component: {fileID: 4962124986724642}
   - component: {fileID: 212554700095030402}
   - component: {fileID: 114062160457536394}
-  m_Layer: 0
+  - component: {fileID: 61168821951279594}
+  m_Layer: 10
   m_Name: Aim
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -56,7 +57,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1982120085269070}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.44, y: -2.96, z: 0}
+  m_LocalPosition: {x: -8.45, y: -3.26, z: 0}
   m_LocalScale: {x: 0.05, y: 0.05, z: 0.1}
   m_Children:
   - {fileID: 4962124986724642}
@@ -70,8 +71,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1071123298440950}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 124, y: 60, z: 0}
-  m_LocalScale: {x: 20, y: 20, z: 10}
+  m_LocalPosition: {x: -3.6, y: 34.7, z: 0}
+  m_LocalScale: {x: 0.980564, y: 0.980564, z: 0.490282}
   m_Children: []
   m_Father: {fileID: 4913991801055438}
   m_RootOrder: 0
@@ -88,7 +89,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 12
+  m_LinearDrag: 50
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -96,6 +97,31 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!61 &61168821951279594
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1071123298440950}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: -8.91}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 43.72, y: 6.950001}
+    newSize: {x: 34.059998, y: 63.04}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 43.72, y: 42.38}
+  m_EdgeRadius: 0
 --- !u!61 &61880475253447444
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -132,13 +158,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4c75e17ef7699d40a11a5a4cba8e1d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerID: 0
   radius: 2
-  magicalDamage: 0
-  projectileForce: 10
+  attackForce: 75
   projectile: {fileID: 1035552101150598, guid: 5d1950b306e9f47ad8dd2362e5f321ba, type: 2}
   projectileSound: {fileID: 8300000, guid: e08c6ebfc990cf94b9ebd2703e831c49, type: 3}
-  soundManager: {fileID: 0}
 --- !u!114 &114100942056328564
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -150,8 +173,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c86a1a51cee1e43049d830f30337b866, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 100
-  maxHealth: 30
+  movementSpeed: 11
+  maxHealth: 60
   critHitChance: 10
   critHitDamage: 2
   baseDamage: 1
@@ -177,9 +200,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d86cfd3d2857a4ec496620be2e0e5e1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentHealth: 30
-  magicResistance: 1
-  physicalResistance: 1
+  currentHealth: 60
+  magicResistance: 1.5
+  physicalResistance: 1.5
   isDead: 0
   isInvincible: 0
   isInvincibilityFrame: 0
@@ -201,7 +224,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerID: 0
-  knockbackForce: 40
   projectileDirection: {fileID: 114062160457536394}
 --- !u!212 &212554700095030402
 SpriteRenderer:
@@ -235,7 +257,7 @@ SpriteRenderer:
   m_SortingLayerID: -2142754077
   m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 1d05f4a80ef38e24b8e8dc22eb41a193, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 3706ce9fcb4164b4ab1c3e2f5388f7dc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
