@@ -11,6 +11,8 @@ TagManager:
   - Background
   - Testing
   - SoundManager
+  - FloorManager
+  - BossUI
   layers:
   - Default
   - TransparentFX

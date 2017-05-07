@@ -67,7 +67,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1713241975153652}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 4.45, y: 0.05, z: 0}
+  m_LocalPosition: {x: 64.23848, y: 23.77101, z: 0}
   m_LocalScale: {x: 0.5948108, y: 0.60194284, z: 0.789111}
   m_Children:
   - {fileID: 4132123509343782}
@@ -159,7 +159,8 @@ MonoBehaviour:
   damage: 2
   magicalDamage: 1
   Attacking: 0
-  name: 
+  knockbackForceOnTouch: 0
+  BossName: Blobert The Vile
   nameText: {fileID: 0}
   projectileForce: 20
   fireRate: 0.8
@@ -184,7 +185,7 @@ MonoBehaviour:
   invincibilityFrameTime: 0
   healthText: {fileID: 0}
   healthSlider: {fileID: 0}
-  boss: 0
+  boss: 1
   player: 0
   doUpdateUI: 0
 --- !u!212 &212407990224719220

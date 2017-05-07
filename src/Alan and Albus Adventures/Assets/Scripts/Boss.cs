@@ -5,13 +5,13 @@ using UnityEngine.UI;
 
 public abstract class Boss : Enemy 
 {
-	public string name;
+	public string BossName;
 	public Text nameText;
 
 	protected override void Start()
 	{
 		base.Start();
 
-		nameText.text = name;
+		nameText.text = BossName;
 	}
 }
