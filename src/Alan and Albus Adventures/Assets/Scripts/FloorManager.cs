@@ -73,10 +73,6 @@ public class FloorManager : MonoBehaviour
             }
         }
 
-        var testPoint = new Point(1, 2);
-        var testPoint2 = new Point(1, 2);
-        Debug.Log(testPoint == testPoint2);
-
         roomCoords = new List<Point>();
         availableCoords = new List<Point>();
         bounds = room.GetComponent<Renderer>().bounds;
