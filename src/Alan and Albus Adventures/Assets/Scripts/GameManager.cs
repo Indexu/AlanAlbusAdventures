@@ -7,21 +7,22 @@ using Rewired;
 
 public class GameManager : MonoBehaviour 
 {
-	public float cameraSpeed;
+    public static GameManager instance = null;
+    public float cameraSpeed;
 	public GameObject bossUI;
 	public Text winText;
 	public GameObject pauseScreen;
 	public bool isPaused;
 	public bool changingRooms;
+    public GameObject[] players;
+    public Transform mainCamera;
 
-	// private SoundManager soundManager;
-	private Transform mainCamera;
+    private FloorManager floorManager;
 	private Vector3 newRoom;
 	private Vector3 oldRoom;
 	private Vector3 vector;
 	private Vector3 door;
 	private Direction direction;
-	private GameObject[] players;
 	private GameObject currentRoom;
 	private int enemies;
 	private List<DoorController> doors;
@@ -96,17 +97,33 @@ public class GameManager : MonoBehaviour
 		}
 	}
 
-	private void Start()
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else if (instance != this)
+        {
+            Destroy(gameObject);
+        }
+
+        DontDestroyOnLoad(gameObject);
+    }
+
+    private void Start()
 	{
-		// soundManager = GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>();
 		mainCamera = GameObject.FindGameObjectWithTag("MainCamera").transform;
-		players = GameObject.FindGameObjectsWithTag("Player");
+        floorManager = GameObject.FindGameObjectWithTag("FloorManager").GetComponent<FloorManager>();
+        players = GameObject.FindGameObjectsWithTag("Player");
 		changingRooms = false;
 		doors = new List<DoorController>();
 		bossUI.SetActive(false);
 		winText.gameObject.SetActive(false);
 		pauseScreen.SetActive(false);
 		isPaused = false;
+
+        floorManager.GenerateFloor();
 	}
 
 	private void Update()

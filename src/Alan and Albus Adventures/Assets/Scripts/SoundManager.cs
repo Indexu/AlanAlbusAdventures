@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SoundManager : MonoBehaviour {
-	public AudioSource soundEffect;
+public class SoundManager : MonoBehaviour
+{
+    public static SoundManager instance = null;
+    public AudioSource soundEffect;
 	public AudioSource theme;
-	public static SoundManager instance = null;
 
 	private void Awake() {
 		if (instance == null)

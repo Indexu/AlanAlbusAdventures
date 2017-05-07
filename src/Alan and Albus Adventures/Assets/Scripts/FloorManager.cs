@@ -25,42 +25,43 @@ public class FloorManager : MonoBehaviour
 
     public int gridLength;
     public int floorLevel;
+    public float enemySpawnRadius;
     public GameObject room;
     public GameObject doorwayUp;
     public GameObject doorwayDown;
     public GameObject doorwayLeft;
     public GameObject doorwayRight;
+    public List<GameObject> enemies;
 
     private GameObject[,] grid;
     private List<Point> roomCoords;
     private List<Point> availableCoords;
+    private Point startCoords;
+    private Bounds bounds;
 
     public void GenerateFloor()
     {
         GenerateCoords();
         InstantiateRooms();
         ConnectRooms();
+        SpawnEnemies();
+        PlacePlayersAndCamera();
     }
 
     private void Start ()
-    {
-        InitializeGrid();
-        GenerateFloor();
-    }
-
-    private void InitializeGrid()
     {
         grid = new GameObject[gridLength, gridLength];
         for (int i = 0; i < gridLength; i++)
         {
             for (int j = 0; j < gridLength; j++)
             {
-                grid[i,j] = null;
+                grid[i, j] = null;
             }
         }
 
         roomCoords = new List<Point>();
         availableCoords = new List<Point>();
+        bounds = room.GetComponent<Renderer>().bounds;
     }
 
     private void ResetGrid()
@@ -88,10 +89,10 @@ public class FloorManager : MonoBehaviour
         var startX = Random.Range(0, gridLength);
         var startY = Random.Range(0, gridLength);
 
-        var startRoom = new Point(startX, startY);
+        startCoords = new Point(startX, startY);
 
-        roomCoords.Add(startRoom);
-        AddAdjacentCoords(startRoom);
+        roomCoords.Add(startCoords);
+        AddAdjacentCoords(startCoords);
 
         for (int i = 0; i <= numberOfRooms; i++)
         {
@@ -160,7 +161,7 @@ public class FloorManager : MonoBehaviour
 
     private void InstantiateRooms()
     {
-        var sizeVector = room.GetComponent<Renderer>().bounds.size;
+        var sizeVector = bounds.size;
 
         var floor = new GameObject()
         {
@@ -237,23 +238,23 @@ public class FloorManager : MonoBehaviour
 
         if (direction == Direction.up)
         {
-            door1 = GetDoorwayByName(room1, doorwayUp.transform.name);
-            door2 = GetDoorwayByName(room2, doorwayDown.transform.name);
+            door1 = GetDoorwayByName(room1, doorwayUp.name);
+            door2 = GetDoorwayByName(room2, doorwayDown.name);
         }
         else if (direction == Direction.down)
         {
-            door1 = GetDoorwayByName(room1, doorwayDown.transform.name);
-            door2 = GetDoorwayByName(room2, doorwayUp.transform.name);
+            door1 = GetDoorwayByName(room1, doorwayDown.name);
+            door2 = GetDoorwayByName(room2, doorwayUp.name);
         }
         else if (direction == Direction.left)
         {
-            door1 = GetDoorwayByName(room1, doorwayLeft.transform.name);
-            door2 = GetDoorwayByName(room2, doorwayRight.transform.name);
+            door1 = GetDoorwayByName(room1, doorwayLeft.name);
+            door2 = GetDoorwayByName(room2, doorwayRight.name);
         }
         else
         {
-            door1 = GetDoorwayByName(room1, doorwayRight.transform.name);
-            door2 = GetDoorwayByName(room2, doorwayLeft.transform.name);
+            door1 = GetDoorwayByName(room1, doorwayRight.name);
+            door2 = GetDoorwayByName(room2, doorwayLeft.name);
         }
 
         if (door1 != null && door2 != null)
@@ -284,5 +285,59 @@ public class FloorManager : MonoBehaviour
         }
 
         return null;
+    }
+
+    private void SpawnEnemies()
+    {
+        var spawnVector = new Vector3();
+        int numberOfEnemies;
+        GameObject enemy;
+
+        for (int i = 0; i < gridLength; i++)
+        {
+            for (int j = 0; j < gridLength; j++)
+            {
+                if (grid[i, j] != null && (startCoords.X != i || startCoords.Y != j))
+                {
+                    var maxRangeVector = grid[i, j].transform.position + (bounds.extents * enemySpawnRadius);
+                    var minRangeVector = grid[i, j].transform.position - (bounds.extents * enemySpawnRadius);
+                    numberOfEnemies = Random.Range(floorLevel / 2, floorLevel * 3);
+
+                    for (int k = 0; k < numberOfEnemies; k++)
+                    {
+                        enemy = enemies[Random.Range(0, enemies.Count-1)];
+                        spawnVector.x = Random.Range(minRangeVector.x, maxRangeVector.x);
+                        spawnVector.y = Random.Range(minRangeVector.y, maxRangeVector.y);
+
+                        Instantiate(enemy, spawnVector, Quaternion.identity, grid[i, j].transform);
+                    }
+                }
+            }
+        }
+    }
+
+    private void PlacePlayersAndCamera()
+    {
+        var spawnRoom = grid[startCoords.X, startCoords.Y];
+        var spawnDoor = GetDoorwayByName(spawnRoom, doorwayDown.name);
+
+        var children = spawnDoor.GetComponentsInChildren<Transform>();
+        var spawns = new List<Transform>();
+
+        foreach (var child in children)
+        {
+            if (child.name == "Spawn")
+            {
+                spawns.Add(child);
+            }
+        }
+
+        for (int i = 0; i < spawns.Count; i++)
+        {
+            Debug.Log(i);
+            GameManager.instance.players[i].transform.position = spawns[i].position;
+        }
+
+        GameManager.instance.mainCamera.position = spawnRoom.transform.position + new Vector3(0f, 0f, -10f);
     }
 }

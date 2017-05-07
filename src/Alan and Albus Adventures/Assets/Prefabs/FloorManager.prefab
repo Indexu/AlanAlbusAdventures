@@ -53,6 +53,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridLength: 5
   floorLevel: 5
+  enemySpawnRadius: 0
   room: {fileID: 1487456660483142, guid: a5ecfd718d6fb41fea3fb003553f7e66, type: 2}
   doorwayUp: {fileID: 1589994340103016, guid: 3e3966cc5a2ee43368e0326aff7dae47, type: 2}
   doorwayDown: {fileID: 1441337403109678, guid: 99b2c62d085614762848f7310310a1f9,
@@ -61,3 +62,6 @@ MonoBehaviour:
     type: 2}
   doorwayRight: {fileID: 1303793995965112, guid: ea5d9eba46f04427bb33cea5a2422b2a,
     type: 2}
+  enemies:
+  - {fileID: 1043773221181346, guid: 4d36385a988da40dda62e3cbc431b7fa, type: 2}
+  - {fileID: 1043773221181346, guid: 4c139c8b3d16142ca8dc0042a48f869c, type: 2}
