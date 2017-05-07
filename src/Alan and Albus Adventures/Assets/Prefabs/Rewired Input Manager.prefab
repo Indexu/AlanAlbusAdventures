@@ -227,9 +227,9 @@ MonoBehaviour:
       _userAssignable: 1
       _categoryId: 0
     - _id: 4
-      _name: Shoot
+      _name: Attack
       _type: 1
-      _descriptiveName: Shoot
+      _descriptiveName: Attack
       _positiveDescriptiveName: 
       _negativeDescriptiveName: 
       _behaviorId: 0

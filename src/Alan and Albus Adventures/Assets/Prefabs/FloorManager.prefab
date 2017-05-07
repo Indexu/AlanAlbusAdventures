@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 114892231376108060}
   m_Layer: 0
   m_Name: FloorManager
-  m_TagString: Untagged
+  m_TagString: FloorManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -52,8 +52,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridLength: 5
-  floorLevel: 5
-  enemySpawnRadius: 0
+  floorLevel: 2
+  enemySpawnRadius: 0.7
   room: {fileID: 1487456660483142, guid: a5ecfd718d6fb41fea3fb003553f7e66, type: 2}
   doorwayUp: {fileID: 1589994340103016, guid: 3e3966cc5a2ee43368e0326aff7dae47, type: 2}
   doorwayDown: {fileID: 1441337403109678, guid: 99b2c62d085614762848f7310310a1f9,
@@ -65,3 +65,5 @@ MonoBehaviour:
   enemies:
   - {fileID: 1043773221181346, guid: 4d36385a988da40dda62e3cbc431b7fa, type: 2}
   - {fileID: 1043773221181346, guid: 4c139c8b3d16142ca8dc0042a48f869c, type: 2}
+  bosses:
+  - {fileID: 1713241975153652, guid: 2a45365138e754c6d8ca61fa47ea7059, type: 2}

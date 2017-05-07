@@ -12,6 +12,6 @@ public abstract class Boss : Enemy
 	{
 		base.Start();
 
-		nameText.text = name;
+		nameText.text = BossName;
 	}
 }

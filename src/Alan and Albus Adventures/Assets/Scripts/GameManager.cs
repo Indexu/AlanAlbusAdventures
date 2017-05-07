@@ -116,7 +116,8 @@ public class GameManager : MonoBehaviour
 		mainCamera = GameObject.FindGameObjectWithTag("MainCamera").transform;
         floorManager = GameObject.FindGameObjectWithTag("FloorManager").GetComponent<FloorManager>();
         players = GameObject.FindGameObjectsWithTag("Player");
-		changingRooms = false;
+        bossUI = GameObject.FindGameObjectWithTag("BossUI");
+        changingRooms = false;
 		doors = new List<DoorController>();
 		bossUI.SetActive(false);
 		winText.gameObject.SetActive(false);

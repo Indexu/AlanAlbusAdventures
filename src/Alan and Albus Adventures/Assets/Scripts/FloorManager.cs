@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class FloorManager : MonoBehaviour
@@ -15,6 +16,16 @@ public class FloorManager : MonoBehaviour
         {
             X = x;
             Y = y;
+        }
+
+        public static bool operator ==(Point p1, Point p2)
+        {
+            return p1.X == p2.X && p1.Y == p2.Y;
+        }
+
+        public static bool operator !=(Point p1, Point p2)
+        {
+            return p1.X != p2.X || p1.Y != p2.Y;
         }
 
         public bool Equals(Point other)
@@ -32,11 +43,13 @@ public class FloorManager : MonoBehaviour
     public GameObject doorwayLeft;
     public GameObject doorwayRight;
     public List<GameObject> enemies;
+    public List<GameObject> bosses;
 
     private GameObject[,] grid;
     private List<Point> roomCoords;
     private List<Point> availableCoords;
     private Point startCoords;
+    private Point bossCoords;
     private Bounds bounds;
 
     public void GenerateFloor()
@@ -45,6 +58,7 @@ public class FloorManager : MonoBehaviour
         InstantiateRooms();
         ConnectRooms();
         SpawnEnemies();
+        SpawnBoss();
         PlacePlayersAndCamera();
     }
 
@@ -58,6 +72,10 @@ public class FloorManager : MonoBehaviour
                 grid[i, j] = null;
             }
         }
+
+        var testPoint = new Point(1, 2);
+        var testPoint2 = new Point(1, 2);
+        Debug.Log(testPoint == testPoint2);
 
         roomCoords = new List<Point>();
         availableCoords = new List<Point>();
@@ -102,6 +120,8 @@ public class FloorManager : MonoBehaviour
             roomCoords.Add(selectedRoomCoords);
             AddAdjacentCoords(selectedRoomCoords);
         }
+
+        bossCoords = roomCoords[roomCoords.Count - 1];
     }
 
     private void AddAdjacentCoords(Point point)
@@ -200,7 +220,7 @@ public class FloorManager : MonoBehaviour
         {
             if (grid[point.X, point.Y - 1] != null)
             {
-                ConnectRooms(centerRoom, grid[point.X, point.Y - 1], Direction.down);
+                ConnectRooms(centerRoom, grid[point.X, point.Y - 1], Direction.down, (point == bossCoords));
             }
         }
         // Down?
@@ -208,7 +228,7 @@ public class FloorManager : MonoBehaviour
         {
             if (grid[point.X, point.Y + 1] != null)
             {
-                ConnectRooms(centerRoom, grid[point.X, point.Y + 1], Direction.up);
+                ConnectRooms(centerRoom, grid[point.X, point.Y + 1], Direction.up, (point == bossCoords));
             }
         }
         // Left
@@ -216,7 +236,7 @@ public class FloorManager : MonoBehaviour
         {
             if (grid[point.X - 1, point.Y] != null)
             {
-                ConnectRooms(centerRoom, grid[point.X - 1, point.Y], Direction.left);
+                ConnectRooms(centerRoom, grid[point.X - 1, point.Y], Direction.left, (point == bossCoords));
             }
         }
         // Right
@@ -224,12 +244,12 @@ public class FloorManager : MonoBehaviour
         {
             if (grid[point.X + 1, point.Y] != null)
             {
-                ConnectRooms(centerRoom, grid[point.X + 1, point.Y], Direction.right);
+                ConnectRooms(centerRoom, grid[point.X + 1, point.Y], Direction.right, (point == bossCoords));
             }
         }
     }
 
-    private void ConnectRooms(GameObject room1, GameObject room2, Direction direction)
+    private void ConnectRooms(GameObject room1, GameObject room2, Direction direction, bool boss)
     {
         Transform door1;
         Transform door2;
@@ -269,6 +289,8 @@ public class FloorManager : MonoBehaviour
             dc1.connectedDoor = door2;
             dc2.connectedRoom = room1;
             dc2.connectedDoor = door1;
+
+            dc2.leadsToBoss = boss;
         }
     }
 
@@ -297,7 +319,7 @@ public class FloorManager : MonoBehaviour
         {
             for (int j = 0; j < gridLength; j++)
             {
-                if (grid[i, j] != null && (startCoords.X != i || startCoords.Y != j))
+                if (grid[i, j] != null && (startCoords.X != i || startCoords.Y != j) && (bossCoords.X != i || bossCoords.Y != j))
                 {
                     var maxRangeVector = grid[i, j].transform.position + (bounds.extents * enemySpawnRadius);
                     var minRangeVector = grid[i, j].transform.position - (bounds.extents * enemySpawnRadius);
@@ -316,26 +338,52 @@ public class FloorManager : MonoBehaviour
         }
     }
 
-    private void PlacePlayersAndCamera()
+    private void SpawnBoss()
     {
-        var spawnRoom = grid[startCoords.X, startCoords.Y];
-        var spawnDoor = GetDoorwayByName(spawnRoom, doorwayDown.name);
+        GameObject boss = bosses[Random.Range(0, bosses.Count - 1)];
+        boss = Instantiate(boss, grid[bossCoords.X, bossCoords.Y].transform.position, Quaternion.identity, grid[bossCoords.X, bossCoords.Y].transform);
 
-        var children = spawnDoor.GetComponentsInChildren<Transform>();
-        var spawns = new List<Transform>();
+        var bc = boss.GetComponent<Boss>();
+        var vc = boss.GetComponent<VitalityController>();
 
+        Text bossText = null;
+        Text bossHealthText = null;
+        Slider bossHealthSlider = null;
+
+        var children = GameManager.instance.bossUI.GetComponentsInChildren<Transform>(true);
         foreach (var child in children)
         {
-            if (child.name == "Spawn")
+            if (child.name == "BossText")
             {
-                spawns.Add(child);
+                bossText = child.GetComponent<Text>();
+            }
+            else if (child.name == "BossHealthSlider")
+            {
+                bossHealthSlider = child.GetComponent<Slider>();
             }
         }
 
-        for (int i = 0; i < spawns.Count; i++)
+        children = bossHealthSlider.GetComponentsInChildren<Transform>(true);
+        foreach (var child in children)
         {
-            Debug.Log(i);
-            GameManager.instance.players[i].transform.position = spawns[i].position;
+            if (child.name == "HealthText")
+            {
+                bossHealthText = child.GetComponent<Text>();
+            }
+        }
+
+        bc.nameText = bossText;
+        vc.healthText = bossHealthText;
+        vc.healthSlider = bossHealthSlider;
+    }
+
+    private void PlacePlayersAndCamera()
+    {
+        var spawnRoom = grid[startCoords.X, startCoords.Y];
+        
+        for (int i = 0; i < GameManager.instance.players.Length; i++)
+        {
+            GameManager.instance.players[i].transform.position = spawnRoom.transform.position;
         }
 
         GameManager.instance.mainCamera.position = spawnRoom.transform.position + new Vector3(0f, 0f, -10f);
