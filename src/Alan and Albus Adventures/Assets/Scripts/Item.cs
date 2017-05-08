@@ -45,7 +45,17 @@ public abstract class Item : MonoBehaviour
     public int      baseStat;
 
     // Bonus stats
-    public Postfix?  bonusQuality;
-    public Property? bonusProperty;
-    public int?      bonusBaseStat;
+    public Postfix  bonusQuality;
+    public Property bonusProperty;
+    public int      bonusBaseStat;
+
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+        var player = collision.gameObject;
+        if (player.tag == "Player")
+        {
+            player.GetComponent<Inventory>().AddItem(gameObject);
+            // TODO: Move item to item slot.
+        }
+    }
 }

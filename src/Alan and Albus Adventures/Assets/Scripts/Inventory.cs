@@ -8,28 +8,30 @@ public class Inventory : MonoBehaviour
     private const int activeItemCount = 2;
     private const int statsCount = 6;
 
-    private PassiveItem[] passives = new PassiveItem[passiveItemCount];
-    private ActiveItem[] actives = new ActiveItem[activeItemCount];
+    public GameObject[] passives = new GameObject[passiveItemCount];
+    public GameObject[]  actives = new GameObject[activeItemCount];
 
-    private Property[] bonusStats = new Property[statsCount]
+    public int[] bonusStats = new int[statsCount]
     {
-        (Property)100, (Property)100, (Property)100, (Property)100, (Property)100, (Property)100
+        100, 100, 100, 100, 100, 100
     };
 
-    public void AddItem(Item item)
+    public void AddItem(GameObject gameObject)
     {
+        var item = gameObject.GetComponent<Item>();
         if (item != null)
         {
+            Debug.Log(item);
             if (item.itemType == ItemType.PASSIVE)
             {
                 var pos = GetNextFreeSlot(item.itemType);
                 if (pos.HasValue)
                 {
-                    passives[pos.Value] = (PassiveItem)item;
+                    passives[pos.Value] = gameObject;
                     bonusStats[(int)item.property] += ((int)item.quality * item.baseStat);
-                    if (item.bonusQuality.HasValue && item.bonusProperty.HasValue && item.bonusBaseStat.HasValue)
+                    if (item.bonusQuality != 0 && item.bonusBaseStat != 0)
                     {
-                        bonusStats[(int)item.bonusProperty.Value] += ((int)item.bonusQuality.Value * item.bonusBaseStat.Value);
+                        bonusStats[(int)item.bonusProperty] += ((int)item.bonusQuality * item.bonusBaseStat);
                     }
                 }
             }
@@ -38,43 +40,55 @@ public class Inventory : MonoBehaviour
                 var pos = GetNextFreeSlot(item.itemType);
                 if (pos.HasValue)
                 {
-                    actives[pos.Value] = (ActiveItem)item;
+                    actives[pos.Value] = gameObject;
                 }
             }
         }
     }
 
-    public Item RemoveItem(int pos)
+    public void RemoveItem(int pos)
     {
         if (0 <= pos && pos < passiveItemCount)
         {
-            Item discard = passives[pos];
-            bonusStats[(int)discard.property] -= ((int)discard.quality * discard.baseStat);
-            if (discard.bonusQuality.HasValue && discard.bonusProperty.HasValue && discard.bonusBaseStat.HasValue)
+            GameObject discardObject = passives[pos];
+            Item discardItem = discardObject.GetComponent<Item>();
+            bonusStats[(int)discardItem.property] -= ((int)discardItem.quality * discardItem.baseStat);
+            if (discardItem.bonusQuality != 0 && discardItem.bonusBaseStat != 0)
             {
-                bonusStats[(int)discard.bonusProperty.Value] -= ((int)discard.bonusQuality.Value * discard.bonusBaseStat.Value);
+                bonusStats[(int)discardItem.bonusProperty] -= ((int)discardItem.bonusQuality * discardItem.bonusBaseStat);
             }
             passives[pos] = null;
-            return discard;
         }
-        return null;
     }
 
     public void UseActive(bool isFirstItem)
     {
-        var item = (isFirstItem ? actives[0] : actives[1]);
+        var item = (isFirstItem ? actives[0] : actives[1]).GetComponent<ActiveItem>();
         if (item != null)
         {
             bonusStats[(int)item.property] += ((int)item.quality * item.baseStat);
-            if (item.bonusQuality.HasValue && item.bonusProperty.HasValue && item.bonusBaseStat.HasValue)
+            if (item.bonusQuality != 0 && item.bonusBaseStat != 0)
             {
-                bonusStats[(int)item.bonusProperty.Value] += ((int)item.bonusQuality.Value * item.bonusBaseStat.Value);
+                bonusStats[(int)item.bonusProperty] += ((int)item.bonusQuality * item.bonusBaseStat);
             }
             StartCoroutine(item.useItem());
             bonusStats[(int)item.property] -= ((int)item.quality * item.baseStat);
-            if (item.bonusQuality.HasValue && item.bonusProperty.HasValue && item.bonusBaseStat.HasValue)
+            if (item.bonusQuality != 0 && item.bonusBaseStat != 0)
             {
-                bonusStats[(int)item.bonusProperty.Value] -= ((int)item.bonusQuality.Value * item.bonusBaseStat.Value);
+                bonusStats[(int)item.bonusProperty] -= ((int)item.bonusQuality * item.bonusBaseStat);
+            }
+            if (item.charges <= 0)
+            {
+                if (isFirstItem)
+                {
+                    GameObject.Destroy(actives[0]);
+                    actives[0] = null;
+                }
+                else
+                {
+                    GameObject.Destroy(actives[1]);
+                    actives[1] = null;
+                }
             }
         }
     }
