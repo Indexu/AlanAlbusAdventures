@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb2d;
     private VitalityController vc;
     private DoorController door;
+    private ChestAnimationController chest;
     private GameManager gameManager;
     private Stats stats;
     private Player player;
@@ -85,6 +86,15 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void OnCollisionEnter2D(Collision2D collider)
+    {
+        if(collider.gameObject.tag == "Chest")
+        {
+            chest = collider.gameObject.GetComponent<ChestAnimationController>();
+            Debug.Log(chest);
+        }
+    }
+
     private void CheckInput()
     {
         if (gameManager.isPaused)
@@ -135,6 +145,10 @@ public class PlayerController : MonoBehaviour
                 {
                     door.GoThrough();
                 }
+            }
+            if (player.GetButtonUp("Confirm") && chest != null)
+            {
+                chest.OpenChest();
             }
             if (player.GetButtonUp("Pause"))
             {
