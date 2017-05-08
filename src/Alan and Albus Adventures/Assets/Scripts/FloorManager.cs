@@ -324,7 +324,7 @@ public class FloorManager : MonoBehaviour
 
                     for (int k = 0; k < numberOfEnemies; k++)
                     {
-                        enemy = enemies[Random.Range(0, enemies.Count - 1)];
+                        enemy = enemies[Random.Range(0, enemies.Count)];
                         spawnVector.x = Random.Range(minRangeVector.x, maxRangeVector.x);
                         spawnVector.y = Random.Range(minRangeVector.y, maxRangeVector.y);
 

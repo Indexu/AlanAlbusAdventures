@@ -15,6 +15,9 @@ public class VitalityController : MonoBehaviour
     public Text healthText;
     public Slider healthSlider;
     public GameObject damageText;
+    public GameObject hitParticle;
+    public GameObject critParticle;
+    public GameObject deathParticle;
     public bool boss;
     public bool player;
     public bool doUpdateUI;
@@ -33,8 +36,9 @@ public class VitalityController : MonoBehaviour
     private Bounds bounds;
     private const float damageTextDuration = 0.6f;
     private const float damageTextSpeed = 3f;
+    private GameObject selectedParticle;
 
-    public void Damage(float amount, bool isMagical)
+    public void Damage(float amount, bool isMagical, bool isCrit)
     {
         if (!isInvincible && !isInvincibilityFrame && !isDead)
         {
@@ -44,6 +48,8 @@ public class VitalityController : MonoBehaviour
 
             doUpdateUI = true;
             damageAmount = amount;
+
+            selectedParticle = (isCrit ? critParticle : hitParticle);
 
             CheckHealth();
 
@@ -132,6 +138,12 @@ public class VitalityController : MonoBehaviour
                 healthSlider.gameObject.SetActive(false);
                 gameObject.SetActive(false);
             }
+
+            Instantiate(deathParticle, transform.position, Quaternion.identity);
+        }
+        else
+        {
+            Instantiate(selectedParticle, transform.position, Quaternion.identity);
         }
     }
 

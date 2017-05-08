@@ -183,6 +183,13 @@ MonoBehaviour:
   invincibilityFrameTime: 0.8
   healthText: {fileID: 0}
   healthSlider: {fileID: 0}
+  damageText: {fileID: 0}
+  hitParticle: {fileID: 1373689730982888, guid: 5a5fe68ea45c547c895ecdaca9f50930,
+    type: 2}
+  critParticle: {fileID: 1122653249056378, guid: b86974dd398604c5a81202b7df44ff68,
+    type: 2}
+  deathParticle: {fileID: 1259393622160624, guid: 9306520cd1dca49df905233b3fee4740,
+    type: 2}
   boss: 0
   player: 0
   doUpdateUI: 0

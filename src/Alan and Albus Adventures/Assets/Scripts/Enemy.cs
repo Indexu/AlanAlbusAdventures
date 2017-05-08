@@ -38,7 +38,7 @@ public abstract class Enemy : MonoBehaviour
 
             if (!collisionVitalityController.isInvincibilityFrame || collisionVitalityController.isInvincible)
             {
-                collisionVitalityController.Damage(damage, magicalDamage);
+                collisionVitalityController.Damage(damage, magicalDamage, false);
 
                 var forceVector = collision.gameObject.transform.position - transform.position;
 

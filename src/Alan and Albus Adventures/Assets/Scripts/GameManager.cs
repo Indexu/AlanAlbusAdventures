@@ -113,6 +113,13 @@ public class GameManager : MonoBehaviour
         return screenPos;
     }
 
+    public IEnumerator DestroyParticle(GameObject particle)
+    {
+        var duration = particle.GetComponent<ParticleSystem>().main.duration;
+        yield return new WaitForSeconds(duration);
+        GameObject.Destroy(particle);
+    }
+
     private void Awake()
     {
         if (instance == null)
