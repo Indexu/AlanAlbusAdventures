@@ -11,9 +11,5 @@ public class ActiveItem : Item
     {
         charges--;
         yield return new WaitForSeconds(duration);
-        if (charges <= 0)
-        {
-            GameObject.Destroy(gameObject);
-        }
     }
 }
