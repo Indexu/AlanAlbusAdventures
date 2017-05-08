@@ -311,7 +311,6 @@ public class FloorManager : MonoBehaviour
         var spawnVector = new Vector3();
         int numberOfEnemies;
         GameObject enemy;
-        var camera = GameManager.instance.mainCamera.GetComponent<Camera>();
 
         for (int i = 0; i < gridLength; i++)
         {
@@ -330,7 +329,7 @@ public class FloorManager : MonoBehaviour
                         spawnVector.y = Random.Range(minRangeVector.y, maxRangeVector.y);
 
                         var enemyInstance = Instantiate(enemy, spawnVector, Quaternion.identity, grid[i, j].transform);
-                        var healthBar = Instantiate(enemyHealthBar, camera.WorldToScreenPoint(spawnVector), Quaternion.identity, GameManager.instance.canvas.transform);
+                        var healthBar = Instantiate(enemyHealthBar, Vector3.zero, Quaternion.identity, GameManager.instance.canvas.transform);
 
                         enemyInstance.GetComponent<VitalityController>().healthSlider = healthBar.GetComponent<Slider>();
                         healthBar.SetActive(false);

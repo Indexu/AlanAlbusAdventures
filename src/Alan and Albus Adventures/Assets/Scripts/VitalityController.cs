@@ -14,11 +14,12 @@ public class VitalityController : MonoBehaviour
     public float invincibilityFrameTime;
     public Text healthText;
     public Slider healthSlider;
+    public GameObject damageText;
     public bool boss;
     public bool player;
     public bool doUpdateUI;
 
-    private float nextDamage;
+    private float damageAmount = -1;
     private Stats stats;
     private GameManager gameManager;
     private Rigidbody2D rb2d;
@@ -30,6 +31,8 @@ public class VitalityController : MonoBehaviour
     private Enemy enemyComponent;
     private const float healthBarOffset = 133.7f;
     private Bounds bounds;
+    private const float damageTextDuration = 0.6f;
+    private const float damageTextSpeed = 3f;
 
     public void Damage(float amount, bool isMagical)
     {
@@ -40,6 +43,7 @@ public class VitalityController : MonoBehaviour
             currentHealth -= amount;
 
             doUpdateUI = true;
+            damageAmount = amount;
 
             CheckHealth();
 
@@ -125,8 +129,8 @@ public class VitalityController : MonoBehaviour
             else
             {
                 gameManager.EnemyKilled();
-                GameObject.Destroy(healthSlider.gameObject);
-                GameObject.Destroy(gameObject);
+                healthSlider.gameObject.SetActive(false);
+                gameObject.SetActive(false);
             }
         }
     }
@@ -137,6 +141,11 @@ public class VitalityController : MonoBehaviour
         {
             healthText.text = currentHealth.ToString("0") + "/" + enemyMaxHealth;
             healthSlider.value = currentHealth / enemyMaxHealth;
+
+            if (0 <= damageAmount)
+            {
+                DisplayDamageText();
+            }
         }
         else if (player)
         {
@@ -146,7 +155,13 @@ public class VitalityController : MonoBehaviour
         else
         {
             healthSlider.value = currentHealth / enemyMaxHealth;
+            if (0 <= damageAmount)
+            {
+                DisplayDamageText();
+            }
         }
+
+        doUpdateUI = false;
     }
 
     private void PositionHealthbar()
@@ -163,21 +178,49 @@ public class VitalityController : MonoBehaviour
 
         if (enemyComponent.Attacking && healthBar != null)
         {
-            Vector2 viewportPos = GameManager.instance.mainCamera.WorldToViewportPoint(transform.position);
-            Vector2 screenPos = new Vector2(
-            viewportPos.x * GameManager.instance.canvasRect.sizeDelta.x,
-            viewportPos.y * GameManager.instance.canvasRect.sizeDelta.y);
-
-            screenPos -= GameManager.instance.canvasRect.sizeDelta * 0.5f;
+            Vector2 screenPos = GameManager.instance.PositionToUI(transform.position);
             screenPos.y += bounds.extents.y * healthBarOffset;
 
             healthBar.anchoredPosition = screenPos;
         }
     }
 
+    private void DisplayDamageText()
+    {
+        var damageTextInstance = Instantiate(damageText, Vector3.zero, Quaternion.identity, GameManager.instance.canvas.transform);
+
+        Vector2 screenPos = GameManager.instance.PositionToUI(transform.position);
+        screenPos.y += bounds.extents.y * healthBarOffset;
+
+        var rt = damageTextInstance.GetComponent<RectTransform>();
+        rt.GetComponent<RectTransform>().anchoredPosition = screenPos;
+        damageTextInstance.GetComponent<Text>().text = damageAmount.ToString();
+
+        StartCoroutine(AnimateDamageText(rt));
+    }
+
     private IEnumerator InvincibiltyFrame()
     {
         yield return new WaitForSeconds(invincibilityFrameTime);
         isInvincibilityFrame = false;
+    }
+
+    private IEnumerator AnimateDamageText(RectTransform rt)
+    {
+        var seconds = 0f;
+        var vector = new Vector2(0f, damageTextSpeed);
+        var text = rt.gameObject.GetComponent<Text>();
+        var color = text.color;
+
+        while (seconds < damageTextDuration)
+        {
+            seconds += Time.deltaTime;
+            rt.anchoredPosition += vector;
+            color.a -= Time.deltaTime / damageTextDuration;
+            text.color = color;
+            yield return new WaitForSeconds(Time.deltaTime);
+        }
+
+        GameObject.Destroy(rt.gameObject);
     }
 }
