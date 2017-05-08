@@ -15,7 +15,9 @@ public class GameManager : MonoBehaviour
     public bool isPaused;
     public bool changingRooms;
     public GameObject[] players;
-    public Transform mainCamera;
+    public Camera mainCamera;
+    public GameObject canvas;
+    public RectTransform canvasRect;
 
     private FloorManager floorManager;
     private Vector3 newRoom;
@@ -35,7 +37,7 @@ public class GameManager : MonoBehaviour
 
         bossFight = boss;
         currentRoom = room;
-        oldRoom = mainCamera.position;
+        oldRoom = mainCamera.transform.position;
         newRoom = room.transform.position;
         this.door = door;
         direction = dir;
@@ -113,10 +115,12 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        mainCamera = GameObject.FindGameObjectWithTag("MainCamera").transform;
+        mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         floorManager = GameObject.FindGameObjectWithTag("FloorManager").GetComponent<FloorManager>();
         players = GameObject.FindGameObjectsWithTag("Player");
         bossUI = GameObject.FindGameObjectWithTag("BossUI");
+        canvas = GameObject.FindGameObjectWithTag("Canvas");
+        canvasRect = canvas.GetComponent<RectTransform>();
         changingRooms = false;
         doors = new List<DoorController>();
         bossUI.SetActive(false);
@@ -132,22 +136,22 @@ public class GameManager : MonoBehaviour
     {
         if (changingRooms)
         {
-            mainCamera.Translate(vector * cameraSpeed * Time.deltaTime);
+            mainCamera.transform.Translate(vector * cameraSpeed * Time.deltaTime);
 
-            if (direction == Direction.up && newRoom.y < mainCamera.position.y)
+            if (direction == Direction.up && newRoom.y < mainCamera.transform.position.y)
             {
                 endTransition();
             }
-            else if (direction == Direction.down && mainCamera.position.y < newRoom.y)
+            else if (direction == Direction.down && mainCamera.transform.position.y < newRoom.y)
             {
                 endTransition();
             }
-            else if (direction == Direction.right && newRoom.x < mainCamera.position.x)
+            else if (direction == Direction.right && newRoom.x < mainCamera.transform.position.x)
             {
                 endTransition();
             }
 
-            else if (direction == Direction.left && mainCamera.position.x < newRoom.x)
+            else if (direction == Direction.left && mainCamera.transform.position.x < newRoom.x)
             {
                 endTransition();
             }
@@ -156,7 +160,7 @@ public class GameManager : MonoBehaviour
 
     private void endTransition()
     {
-        mainCamera.position = new Vector3(newRoom.x, newRoom.y, vector.z);
+        mainCamera.transform.position = new Vector3(newRoom.x, newRoom.y, vector.z);
         changingRooms = false;
 
         foreach (GameObject player in players)
@@ -177,6 +181,7 @@ public class GameManager : MonoBehaviour
             if (child.gameObject.tag == "Enemy")
             {
                 child.gameObject.GetComponent<Enemy>().Attacking = true;
+                child.gameObject.GetComponent<VitalityController>().healthSlider.gameObject.SetActive(true);
                 enemies++;
 
                 if (bossFight)

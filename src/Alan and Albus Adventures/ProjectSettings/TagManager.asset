@@ -13,6 +13,7 @@ TagManager:
   - SoundManager
   - FloorManager
   - BossUI
+  - Canvas
   layers:
   - Default
   - TransparentFX

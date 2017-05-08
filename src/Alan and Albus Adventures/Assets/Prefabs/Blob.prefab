@@ -86,7 +86,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 12
+  m_LinearDrag: 50
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -178,10 +178,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd2dd1d6ed5f5441a95b04b7e1979eb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 15
+  speed: 3
   damage: 1
   magicalDamage: 0
   Attacking: 0
+  knockbackForceOnTouch: 100
 --- !u!212 &212955403847223468
 SpriteRenderer:
   m_ObjectHideFlags: 1
