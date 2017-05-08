@@ -29,6 +29,7 @@ public class VitalityController : MonoBehaviour
     private RectTransform healthBar;
     private Enemy enemyComponent;
     private const float healthBarOffset = 133.7f;
+    private Bounds bounds;
 
     public void Damage(float amount, bool isMagical)
     {
@@ -66,6 +67,7 @@ public class VitalityController : MonoBehaviour
     {
         gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
         rb2d = GetComponent<Rigidbody2D>();
+        bounds = GetComponent<Renderer>().bounds;
 
         if (gameObject.tag == "Player")
         {
@@ -167,7 +169,7 @@ public class VitalityController : MonoBehaviour
             viewportPos.y * GameManager.instance.canvasRect.sizeDelta.y);
 
             screenPos -= GameManager.instance.canvasRect.sizeDelta * 0.5f;
-            screenPos.y += GetComponent<Renderer>().bounds.extents.y * healthBarOffset;
+            screenPos.y += bounds.extents.y * healthBarOffset;
 
             healthBar.anchoredPosition = screenPos;
         }
