@@ -42,6 +42,7 @@ public class FloorManager : MonoBehaviour
     public GameObject doorwayDown;
     public GameObject doorwayLeft;
     public GameObject doorwayRight;
+    public GameObject enemyHealthBar;
     public List<GameObject> enemies;
     public List<GameObject> bosses;
 
@@ -310,6 +311,7 @@ public class FloorManager : MonoBehaviour
         var spawnVector = new Vector3();
         int numberOfEnemies;
         GameObject enemy;
+        var camera = GameManager.instance.mainCamera.GetComponent<Camera>();
 
         for (int i = 0; i < gridLength; i++)
         {
@@ -327,7 +329,11 @@ public class FloorManager : MonoBehaviour
                         spawnVector.x = Random.Range(minRangeVector.x, maxRangeVector.x);
                         spawnVector.y = Random.Range(minRangeVector.y, maxRangeVector.y);
 
-                        Instantiate(enemy, spawnVector, Quaternion.identity, grid[i, j].transform);
+                        var enemyInstance = Instantiate(enemy, spawnVector, Quaternion.identity, grid[i, j].transform);
+                        var healthBar = Instantiate(enemyHealthBar, camera.WorldToScreenPoint(spawnVector), Quaternion.identity, GameManager.instance.canvas.transform);
+
+                        enemyInstance.GetComponent<VitalityController>().healthSlider = healthBar.GetComponent<Slider>();
+                        healthBar.SetActive(false);
                     }
                 }
             }
@@ -382,6 +388,6 @@ public class FloorManager : MonoBehaviour
             GameManager.instance.players[i].transform.position = spawnRoom.transform.position;
         }
 
-        GameManager.instance.mainCamera.position = spawnRoom.transform.position + new Vector3(0f, 0f, -10f);
+        GameManager.instance.mainCamera.transform.position = spawnRoom.transform.position + new Vector3(0f, 0f, -10f);
     }
 }

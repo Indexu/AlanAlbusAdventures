@@ -22,10 +22,13 @@ public class VitalityController : MonoBehaviour
     private Stats stats;
     private GameManager gameManager;
     private Rigidbody2D rb2d;
-    private float bossMaxHealth;
+    private float enemyMaxHealth;
     private bool knockback;
     private Vector2 knockbackVector;
     private float knockbackForce;
+    private RectTransform healthBar;
+    private Enemy enemyComponent;
+    private const float healthBarOffset = 133.7f;
 
     public void Damage(float amount, bool isMagical)
     {
@@ -35,10 +38,7 @@ public class VitalityController : MonoBehaviour
 
             currentHealth -= amount;
 
-            if (player || boss)
-            {
-                doUpdateUI = true;
-            }
+            doUpdateUI = true;
 
             CheckHealth();
 
@@ -79,9 +79,10 @@ public class VitalityController : MonoBehaviour
             doUpdateUI = false;
         }
 
-        if (boss)
+        if (!player)
         {
-            bossMaxHealth = currentHealth;
+            enemyMaxHealth = currentHealth;
+            enemyComponent = GetComponent<Enemy>();
         }
     }
 
@@ -90,6 +91,10 @@ public class VitalityController : MonoBehaviour
         if (doUpdateUI)
         {
             UpdateUI();
+        }
+        if (!player && !boss)
+        {
+            PositionHealthbar();
         }
     }
     private void FixedUpdate()
@@ -118,6 +123,7 @@ public class VitalityController : MonoBehaviour
             else
             {
                 gameManager.EnemyKilled();
+                GameObject.Destroy(healthSlider.gameObject);
                 GameObject.Destroy(gameObject);
             }
         }
@@ -127,13 +133,43 @@ public class VitalityController : MonoBehaviour
     {
         if (boss)
         {
-            healthText.text = currentHealth.ToString("0") + "/" + bossMaxHealth;
-            healthSlider.value = currentHealth / bossMaxHealth;
+            healthText.text = currentHealth.ToString("0") + "/" + enemyMaxHealth;
+            healthSlider.value = currentHealth / enemyMaxHealth;
         }
-        else
+        else if (player)
         {
             healthText.text = currentHealth.ToString("0") + "/" + stats.maxHealth;
             healthSlider.value = currentHealth / stats.maxHealth;
+        }
+        else
+        {
+            healthSlider.value = currentHealth / enemyMaxHealth;
+        }
+    }
+
+    private void PositionHealthbar()
+    {
+        if (healthBar == null)
+        {
+            if (healthSlider != null)
+            {
+                healthBar = healthSlider.GetComponent<RectTransform>();
+                healthBar.anchorMin = new Vector2(0.5f, 0.5f);
+                healthBar.anchorMax = new Vector2(0.5f, 0.5f);
+            }
+        }
+
+        if (enemyComponent.Attacking && healthBar != null)
+        {
+            Vector2 viewportPos = GameManager.instance.mainCamera.WorldToViewportPoint(transform.position);
+            Vector2 screenPos = new Vector2(
+            viewportPos.x * GameManager.instance.canvasRect.sizeDelta.x,
+            viewportPos.y * GameManager.instance.canvasRect.sizeDelta.y);
+
+            screenPos -= GameManager.instance.canvasRect.sizeDelta * 0.5f;
+            screenPos.y += GetComponent<Renderer>().bounds.extents.y * healthBarOffset;
+
+            healthBar.anchoredPosition = screenPos;
         }
     }
 
