@@ -62,7 +62,7 @@ public class FloorManager : MonoBehaviour
         PlacePlayersAndCamera();
     }
 
-    private void Start ()
+    public void Init()
     {
         grid = new GameObject[gridLength, gridLength];
         for (int i = 0; i < gridLength; i++)
@@ -84,7 +84,7 @@ public class FloorManager : MonoBehaviour
         {
             for (int j = 0; j < gridLength; i++)
             {
-                grid[i,j] = null;
+                grid[i, j] = null;
             }
         }
 
@@ -138,7 +138,7 @@ public class FloorManager : MonoBehaviour
             }
         }
         // Down
-        if (point.Y != gridLength-1)
+        if (point.Y != gridLength - 1)
         {
             x = point.X;
             y = point.Y + 1;
@@ -162,7 +162,7 @@ public class FloorManager : MonoBehaviour
             }
         }
         // Right
-        if (point.X != gridLength-1)
+        if (point.X != gridLength - 1)
         {
             x = point.X + 1;
             y = point.Y;
@@ -183,7 +183,7 @@ public class FloorManager : MonoBehaviour
         {
             name = "Floor"
         };
-         
+
         Vector3 position = new Vector3();
 
         foreach (var roomCoord in roomCoords)
@@ -323,7 +323,7 @@ public class FloorManager : MonoBehaviour
 
                     for (int k = 0; k < numberOfEnemies; k++)
                     {
-                        enemy = enemies[Random.Range(0, enemies.Count-1)];
+                        enemy = enemies[Random.Range(0, enemies.Count - 1)];
                         spawnVector.x = Random.Range(minRangeVector.x, maxRangeVector.x);
                         spawnVector.y = Random.Range(minRangeVector.y, maxRangeVector.y);
 
@@ -376,7 +376,7 @@ public class FloorManager : MonoBehaviour
     private void PlacePlayersAndCamera()
     {
         var spawnRoom = grid[startCoords.X, startCoords.Y];
-        
+
         for (int i = 0; i < GameManager.instance.players.Length; i++)
         {
             GameManager.instance.players[i].transform.position = spawnRoom.transform.position;
