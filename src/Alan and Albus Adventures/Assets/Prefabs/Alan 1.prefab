@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 114403823282788978}
   - component: {fileID: 114362158653015788}
   - component: {fileID: 114100942056328564}
+  - component: {fileID: 114342200494456704}
   m_Layer: 8
   m_Name: Alan 1
   m_TagString: Player
@@ -189,6 +190,23 @@ MonoBehaviour:
   statPointsText: {fileID: 0}
   selectedBorder: {fileID: 0}
   statsTable: {fileID: 0}
+--- !u!114 &114342200494456704
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1982120085269070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4c64b56897b0499db2d45d61657288b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitAnim:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!114 &114362158653015788
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -214,7 +232,7 @@ MonoBehaviour:
     type: 2}
   critParticle: {fileID: 1122653249056378, guid: fb7f6b889eac947bc819af711ff254ac,
     type: 2}
-  deathParticle: {fileID: 1259393622160624, guid: 9306520cd1dca49df905233b3fee4740,
+  deathParticle: {fileID: 1259393622160624, guid: 1394c75f6f074429686066ecfbe2bc19,
     type: 2}
   boss: 0
   player: 0

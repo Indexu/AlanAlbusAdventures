@@ -88,7 +88,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collider)
     {
-        if(collider.gameObject.tag == "Chest")
+        if (collider.gameObject.tag == "Chest")
         {
             chest = collider.gameObject.GetComponent<ChestAnimationController>();
             Debug.Log(chest);

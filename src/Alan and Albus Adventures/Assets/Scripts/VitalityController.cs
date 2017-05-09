@@ -34,9 +34,9 @@ public class VitalityController : MonoBehaviour
     private Enemy enemyComponent;
     private const float healthBarOffset = 133.7f;
     private Bounds bounds;
-    private const float damageTextDuration = 0.6f;
-    private const float damageTextSpeed = 3f;
     private GameObject selectedParticle;
+    private AnimationCurveController acc;
+    private float damageTextOffset;
 
     public void Damage(float amount, bool isMagical, bool isCrit)
     {
@@ -50,6 +50,8 @@ public class VitalityController : MonoBehaviour
             damageAmount = amount;
 
             selectedParticle = (isCrit ? critParticle : hitParticle);
+
+            acc.Hit();
 
             CheckHealth();
 
@@ -78,6 +80,8 @@ public class VitalityController : MonoBehaviour
         gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
         rb2d = GetComponent<Rigidbody2D>();
         bounds = GetComponent<Renderer>().bounds;
+        acc = GetComponent<AnimationCurveController>();
+        damageTextOffset = bounds.extents.y * healthBarOffset;
 
         if (gameObject.tag == "Player")
         {
@@ -156,7 +160,7 @@ public class VitalityController : MonoBehaviour
 
             if (0 <= damageAmount)
             {
-                DisplayDamageText();
+                UIManager.instance.DisplayDamageText(transform.position, damageAmount, damageTextOffset);
             }
         }
         else if (player)
@@ -169,7 +173,7 @@ public class VitalityController : MonoBehaviour
             healthSlider.value = currentHealth / enemyMaxHealth;
             if (0 <= damageAmount)
             {
-                DisplayDamageText();
+                UIManager.instance.DisplayDamageText(transform.position, damageAmount, damageTextOffset);
             }
         }
 
@@ -190,25 +194,11 @@ public class VitalityController : MonoBehaviour
 
         if (enemyComponent.Attacking && healthBar != null)
         {
-            Vector2 screenPos = GameManager.instance.PositionToUI(transform.position);
+            Vector2 screenPos = UIManager.instance.PositionToUI(transform.position);
             screenPos.y += bounds.extents.y * healthBarOffset;
 
             healthBar.anchoredPosition = screenPos;
         }
-    }
-
-    private void DisplayDamageText()
-    {
-        var damageTextInstance = Instantiate(damageText, Vector3.zero, Quaternion.identity, GameManager.instance.canvas.transform);
-
-        Vector2 screenPos = GameManager.instance.PositionToUI(transform.position);
-        screenPos.y += bounds.extents.y * healthBarOffset;
-
-        var rt = damageTextInstance.GetComponent<RectTransform>();
-        rt.GetComponent<RectTransform>().anchoredPosition = screenPos;
-        damageTextInstance.GetComponent<Text>().text = damageAmount.ToString();
-
-        StartCoroutine(AnimateDamageText(rt));
     }
 
     private IEnumerator InvincibiltyFrame()
@@ -217,22 +207,5 @@ public class VitalityController : MonoBehaviour
         isInvincibilityFrame = false;
     }
 
-    private IEnumerator AnimateDamageText(RectTransform rt)
-    {
-        var seconds = 0f;
-        var vector = new Vector2(0f, damageTextSpeed);
-        var text = rt.gameObject.GetComponent<Text>();
-        var color = text.color;
 
-        while (seconds < damageTextDuration)
-        {
-            seconds += Time.deltaTime;
-            rt.anchoredPosition += vector;
-            color.a -= Time.deltaTime / damageTextDuration;
-            text.color = color;
-            yield return new WaitForSeconds(Time.deltaTime);
-        }
-
-        GameObject.Destroy(rt.gameObject);
-    }
 }

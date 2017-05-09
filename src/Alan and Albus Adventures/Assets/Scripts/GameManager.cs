@@ -99,20 +99,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public Vector3 PositionToUI(Vector3 pos)
-    {
-        Vector2 viewportPos = GameManager.instance.mainCamera.WorldToViewportPoint(pos);
-        Vector2 screenPos = new Vector2
-        (
-            viewportPos.x * instance.canvasRect.sizeDelta.x,
-            viewportPos.y * instance.canvasRect.sizeDelta.y
-        );
-
-        screenPos -= instance.canvasRect.sizeDelta * 0.5f;
-
-        return screenPos;
-    }
-
     public IEnumerator DestroyParticle(GameObject particle)
     {
         var duration = particle.GetComponent<ParticleSystem>().main.duration;

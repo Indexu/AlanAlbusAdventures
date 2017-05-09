@@ -47,8 +47,10 @@ public class Projectile : MonoBehaviour
             var vitalityController = collider.gameObject.GetComponent<VitalityController>();
             vitalityController.Damage(damage, isMagical, isCrit);
         }
-
-        Instantiate(hitParticle, transform.position, Quaternion.identity);
+        else
+        {
+            Instantiate(hitParticle, transform.position, Quaternion.identity);
+        }
 
         GameObject.Destroy(gameObject);
     }

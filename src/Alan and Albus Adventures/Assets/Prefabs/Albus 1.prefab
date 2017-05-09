@@ -25,6 +25,7 @@ GameObject:
   - component: {fileID: 114788960184840176}
   - component: {fileID: 114391854451563084}
   - component: {fileID: 114009495269605658}
+  - component: {fileID: 114140529522161248}
   m_Layer: 8
   m_Name: Albus 1
   m_TagString: Player
@@ -148,6 +149,23 @@ MonoBehaviour:
   statPointsText: {fileID: 0}
   selectedBorder: {fileID: 0}
   statsTable: {fileID: 0}
+--- !u!114 &114140529522161248
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1244990036264402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4c64b56897b0499db2d45d61657288b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitAnim:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!114 &114247891959450244
 MonoBehaviour:
   m_ObjectHideFlags: 1

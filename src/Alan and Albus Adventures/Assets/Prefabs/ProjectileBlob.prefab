@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 50627708281434602}
   - component: {fileID: 114062515723596210}
   - component: {fileID: 114324679443999514}
+  - component: {fileID: 114402262844147464}
   m_Layer: 9
   m_Name: ProjectileBlob
   m_TagString: Enemy
@@ -55,7 +56,7 @@ Transform:
   m_GameObject: {fileID: 1043773221181346}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 6.01994, y: 2.5222142, z: 0}
-  m_LocalScale: {x: 0.41018608, y: 0.41018608, z: 0.41018608}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4506692486631872}
   m_Father: {fileID: 0}
@@ -195,6 +196,23 @@ MonoBehaviour:
   minTime: 0.5
   maxTime: 1.5
   projectile: {fileID: 1035552101150598, guid: 5d1950b306e9f47ad8dd2362e5f321ba, type: 2}
+--- !u!114 &114402262844147464
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1043773221181346}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4c64b56897b0499db2d45d61657288b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitAnim:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!212 &212955403847223468
 SpriteRenderer:
   m_ObjectHideFlags: 1
