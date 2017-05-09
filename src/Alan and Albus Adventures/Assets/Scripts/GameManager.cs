@@ -10,7 +10,6 @@ public class GameManager : MonoBehaviour
     public static GameManager instance = null;
     public float cameraSpeed;
     public GameObject bossUI;
-    public Text winText;
     public GameObject pauseScreen;
     public bool isPaused;
     public bool changingRooms;
@@ -23,7 +22,7 @@ public class GameManager : MonoBehaviour
     private Vector3 newRoom;
     private Vector3 oldRoom;
     private Vector3 vector;
-    private Vector3 door;
+    private Transform door;
     private Direction direction;
     private GameObject currentRoom;
     private int enemies;
@@ -31,30 +30,30 @@ public class GameManager : MonoBehaviour
     private bool bossFight;
     private int deadPlayers;
 
-    public void changeRooms(GameObject room, Vector3 door, Direction dir, bool boss)
+    public void changeRooms(GameObject room, Transform door, Direction dir, bool boss)
     {
-        changingRooms = true;
+        GameManager.instance.changingRooms = true;
 
-        bossFight = boss;
-        currentRoom = room;
-        oldRoom = mainCamera.transform.position;
-        newRoom = room.transform.position;
-        this.door = door;
-        direction = dir;
+        GameManager.instance.bossFight = boss;
+        GameManager.instance.currentRoom = room;
+        GameManager.instance.oldRoom = mainCamera.transform.position;
+        GameManager.instance.newRoom = room.transform.position;
+        GameManager.instance.door = door;
+        GameManager.instance.direction = dir;
 
-        vector = newRoom - oldRoom;
-        vector.z = -10f;
+        GameManager.instance.vector = newRoom - oldRoom;
+        GameManager.instance.vector.z = -10f;
     }
 
     public void EnemyKilled()
     {
-        enemies--;
+        GameManager.instance.enemies--;
 
-        if (enemies == 0)
+        if (GameManager.instance.enemies == 0)
         {
             UnlockDoors();
 
-            if (bossFight)
+            if (GameManager.instance.bossFight)
             {
                 EndBossFight();
             }
@@ -63,9 +62,9 @@ public class GameManager : MonoBehaviour
 
     public void PlayerKilled()
     {
-        deadPlayers++;
+        GameManager.instance.deadPlayers++;
 
-        if (deadPlayers == 2)
+        if (GameManager.instance.deadPlayers == 2)
         {
             Pause();
         }
@@ -73,16 +72,16 @@ public class GameManager : MonoBehaviour
 
     public void Pause()
     {
-        isPaused = true;
+        GameManager.instance.isPaused = true;
         Time.timeScale = 0f;
-        pauseScreen.SetActive(true);
+        GameManager.instance.pauseScreen.SetActive(true);
     }
 
     public void Unpause()
     {
-        isPaused = false;
+        GameManager.instance.isPaused = false;
         Time.timeScale = 1f;
-        pauseScreen.SetActive(false);
+        GameManager.instance.pauseScreen.SetActive(false);
     }
 
     public void Reset()
@@ -99,51 +98,27 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public IEnumerator DestroyParticle(GameObject particle)
-    {
-        var duration = particle.GetComponent<ParticleSystem>().main.duration;
-        yield return new WaitForSeconds(duration);
-        GameObject.Destroy(particle);
-    }
-
     private void Awake()
     {
         if (instance == null)
         {
             instance = this;
+            GameManager.instance.Init();
         }
         else if (instance != this)
         {
+            GameManager.instance.Init();
             Destroy(gameObject);
         }
 
         DontDestroyOnLoad(gameObject);
     }
 
-    private void Start()
-    {
-        mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
-        floorManager = GameObject.FindGameObjectWithTag("FloorManager").GetComponent<FloorManager>();
-        players = GameObject.FindGameObjectsWithTag("Player");
-        bossUI = GameObject.FindGameObjectWithTag("BossUI");
-        canvas = GameObject.FindGameObjectWithTag("Canvas");
-        canvasRect = canvas.GetComponent<RectTransform>();
-        changingRooms = false;
-        doors = new List<DoorController>();
-        bossUI.SetActive(false);
-        winText.gameObject.SetActive(false);
-        pauseScreen.SetActive(false);
-        isPaused = false;
-
-        floorManager.Init();
-        floorManager.GenerateFloor();
-    }
-
     private void Update()
     {
         if (changingRooms)
         {
-            mainCamera.transform.Translate(vector * cameraSpeed * Time.deltaTime);
+            GameManager.instance.mainCamera.transform.Translate(vector * cameraSpeed * Time.deltaTime);
 
             if (direction == Direction.up && newRoom.y < mainCamera.transform.position.y)
             {
@@ -165,14 +140,41 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void Init()
+    {
+        GameManager.instance.mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+        GameManager.instance.floorManager = GameObject.FindGameObjectWithTag("FloorManager").GetComponent<FloorManager>();
+        GameManager.instance.players = GameObject.FindGameObjectsWithTag("Player");
+        GameManager.instance.bossUI = GameObject.FindGameObjectWithTag("BossUI");
+        GameManager.instance.canvas = GameObject.FindGameObjectWithTag("Canvas");
+        GameManager.instance.canvasRect = canvas.GetComponent<RectTransform>();
+        GameManager.instance.pauseScreen = GameManager.instance.canvas.transform.Find("PauseScreen").gameObject;
+        GameManager.instance.changingRooms = false;
+        GameManager.instance.doors = new List<DoorController>();
+        GameManager.instance.bossUI.SetActive(false);
+        GameManager.instance.pauseScreen.SetActive(false);
+        GameManager.instance.isPaused = false;
+
+        GameManager.instance.floorManager.GenerateFloor();
+    }
+
     private void endTransition()
     {
-        mainCamera.transform.position = new Vector3(newRoom.x, newRoom.y, vector.z);
-        changingRooms = false;
+        GameManager.instance.mainCamera.transform.position = new Vector3(newRoom.x, newRoom.y, vector.z);
+        GameManager.instance.changingRooms = false;
 
-        foreach (GameObject player in players)
+        var spawns = new List<Vector3>();
+        foreach (Transform child in door)
         {
-            player.transform.position = door;
+            if (child.name == "Spawn")
+            {
+                spawns.Add(child.position);
+            }
+        }
+
+        for (int i = 0; i < players.Length; i++)
+        {
+            players[i].transform.position = spawns[i];
         }
 
         ActivateEnemies();
@@ -180,7 +182,7 @@ public class GameManager : MonoBehaviour
 
     private void ActivateEnemies()
     {
-        doors.Clear();
+        GameManager.instance.doors.Clear();
 
         var children = currentRoom.GetComponentsInChildren<Transform>();
         foreach (var child in children)
@@ -236,13 +238,12 @@ public class GameManager : MonoBehaviour
 
     private void StartBossFight()
     {
-        bossUI.SetActive(true);
+        GameManager.instance.bossUI.SetActive(true);
     }
 
     private void EndBossFight()
     {
-        bossFight = false;
-        bossUI.SetActive(false);
-        winText.gameObject.SetActive(true);
+        GameManager.instance.bossFight = false;
+        GameManager.instance.bossUI.SetActive(false);
     }
 }

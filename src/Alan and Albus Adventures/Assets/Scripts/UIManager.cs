@@ -47,17 +47,22 @@ public class UIManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
+            Init();
         }
         else if (instance != this)
         {
+            Init();
             Destroy(gameObject);
         }
 
         DontDestroyOnLoad(gameObject);
+    }
 
-        mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
-        canvas = GameObject.FindGameObjectWithTag("Canvas");
-        canvasRect = canvas.GetComponent<RectTransform>();
+    private void Init()
+    {
+        UIManager.instance.mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+        UIManager.instance.canvas = GameObject.FindGameObjectWithTag("Canvas");
+        UIManager.instance.canvasRect = UIManager.instance.canvas.GetComponent<RectTransform>();
     }
 
     private IEnumerator AnimateDamageText(RectTransform rt)
