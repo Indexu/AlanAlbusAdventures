@@ -291,7 +291,10 @@ MonoBehaviour:
   speed: 10
   damage: 0
   isMagical: 0
+  isCrit: 0
   playerFired: 0
+  hitParticle: {fileID: 1355879691511626, guid: eaa18ea02b85a4b8e9e34efa9f893692,
+    type: 2}
 --- !u!212 &212392748038899888
 SpriteRenderer:
   m_ObjectHideFlags: 1

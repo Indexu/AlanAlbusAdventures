@@ -28,6 +28,17 @@ public class FloorManager : MonoBehaviour
             return p1.X != p2.X || p1.Y != p2.Y;
         }
 
+        public override bool Equals(object obj)
+        {
+            var p = (Point)obj;
+            return X == p.X && Y == p.Y;
+        }
+
+        public override int GetHashCode()
+        {
+            return X ^ Y;
+        }
+
         public bool Equals(Point other)
         {
             return X == other.X && Y == other.Y;
@@ -324,7 +335,7 @@ public class FloorManager : MonoBehaviour
 
                     for (int k = 0; k < numberOfEnemies; k++)
                     {
-                        enemy = enemies[Random.Range(0, enemies.Count - 1)];
+                        enemy = enemies[Random.Range(0, enemies.Count)];
                         spawnVector.x = Random.Range(minRangeVector.x, maxRangeVector.x);
                         spawnVector.y = Random.Range(minRangeVector.y, maxRangeVector.y);
 

@@ -40,6 +40,7 @@ GameObject:
   - component: {fileID: 50838541679354560}
   - component: {fileID: 114538596077188904}
   - component: {fileID: 114035983492260800}
+  - component: {fileID: 114035776998461638}
   m_Layer: 9
   m_Name: Blobert
   m_TagString: Enemy
@@ -68,7 +69,7 @@ Transform:
   m_GameObject: {fileID: 1713241975153652}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 64.23848, y: 23.77101, z: 0}
-  m_LocalScale: {x: 0.5948108, y: 0.60194284, z: 0.789111}
+  m_LocalScale: {x: 1.6, y: 1.6, z: 1.6}
   m_Children:
   - {fileID: 4132123509343782}
   m_Father: {fileID: 0}
@@ -86,7 +87,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 12
+  m_LinearDrag: 50
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -144,6 +145,23 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 5.07, y: 4.59}
   m_EdgeRadius: 0
+--- !u!114 &114035776998461638
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1713241975153652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4c64b56897b0499db2d45d61657288b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitAnim:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!114 &114035983492260800
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -155,7 +173,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccba88126f592455482715298a2a2058, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 12
+  speed: 4
   damage: 2
   magicalDamage: 1
   Attacking: 0
@@ -185,6 +203,13 @@ MonoBehaviour:
   invincibilityFrameTime: 0
   healthText: {fileID: 0}
   healthSlider: {fileID: 0}
+  damageText: {fileID: 1896640256646990, guid: 82b7b37d32ad04392b59c4639e6983bb, type: 2}
+  hitParticle: {fileID: 1373689730982888, guid: 112512c6403d9478a89cc58a9f783b08,
+    type: 2}
+  critParticle: {fileID: 1122653249056378, guid: decdc1cc479dd4827abd93d885803001,
+    type: 2}
+  deathParticle: {fileID: 1806162901150684, guid: b596b851183844c80ac2bb74db5d5cb3,
+    type: 2}
   boss: 1
   player: 0
   doUpdateUI: 0

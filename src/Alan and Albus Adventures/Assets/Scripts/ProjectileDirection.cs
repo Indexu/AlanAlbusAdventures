@@ -42,11 +42,14 @@ public class ProjectileDirection : MonoBehaviour
             projectileComponent.damage = stats.baseDamage;
             projectileComponent.isMagical = magicalDamage;
             projectileComponent.playerFired = true;
+            var isCrit = false;
 
             if (Random.value * 100 < stats.critHitChance)
             {
                 projectileComponent.damage *= stats.critHitDamage;
+                isCrit = true;
             }
+            projectileComponent.isCrit = isCrit;
 
             projectileComponent.Init();
         }
@@ -61,10 +64,12 @@ public class ProjectileDirection : MonoBehaviour
             nextFire = Time.time + stats.attackSpeed;
 
             var damage = stats.baseDamage;
+            var isCrit = false;
 
             if (Random.value * 100 < stats.critHitChance)
             {
                 damage *= stats.critHitDamage;
+                isCrit = true;
             }
 
             for (int i = collidingEnemies.Count - 1; i >= 0; i--)
@@ -75,7 +80,7 @@ public class ProjectileDirection : MonoBehaviour
                 Vector2 knockbackVector = (enemy.transform.position - gameObject.transform.position).normalized;
 
                 vc.Knockback(knockbackVector, attackForce);
-                vc.Damage(damage, magicalDamage);
+                vc.Damage(damage, magicalDamage, isCrit);
 
                 if (enemy == null)
                 {
