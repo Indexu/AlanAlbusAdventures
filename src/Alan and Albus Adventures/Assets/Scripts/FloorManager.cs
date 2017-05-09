@@ -28,6 +28,17 @@ public class FloorManager : MonoBehaviour
             return p1.X != p2.X || p1.Y != p2.Y;
         }
 
+        public override bool Equals(object obj)
+        {
+            var p = (Point)obj;
+            return X == p.X && Y == p.Y;
+        }
+
+        public override int GetHashCode()
+        {
+            return X ^ Y;
+        }
+
         public bool Equals(Point other)
         {
             return X == other.X && Y == other.Y;

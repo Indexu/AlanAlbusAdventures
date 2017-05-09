@@ -14,7 +14,6 @@ public class VitalityController : MonoBehaviour
     public float invincibilityFrameTime;
     public Text healthText;
     public Slider healthSlider;
-    public GameObject damageText;
     public GameObject hitParticle;
     public GameObject critParticle;
     public GameObject deathParticle;
@@ -88,6 +87,8 @@ public class VitalityController : MonoBehaviour
             player = true;
             doUpdateUI = true;
             stats = GetComponent<Stats>();
+
+            FindHealthBar();
         }
         else
         {
@@ -199,6 +200,14 @@ public class VitalityController : MonoBehaviour
 
             healthBar.anchoredPosition = screenPos;
         }
+    }
+
+    private void FindHealthBar()
+    {
+        var playerID = GetComponent<PlayerController>().playerID;
+        var searchString = (playerID == 0 ? "AlanHealthSlider" : "AlbusHealthSlider");
+        healthSlider = UIManager.instance.canvas.transform.Find(searchString).GetComponent<Slider>();
+        healthText = healthSlider.transform.Find("HealthText").GetComponent<Text>();
     }
 
     private IEnumerator InvincibiltyFrame()
