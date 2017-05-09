@@ -54,10 +54,7 @@ public class UIManager : MonoBehaviour
         }
 
         DontDestroyOnLoad(gameObject);
-    }
 
-    private void Start()
-    {
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         canvas = GameObject.FindGameObjectWithTag("Canvas");
         canvasRect = canvas.GetComponent<RectTransform>();
