@@ -25,6 +25,7 @@ public class PlayerController : MonoBehaviour
     private const float reviveTime = 2.5f;
     private bool canNavigateStats;
     private float joystickStatsDelay = 0.15f;
+    private const float joystickDeadzone = 0.4f;
 
     private void Awake()
     {
@@ -169,8 +170,11 @@ public class PlayerController : MonoBehaviour
 
             if (player.GetButtonUp("Confirm"))
             {
-                currentReviveTime = 0f;
-                if (chest != null)
+                if (currentReviveTime != 0f)
+                {
+                    currentReviveTime = 0f;
+                }
+                else if (chest != null)
                 {
                     chest.OpenChest();
                 }
@@ -203,7 +207,7 @@ public class PlayerController : MonoBehaviour
         float x = player.GetAxis("Look Horizontal");
         float y = player.GetAxis("Look Vertical");
 
-        if (x != 0 || y != 0)
+        if (joystickDeadzone < Mathf.Abs(x) || joystickDeadzone < Mathf.Abs(y))
         {
             rotationVector.x = x;
             rotationVector.y = y;
