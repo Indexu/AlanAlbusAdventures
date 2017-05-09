@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour
     private Vector3 newRoom;
     private Vector3 oldRoom;
     private Vector3 vector;
-    private Vector3 door;
+    private Transform door;
     private Direction direction;
     private GameObject currentRoom;
     private int enemies;
@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
     private bool bossFight;
     private int deadPlayers;
 
-    public void changeRooms(GameObject room, Vector3 door, Direction dir, bool boss)
+    public void changeRooms(GameObject room, Transform door, Direction dir, bool boss)
     {
         changingRooms = true;
 
@@ -99,13 +99,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public IEnumerator DestroyParticle(GameObject particle)
-    {
-        var duration = particle.GetComponent<ParticleSystem>().main.duration;
-        yield return new WaitForSeconds(duration);
-        GameObject.Destroy(particle);
-    }
-
     private void Awake()
     {
         if (instance == null)
@@ -170,9 +163,18 @@ public class GameManager : MonoBehaviour
         mainCamera.transform.position = new Vector3(newRoom.x, newRoom.y, vector.z);
         changingRooms = false;
 
-        foreach (GameObject player in players)
+        var spawns = new List<Vector3>();
+        foreach (Transform child in door)
         {
-            player.transform.position = door;
+            if (child.name == "Spawn")
+            {
+                spawns.Add(child.position);
+            }
+        }
+
+        for (int i = 0; i < players.Length; i++)
+        {
+            players[i].transform.position = spawns[i];
         }
 
         ActivateEnemies();
