@@ -14,6 +14,7 @@ TagManager:
   - FloorManager
   - BossUI
   - Canvas
+  - Chest
   layers:
   - Default
   - TransparentFX
