@@ -91,7 +91,6 @@ public class PlayerController : MonoBehaviour
         if(collider.gameObject.tag == "Chest")
         {
             chest = collider.gameObject.GetComponent<ChestAnimationController>();
-            Debug.Log(chest);
         }
     }
 
