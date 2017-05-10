@@ -26,10 +26,23 @@ public class PlayerController : MonoBehaviour
     private bool canNavigateStats;
     private float joystickStatsDelay = 0.15f;
     private const float joystickDeadzone = 0.4f;
+    private bool playstationController;
+    private bool showingPassives;
 
     private void Awake()
     {
         player = ReInput.players.GetPlayer(playerID);
+        ReInput.ControllerConnectedEvent += OnControllerConnected;
+    }
+
+    private void OnControllerConnected(ControllerStatusChangedEventArgs args)
+    {
+        if (playerID == args.controllerId)
+        {
+            playstationController = args.name.Contains("Sony");
+
+            UIManager.instance.ApplySpritesToButtons(playerID, playstationController);
+        }
     }
 
     private void Start()
@@ -119,11 +132,11 @@ public class PlayerController : MonoBehaviour
     {
         if (gameManager.isPaused)
         {
-            if (player.GetButtonUp("Pause"))
+            if (player.GetButtonUp("Start"))
             {
                 gameManager.Unpause();
             }
-            if (player.GetButtonUp("Confirm"))
+            if (player.GetButtonUp("Cross"))
             {
                 gameManager.Reset();
             }
@@ -132,7 +145,7 @@ public class PlayerController : MonoBehaviour
         {
             var analogStick = player.GetAxis("Move Vertical");
 
-            if (player.GetButtonUp("Stats Screen"))
+            if (player.GetButtonUp("Triangle"))
             {
                 inStatsScreen = false;
                 stats.HideStats();
@@ -145,7 +158,7 @@ public class PlayerController : MonoBehaviour
             {
                 stats.Down();
             }
-            if (player.GetButtonUp("Confirm"))
+            if (player.GetButtonUp("Cross"))
             {
                 stats.UpgradeStat();
             }
@@ -156,19 +169,32 @@ public class PlayerController : MonoBehaviour
                 StartCoroutine(DelayJoystick());
             }
         }
+        else if (showingPassives)
+        {
+            if (player.GetButtonUp("L2"))
+            {
+                showingPassives = false;
+                UIManager.instance.SetPassiveItemSlots(playerID, false);
+            }
+        }
         else
         {
-            if (player.GetButton("Attack") && attackButton)
+            if (player.GetButtonDown("L2"))
+            {
+                showingPassives = true;
+                UIManager.instance.SetPassiveItemSlots(playerID, true);
+            }
+            if (player.GetButton("R2") && attackButton)
             {
                 doAttack = true;
             }
-            if (player.GetButtonUp("Stats Screen"))
+            if (player.GetButtonUp("Triangle"))
             {
                 inStatsScreen = true;
                 stats.ShowStats();
             }
 
-            if (player.GetButtonUp("Confirm"))
+            if (player.GetButtonUp("Cross"))
             {
                 if (currentReviveTime != 0f)
                 {
@@ -183,7 +209,7 @@ public class PlayerController : MonoBehaviour
                     door.GoThrough();
                 }
             }
-            else if (player.GetButtonDown("Confirm") || currentReviveTime != 0f)
+            else if (player.GetButtonDown("Cross") || currentReviveTime != 0f)
             {
                 if (reviveController != null && reviveController.vc.isDead)
                 {
@@ -195,7 +221,7 @@ public class PlayerController : MonoBehaviour
                     }
                 }
             }
-            if (player.GetButtonUp("Pause"))
+            if (player.GetButtonUp("Start"))
             {
                 gameManager.Pause();
             }
