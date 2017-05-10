@@ -55,3 +55,17 @@ MonoBehaviour:
   canvasRect: {fileID: 0}
   mainCamera: {fileID: 0}
   damageText: {fileID: 1896640256646990, guid: 82b7b37d32ad04392b59c4639e6983bb, type: 2}
+  PS4Confirm: {fileID: 21300000, guid: 1eb91396c3a334c3abd40fd8a023dbdb, type: 3}
+  XboxConfirm: {fileID: 21300000, guid: d08e904301c214b89a7f7716d0ab8f31, type: 3}
+  PS4Stats: {fileID: 21300000, guid: 6e928b602af18443884ead7b370c3fd4, type: 3}
+  XboxStats: {fileID: 21300000, guid: 7689994b15d2b4c6591eab3df7e066ed, type: 3}
+  PS4UseItem: {fileID: 21300000, guid: 02f2c77919f284466a29dea624d73e8f, type: 3}
+  XboxUseItem: {fileID: 21300000, guid: 181deced7f2f84567958f9d423ec87db, type: 3}
+  PS4LeftStick: {fileID: 21300000, guid: 7f650e55012b7444fa55e6d7d26e9893, type: 3}
+  XboxLeftStick: {fileID: 21300000, guid: 08bfd9f3c8fef4e95b4223ec3d935e4a, type: 3}
+  PS4RightStick: {fileID: 21300000, guid: 4d498371324b741f1877bb122fe1f583, type: 3}
+  XboxRightStick: {fileID: 21300000, guid: a7a29a455dcf1410389f4838ec71745a, type: 3}
+  PS4Attack: {fileID: 21300000, guid: 4cc726851af4f41209594b3cde2b7e5d, type: 3}
+  XboxAttack: {fileID: 21300000, guid: 158e32d1fa37b4d7ea29f9a33abfed68, type: 3}
+  PS4Pause: {fileID: 21300000, guid: 8a2d7b45f05514709be95400fdf833c8, type: 3}
+  XboxPause: {fileID: 21300000, guid: 38714eca6e6654a3eaefeb0da03acb16, type: 3}

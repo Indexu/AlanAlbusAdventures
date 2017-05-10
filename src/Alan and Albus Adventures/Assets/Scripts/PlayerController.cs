@@ -26,10 +26,20 @@ public class PlayerController : MonoBehaviour
     private bool canNavigateStats;
     private float joystickStatsDelay = 0.15f;
     private const float joystickDeadzone = 0.4f;
+    private bool playstationController;
 
     private void Awake()
     {
         player = ReInput.players.GetPlayer(playerID);
+        ReInput.ControllerConnectedEvent += OnControllerConnected;
+    }
+
+    private void OnControllerConnected(ControllerStatusChangedEventArgs args)
+    {
+        if (playerID == args.controllerId)
+        {
+            playstationController = args.name.Contains("Sony");
+        }
     }
 
     private void Start()

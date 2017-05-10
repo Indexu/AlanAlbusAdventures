@@ -10,6 +10,20 @@ public class UIManager : MonoBehaviour
     public RectTransform canvasRect;
     public Camera mainCamera;
     public GameObject damageText;
+    public Sprite PS4Confirm;
+    public Sprite XboxConfirm;
+    public Sprite PS4Stats;
+    public Sprite XboxStats;
+    public Sprite PS4UseItem;
+    public Sprite XboxUseItem;
+    public Sprite PS4LeftStick;
+    public Sprite XboxLeftStick;
+    public Sprite PS4RightStick;
+    public Sprite XboxRightStick;
+    public Sprite PS4Attack;
+    public Sprite XboxAttack;
+    public Sprite PS4Pause;
+    public Sprite XboxPause;
 
     private const float damageTextDuration = 0.6f;
     private const float damageTextSpeed = 3f;
