@@ -100,6 +100,7 @@ public class PlayerController : MonoBehaviour
     {
         if (collider.gameObject.tag == "Door")
         {
+            UIManager.instance.ShowDoorButton(playerID, collider.transform.position, playstationController);
             door = collider.gameObject.GetComponent<DoorController>();
         }
         else if (collider.gameObject.layer == LayerMask.NameToLayer("ReviveTriggers"))
@@ -117,6 +118,7 @@ public class PlayerController : MonoBehaviour
     {
         if (collider.gameObject.tag == "Door")
         {
+            UIManager.instance.HideDoorButton(playerID);
             door = null;
         }
         else if (collider.gameObject.layer == LayerMask.NameToLayer("ReviveTriggers"))

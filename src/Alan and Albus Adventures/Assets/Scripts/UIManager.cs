@@ -11,6 +11,7 @@ public class UIManager : MonoBehaviour
     public Camera mainCamera;
     public GameObject damageText;
     public GameObject reviveUI;
+    public GameObject button;
     public Texture PS4Confirm;
     public Texture XboxConfirm;
     public Texture PS4Stats;
@@ -35,7 +36,6 @@ public class UIManager : MonoBehaviour
     private const float damageTextDuration = 0.6f;
     private const float damageTextSpeed = 3f;
 
-
     private const int numberOfSlots = 5;
     private RawImage[] AlanButtons;
     private RawImage[] AlbusButtons;
@@ -47,6 +47,9 @@ public class UIManager : MonoBehaviour
     private Transform reviveUITransformPos;
     private RectTransform reviveUIRectTransform;
     private const float reviveUIOffset = 150f;
+
+    private RawImage alanDoorButton;
+    private RawImage albusDoorButton;
 
     public Vector3 PositionToUI(Vector3 pos)
     {
@@ -196,6 +199,76 @@ public class UIManager : MonoBehaviour
         reviveUISlider.value = value;
     }
 
+    public void ShowDoorButton(int playerID, Vector3 pos, bool ps4)
+    {
+        if (alanDoorButton == null && albusDoorButton == null)
+        {
+            var doorButtonInstance = Instantiate(button, Vector3.zero, Quaternion.identity, UIManager.instance.canvas.transform);
+
+            var rt = doorButtonInstance.GetComponent<RectTransform>();
+            rt.anchoredPosition = UIManager.instance.PositionToUI(pos);
+
+            RawImage doorButton;
+            if (playerID == 0)
+            {
+                alanDoorButton = doorButtonInstance.GetComponent<RawImage>();
+                doorButton = alanDoorButton;
+            }
+            else
+            {
+                albusDoorButton = doorButtonInstance.GetComponent<RawImage>();
+                doorButton = albusDoorButton;
+            }
+
+            if (!ps4)
+            {
+                doorButton.texture = XboxConfirm;
+            }
+
+            var color = doorButton.color;
+            color.a = 0.5f;
+
+            doorButton.color = color;
+        }
+        else if (alanDoorButton != null)
+        {
+            var color = alanDoorButton.color;
+            color.a = 1f;
+
+            alanDoorButton.color = color;
+        }
+        else
+        {
+            var color = albusDoorButton.color;
+            color.a = 1f;
+
+            albusDoorButton.color = color;
+        }
+    }
+
+    public void HideDoorButton(int playerID)
+    {
+        if (albusDoorButton != null && albusDoorButton.color.a == 1f)
+        {
+            var color = albusDoorButton.color;
+            color.a = 0.5f;
+
+            albusDoorButton.color = color;
+        }
+        else if (alanDoorButton != null && alanDoorButton.color.a == 1f)
+        {
+            var color = alanDoorButton.color;
+            color.a = 0.5f;
+
+            alanDoorButton.color = color;
+        }
+        else
+        {
+            var doorButton = (alanDoorButton != null ? alanDoorButton : albusDoorButton);
+            GameObject.Destroy(doorButton.gameObject);
+        }
+    }
+
     private void Awake()
     {
         if (instance == null)
@@ -233,6 +306,9 @@ public class UIManager : MonoBehaviour
         AlanItemIcons = new RawImage[numberOfSlots];
         AlbusItemIcons = new RawImage[numberOfSlots];
 
+        alanDoorButton = null;
+        albusDoorButton = null;
+
         GetItemSlotButtons();
         SetPassiveItemSlots(0, false);
         SetPassiveItemSlots(1, false);
@@ -250,6 +326,7 @@ public class UIManager : MonoBehaviour
 
             AlanButtons[counter] = button;
             AlanItemIcons[counter] = icon;
+            icon.gameObject.SetActive(false);
 
             counter++;
         }
@@ -264,6 +341,7 @@ public class UIManager : MonoBehaviour
 
             AlbusButtons[counter] = button;
             AlbusItemIcons[counter] = icon;
+            icon.gameObject.SetActive(false);
 
             counter++;
         }

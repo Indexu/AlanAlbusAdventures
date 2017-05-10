@@ -56,6 +56,7 @@ MonoBehaviour:
   mainCamera: {fileID: 0}
   damageText: {fileID: 1896640256646990, guid: 82b7b37d32ad04392b59c4639e6983bb, type: 2}
   reviveUI: {fileID: 1029737049646680, guid: a9e0472c595404a0d9214cac07236987, type: 2}
+  button: {fileID: 1571872881633036, guid: b5fbeda5d17004c9498265a7b6837c66, type: 2}
   PS4Confirm: {fileID: 2800000, guid: 1eb91396c3a334c3abd40fd8a023dbdb, type: 3}
   XboxConfirm: {fileID: 2800000, guid: d08e904301c214b89a7f7716d0ab8f31, type: 3}
   PS4Stats: {fileID: 2800000, guid: 6e928b602af18443884ead7b370c3fd4, type: 3}
