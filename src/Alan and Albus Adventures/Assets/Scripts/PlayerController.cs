@@ -27,6 +27,7 @@ public class PlayerController : MonoBehaviour
     private float joystickStatsDelay = 0.15f;
     private const float joystickDeadzone = 0.4f;
     private bool playstationController;
+    private bool showingPassives;
 
     private void Awake()
     {
@@ -39,6 +40,8 @@ public class PlayerController : MonoBehaviour
         if (playerID == args.controllerId)
         {
             playstationController = args.name.Contains("Sony");
+
+            UIManager.instance.ApplySpritesToButtons(playerID, playstationController);
         }
     }
 
@@ -166,8 +169,21 @@ public class PlayerController : MonoBehaviour
                 StartCoroutine(DelayJoystick());
             }
         }
+        else if (showingPassives)
+        {
+            if (player.GetButtonUp("Show Item Slots"))
+            {
+                showingPassives = false;
+                UIManager.instance.SetPassiveItemSlots(playerID, false);
+            }
+        }
         else
         {
+            if (player.GetButtonDown("Show Item Slots"))
+            {
+                showingPassives = true;
+                UIManager.instance.SetPassiveItemSlots(playerID, true);
+            }
             if (player.GetButton("Attack") && attackButton)
             {
                 doAttack = true;

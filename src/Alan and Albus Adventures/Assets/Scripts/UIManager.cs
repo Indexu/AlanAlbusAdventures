@@ -10,25 +10,38 @@ public class UIManager : MonoBehaviour
     public RectTransform canvasRect;
     public Camera mainCamera;
     public GameObject damageText;
-    public Sprite PS4Confirm;
-    public Sprite XboxConfirm;
-    public Sprite PS4Stats;
-    public Sprite XboxStats;
-    public Sprite PS4UseItem;
-    public Sprite XboxUseItem;
-    public Sprite PS4LeftStick;
-    public Sprite XboxLeftStick;
-    public Sprite PS4RightStick;
-    public Sprite XboxRightStick;
-    public Sprite PS4Attack;
-    public Sprite XboxAttack;
-    public Sprite PS4ItemMode;
-    public Sprite XboxItemMode;
-    public Sprite PS4Pause;
-    public Sprite XboxPause;
+    public Texture PS4Confirm;
+    public Texture XboxConfirm;
+    public Texture PS4Stats;
+    public Texture XboxStats;
+    public Texture PS4UseItem;
+    public Texture XboxUseItem;
+    public Texture PS4LeftStick;
+    public Texture XboxLeftStick;
+    public Texture PS4RightStick;
+    public Texture XboxRightStick;
+    public Texture PS4Attack;
+    public Texture XboxAttack;
+    public Texture PS4ItemMode;
+    public Texture XboxItemMode;
+    public Texture PS4Pause;
+    public Texture XboxPause;
+    public Texture PS4PassiveButtonLeft;
+    public Texture XboxPassiveButtonLeft;
+    public Texture PS4PassiveButtonRight;
+    public Texture XboxPassiveButtonRight;
 
     private const float damageTextDuration = 0.6f;
     private const float damageTextSpeed = 3f;
+
+
+    private const int numberOfSlots = 5;
+
+    private RawImage[] AlanButtons;
+    private RawImage[] AlbusButtons;
+
+    private RawImage[] AlanItemIcons;
+    private RawImage[] AlbusItemIcons;
 
     public Vector3 PositionToUI(Vector3 pos)
     {
@@ -58,6 +71,98 @@ public class UIManager : MonoBehaviour
         StartCoroutine(AnimateDamageText(rt));
     }
 
+    public void ApplySpritesToButtons(int playerID, bool ps4)
+    {
+        var arr = (playerID == 0 ? AlanButtons : AlbusButtons);
+
+        if (ps4)
+        {
+            arr[0].texture = PS4UseItem;
+            arr[1].texture = PS4PassiveButtonLeft;
+            arr[2].texture = PS4Confirm;
+            arr[3].texture = PS4PassiveButtonRight;
+            arr[4].texture = PS4Stats;
+        }
+        else
+        {
+            arr[0].texture = XboxUseItem;
+            arr[1].texture = XboxPassiveButtonLeft;
+            arr[2].texture = XboxConfirm;
+            arr[3].texture = XboxPassiveButtonRight;
+            arr[4].texture = XboxStats;
+        }
+    }
+
+    public void SetPassiveItemLeft(int playerID, Texture icon)
+    {
+        var arr = (playerID == 0 ? AlanItemIcons : AlbusItemIcons);
+
+        arr[1].gameObject.SetActive(true);
+        arr[1].texture = icon;
+    }
+
+    public void SetPassiveItemDown(int playerID, Texture icon)
+    {
+        var arr = (playerID == 0 ? AlanItemIcons : AlbusItemIcons);
+
+        arr[2].gameObject.SetActive(true);
+        arr[2].texture = icon;
+    }
+
+    public void SetPassiveItemRight(int playerID, Texture icon)
+    {
+        var arr = (playerID == 0 ? AlanItemIcons : AlbusItemIcons);
+
+        arr[3].gameObject.SetActive(true);
+        arr[3].texture = icon;
+    }
+
+    public void SetPassiveItemUp(int playerID, Texture icon)
+    {
+        var arr = (playerID == 0 ? AlanItemIcons : AlbusItemIcons);
+
+        arr[4].gameObject.SetActive(true);
+        arr[4].texture = icon;
+    }
+
+    public void DestroyPassiveItemLeft(int playerID)
+    {
+        var arr = (playerID == 0 ? AlanItemIcons : AlbusItemIcons);
+
+        arr[1].gameObject.SetActive(false);
+    }
+
+    public void DestroyPassiveItemDown(int playerID)
+    {
+        var arr = (playerID == 0 ? AlanItemIcons : AlbusItemIcons);
+
+        arr[2].gameObject.SetActive(false);
+    }
+
+    public void DestroyPassiveItemRight(int playerID)
+    {
+        var arr = (playerID == 0 ? AlanItemIcons : AlbusItemIcons);
+
+        arr[3].gameObject.SetActive(false);
+    }
+
+    public void DestroyPassiveItemUp(int playerID)
+    {
+        var arr = (playerID == 0 ? AlanItemIcons : AlbusItemIcons);
+
+        arr[4].gameObject.SetActive(false);
+    }
+
+    public void SetPassiveItemSlots(int playerID, bool show)
+    {
+        var arr = (playerID == 0 ? AlanButtons : AlbusItemIcons);
+
+        for (int i = 1; i < AlanButtons.Length; i++)
+        {
+            arr[i].gameObject.SetActive(show);
+        }
+    }
+
     private void Awake()
     {
         if (instance == null)
@@ -79,6 +184,46 @@ public class UIManager : MonoBehaviour
         UIManager.instance.mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         UIManager.instance.canvas = GameObject.FindGameObjectWithTag("Canvas");
         UIManager.instance.canvasRect = UIManager.instance.canvas.GetComponent<RectTransform>();
+
+        AlanButtons = new RawImage[numberOfSlots];
+        AlbusButtons = new RawImage[numberOfSlots];
+        AlanItemIcons = new RawImage[numberOfSlots];
+        AlbusItemIcons = new RawImage[numberOfSlots];
+
+        GetItemSlotButtons();
+        SetPassiveItemSlots(0, false);
+        SetPassiveItemSlots(1, false);
+    }
+
+    private void GetItemSlotButtons()
+    {
+        var slots = instance.canvas.transform.Find("AlanItemSlots");
+        var counter = 0;
+
+        foreach (Transform slot in slots)
+        {
+            var button = slot.Find("Button").GetComponent<RawImage>();
+            var icon = slot.Find("Item").GetComponent<RawImage>();
+
+            AlanButtons[counter] = button;
+            AlanItemIcons[counter] = icon;
+
+            counter++;
+        }
+
+        slots = instance.canvas.transform.Find("AlbusItemSlots");
+        counter = 0;
+
+        foreach (Transform slot in slots)
+        {
+            var button = slot.Find("Button").GetComponent<RawImage>();
+            var icon = slot.Find("Item").GetComponent<RawImage>();
+
+            AlbusButtons[counter] = button;
+            AlbusItemIcons[counter] = icon;
+
+            counter++;
+        }
     }
 
     private IEnumerator AnimateDamageText(RectTransform rt)
