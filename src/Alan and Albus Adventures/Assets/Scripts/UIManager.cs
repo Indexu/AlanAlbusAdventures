@@ -155,9 +155,9 @@ public class UIManager : MonoBehaviour
 
     public void SetPassiveItemSlots(int playerID, bool show)
     {
-        var arr = (playerID == 0 ? AlanButtons : AlbusItemIcons);
+        var arr = (playerID == 0 ? AlanButtons : AlbusButtons);
 
-        for (int i = 1; i < AlanButtons.Length; i++)
+        for (int i = 1; i < arr.Length; i++)
         {
             arr[i].gameObject.SetActive(show);
         }

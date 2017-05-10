@@ -227,18 +227,18 @@ MonoBehaviour:
       _userAssignable: 1
       _categoryId: 0
     - _id: 4
-      _name: Attack
+      _name: R2
       _type: 1
-      _descriptiveName: Attack
+      _descriptiveName: R2
       _positiveDescriptiveName: 
       _negativeDescriptiveName: 
       _behaviorId: 0
       _userAssignable: 1
       _categoryId: 0
     - _id: 5
-      _name: Stats Screen
+      _name: Triangle
       _type: 1
-      _descriptiveName: Stats Screen
+      _descriptiveName: Triangle
       _positiveDescriptiveName: 
       _negativeDescriptiveName: 
       _behaviorId: 0
@@ -263,27 +263,45 @@ MonoBehaviour:
       _userAssignable: 1
       _categoryId: 0
     - _id: 8
-      _name: Confirm
+      _name: Cross
       _type: 1
-      _descriptiveName: Confirm
+      _descriptiveName: Cross
       _positiveDescriptiveName: 
       _negativeDescriptiveName: 
       _behaviorId: 0
       _userAssignable: 1
       _categoryId: 0
     - _id: 9
-      _name: Pause
+      _name: Start
       _type: 1
-      _descriptiveName: Pause
+      _descriptiveName: Start
       _positiveDescriptiveName: 
       _negativeDescriptiveName: 
       _behaviorId: 0
       _userAssignable: 1
       _categoryId: 0
     - _id: 10
-      _name: Show Item Slots
+      _name: L2
       _type: 1
-      _descriptiveName: Show Item Slots
+      _descriptiveName: L2
+      _positiveDescriptiveName: 
+      _negativeDescriptiveName: 
+      _behaviorId: 0
+      _userAssignable: 1
+      _categoryId: 0
+    - _id: 11
+      _name: Square
+      _type: 1
+      _descriptiveName: Square
+      _positiveDescriptiveName: 
+      _negativeDescriptiveName: 
+      _behaviorId: 0
+      _userAssignable: 1
+      _categoryId: 0
+    - _id: 12
+      _name: Circle
+      _type: 1
+      _descriptiveName: Circle
       _positiveDescriptiveName: 
       _negativeDescriptiveName: 
       _behaviorId: 0
@@ -298,7 +316,7 @@ MonoBehaviour:
     actionCategoryMap:
       list:
       - categoryId: 0
-        actionIds: 000000000100000002000000030000000400000005000000060000000700000008000000090000000a000000
+        actionIds: 000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c000000
     inputBehaviors:
     - _id: 0
       _name: Default
@@ -411,7 +429,7 @@ MonoBehaviour:
         _modifierKey2: 0
         _modifierKey3: 0
       - _actionCategoryId: 0
-        _actionId: -1
+        _actionId: 12
         _elementType: 1
         _elementIdentifierId: 7
         _axisRange: 0
@@ -422,7 +440,7 @@ MonoBehaviour:
         _modifierKey2: 0
         _modifierKey3: 0
       - _actionCategoryId: 0
-        _actionId: -1
+        _actionId: 11
         _elementType: 1
         _elementIdentifierId: 8
         _axisRange: 0
@@ -682,7 +700,7 @@ MonoBehaviour:
         _modifierKey2: 0
         _modifierKey3: 0
       - _actionCategoryId: 0
-        _actionId: -1
+        _actionId: 12
         _elementType: 1
         _elementIdentifierId: 7
         _axisRange: 0
@@ -693,7 +711,7 @@ MonoBehaviour:
         _modifierKey2: 0
         _modifierKey3: 0
       - _actionCategoryId: 0
-        _actionId: -1
+        _actionId: 11
         _elementType: 1
         _elementIdentifierId: 8
         _axisRange: 0
@@ -840,7 +858,7 @@ MonoBehaviour:
     customControllerMaps: []
     customControllers: []
     playerIdCounter: 3
-    actionIdCounter: 11
+    actionIdCounter: 13
     actionCategoryIdCounter: 1
     inputBehaviorIdCounter: 1
     mapCategoryIdCounter: 1
