@@ -65,7 +65,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            if (player.GetButtonUp("Confirm"))
+            if (player.GetButtonUp("Cross"))
             {
                 gameManager.DeadReset();
             }
@@ -105,6 +105,11 @@ public class PlayerController : MonoBehaviour
         else if (collider.gameObject.layer == LayerMask.NameToLayer("ReviveTriggers"))
         {
             reviveController = collider.gameObject.GetComponent<ReviveController>();
+
+            if (reviveController.vc.isDead)
+            {
+                UIManager.instance.ShowReviveUI(collider.transform.parent, playstationController);
+            }
         }
     }
 
@@ -116,6 +121,11 @@ public class PlayerController : MonoBehaviour
         }
         else if (collider.gameObject.layer == LayerMask.NameToLayer("ReviveTriggers"))
         {
+            if (reviveController.vc.isDead)
+            {
+                UIManager.instance.HideReviveUI();
+            }
+
             reviveController = null;
         }
     }
@@ -199,6 +209,7 @@ public class PlayerController : MonoBehaviour
                 if (currentReviveTime != 0f)
                 {
                     currentReviveTime = 0f;
+                    UIManager.instance.UpdateReviveSlider(0f);
                 }
                 else if (chest != null)
                 {
@@ -214,8 +225,11 @@ public class PlayerController : MonoBehaviour
                 if (reviveController != null && reviveController.vc.isDead)
                 {
                     currentReviveTime += Time.deltaTime;
+                    UIManager.instance.UpdateReviveSlider(currentReviveTime / reviveTime);
+
                     if (reviveTime < currentReviveTime)
                     {
+                        UIManager.instance.HideReviveUI();
                         reviveController.Revive();
                         currentReviveTime = 0f;
                     }

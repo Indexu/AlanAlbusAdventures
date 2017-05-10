@@ -79,6 +79,7 @@ public class VitalityController : MonoBehaviour
         isDead = false;
         lowHealth = false;
         currentHealth += stats.maxHealth / 2;
+        spriteRenderer.color = Color.white;
         doUpdateUI = true;
         isInvincibilityFrame = true;
         StartCoroutine(InvincibiltyFrame());
@@ -194,6 +195,8 @@ public class VitalityController : MonoBehaviour
             if (player)
             {
                 isDead = true;
+                currentHealth = 0;
+                spriteRenderer.color = Color.gray;
                 gameManager.PlayerKilled();
             }
             else

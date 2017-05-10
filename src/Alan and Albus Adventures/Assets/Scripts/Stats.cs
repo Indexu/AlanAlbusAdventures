@@ -181,6 +181,7 @@ public class Stats : MonoBehaviour
     {
         vc = GetComponent<VitalityController>();
 
+        selectedStat = 1;
         doUpdateUI = true;
         doSetSelectedBorder = true;
 

@@ -10,6 +10,7 @@ public class UIManager : MonoBehaviour
     public RectTransform canvasRect;
     public Camera mainCamera;
     public GameObject damageText;
+    public GameObject reviveUI;
     public Texture PS4Confirm;
     public Texture XboxConfirm;
     public Texture PS4Stats;
@@ -36,12 +37,16 @@ public class UIManager : MonoBehaviour
 
 
     private const int numberOfSlots = 5;
-
     private RawImage[] AlanButtons;
     private RawImage[] AlbusButtons;
-
     private RawImage[] AlanItemIcons;
     private RawImage[] AlbusItemIcons;
+
+    private GameObject reviveUIInstance;
+    private Slider reviveUISlider;
+    private Transform reviveUITransformPos;
+    private RectTransform reviveUIRectTransform;
+    private const float reviveUIOffset = 150f;
 
     public Vector3 PositionToUI(Vector3 pos)
     {
@@ -163,6 +168,34 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void ShowReviveUI(Transform pos, bool ps4)
+    {
+        reviveUITransformPos = pos;
+        reviveUIInstance = Instantiate(reviveUI, Vector3.zero, Quaternion.identity, UIManager.instance.canvas.transform);
+        reviveUIRectTransform = reviveUIInstance.GetComponent<RectTransform>();
+
+        reviveUISlider = reviveUIInstance.transform.Find("Slider").GetComponent<Slider>();
+        reviveUISlider.value = 0f;
+
+        if (!ps4)
+        {
+            reviveUIInstance.transform.Find("Button").GetComponent<RawImage>().texture = XboxConfirm;
+        }
+    }
+
+    public void HideReviveUI()
+    {
+        if (reviveUIInstance != null)
+        {
+            GameObject.Destroy(reviveUIInstance);
+        }
+    }
+
+    public void UpdateReviveSlider(float value)
+    {
+        reviveUISlider.value = value;
+    }
+
     private void Awake()
     {
         if (instance == null)
@@ -177,6 +210,16 @@ public class UIManager : MonoBehaviour
         }
 
         DontDestroyOnLoad(gameObject);
+    }
+
+    private void OnGUI()
+    {
+        if (reviveUIInstance != null)
+        {
+            Vector2 screenPos = UIManager.instance.PositionToUI(reviveUITransformPos.position);
+            screenPos.y += reviveUIOffset;
+            reviveUIRectTransform.anchoredPosition = screenPos;
+        }
     }
 
     private void Init()
