@@ -9,6 +9,7 @@ public class AnimationCurveController : MonoBehaviour
     private VitalityController vc;
     private IEnumerator co;
     private Vector3 originalScale;
+    private float hitMagnitute = 0.1f;
 
     public void Hit()
     {
@@ -34,7 +35,7 @@ public class AnimationCurveController : MonoBehaviour
 
             while (elapsed < time)
             {
-                transform.localScale = new Vector3((hitAnim.Evaluate(elapsed) * -0.4f) + originalScale.x, (hitAnim.Evaluate(elapsed) * 0.4f) + originalScale.y, originalScale.z);
+                transform.localScale = new Vector3((hitAnim.Evaluate(elapsed) * -hitMagnitute) + originalScale.x, (hitAnim.Evaluate(elapsed) * hitMagnitute) + originalScale.y, originalScale.z);
                 elapsed += Time.deltaTime;
                 yield return null;
             }
