@@ -17,6 +17,7 @@ public class VitalityController : MonoBehaviour
     public GameObject hitParticle;
     public GameObject critParticle;
     public GameObject deathParticle;
+    public GameObject reviveParticle;
     public bool boss;
     public bool player;
     public bool doUpdateUI;
@@ -83,6 +84,8 @@ public class VitalityController : MonoBehaviour
         doUpdateUI = true;
         isInvincibilityFrame = true;
         StartCoroutine(InvincibiltyFrame());
+
+        Instantiate(reviveParticle, transform.position, Quaternion.identity);
     }
 
     public void Knockback(Vector2 direction, float force)

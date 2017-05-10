@@ -232,7 +232,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d86cfd3d2857a4ec496620be2e0e5e1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentHealth: 2
+  currentHealth: 30
   magicResistance: 1
   physicalResistance: 1
   isDead: 0
@@ -246,6 +246,8 @@ MonoBehaviour:
   critParticle: {fileID: 1122653249056378, guid: b86974dd398604c5a81202b7df44ff68,
     type: 2}
   deathParticle: {fileID: 1259393622160624, guid: 9306520cd1dca49df905233b3fee4740,
+    type: 2}
+  reviveParticle: {fileID: 1913297041956092, guid: 4a6f544d71bc245ee836746135189f69,
     type: 2}
   boss: 0
   player: 0

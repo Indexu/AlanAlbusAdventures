@@ -273,6 +273,8 @@ MonoBehaviour:
     type: 2}
   deathParticle: {fileID: 1259393622160624, guid: 1394c75f6f074429686066ecfbe2bc19,
     type: 2}
+  reviveParticle: {fileID: 1913297041956092, guid: 4a6f544d71bc245ee836746135189f69,
+    type: 2}
   boss: 0
   player: 0
   doUpdateUI: 0
