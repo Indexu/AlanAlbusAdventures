@@ -7,11 +7,13 @@ public class PlayerController : MonoBehaviour
 {
     public int playerID; // ReWired player ID
     public ProjectileDirection projectileDirection;
+    public bool attackButton;
 
     private Rigidbody2D rb2d;
     private VitalityController vc;
     private DoorController door;
     private ChestAnimationController chest;
+    private ReviveController reviveController;
     private GameManager gameManager;
     private Stats stats;
     private Player player;
@@ -19,15 +21,26 @@ public class PlayerController : MonoBehaviour
     private Vector2 rotationVector;
     private bool doAttack;
     private bool inStatsScreen;
+    private float currentReviveTime;
+    private const float reviveTime = 2.5f;
+    private bool canNavigateStats;
+    private float joystickStatsDelay = 0.15f;
+    private const float joystickDeadzone = 0.4f;
+
+    private void Awake()
+    {
+        player = ReInput.players.GetPlayer(playerID);
+    }
 
     private void Start()
     {
-        player = ReInput.players.GetPlayer(playerID);
         rb2d = GetComponent<Rigidbody2D>();
         vc = GetComponent<VitalityController>();
         stats = GetComponent<Stats>();
         rotationVector = Vector2.up;
         inStatsScreen = false;
+        canNavigateStats = true;
+        currentReviveTime = 0f;
         gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
     }
 
@@ -76,6 +89,10 @@ public class PlayerController : MonoBehaviour
         {
             door = collider.gameObject.GetComponent<DoorController>();
         }
+        else if (collider.gameObject.layer == LayerMask.NameToLayer("ReviveTriggers"))
+        {
+            reviveController = collider.gameObject.GetComponent<ReviveController>();
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collider)
@@ -83,6 +100,10 @@ public class PlayerController : MonoBehaviour
         if (collider.gameObject.tag == "Door")
         {
             door = null;
+        }
+        else if (collider.gameObject.layer == LayerMask.NameToLayer("ReviveTriggers"))
+        {
+            reviveController = null;
         }
     }
 
@@ -109,16 +130,18 @@ public class PlayerController : MonoBehaviour
         }
         else if (inStatsScreen)
         {
+            var analogStick = player.GetAxis("Move Vertical");
+
             if (player.GetButtonUp("Stats Screen"))
             {
                 inStatsScreen = false;
                 stats.HideStats();
             }
-            if (player.GetButtonUp("DPad Up"))
+            if (player.GetButtonUp("DPad Up") || (0 < analogStick && canNavigateStats))
             {
                 stats.Up();
             }
-            if (player.GetButtonUp("DPad Down"))
+            if (player.GetButtonUp("DPad Down") || (analogStick < 0 && canNavigateStats))
             {
                 stats.Down();
             }
@@ -126,10 +149,16 @@ public class PlayerController : MonoBehaviour
             {
                 stats.UpgradeStat();
             }
+
+            if (analogStick != 0 && canNavigateStats)
+            {
+                canNavigateStats = false;
+                StartCoroutine(DelayJoystick());
+            }
         }
         else
         {
-            if (player.GetButton("Attack"))
+            if (player.GetButton("Attack") && attackButton)
             {
                 doAttack = true;
             }
@@ -138,16 +167,33 @@ public class PlayerController : MonoBehaviour
                 inStatsScreen = true;
                 stats.ShowStats();
             }
-            if (player.GetButtonUp("Confirm") && door != null)
+
+            if (player.GetButtonUp("Confirm"))
             {
-                if (!gameManager.changingRooms)
+                if (currentReviveTime != 0f)
+                {
+                    currentReviveTime = 0f;
+                }
+                else if (chest != null)
+                {
+                    chest.OpenChest();
+                }
+                else if (door != null && !gameManager.changingRooms)
                 {
                     door.GoThrough();
                 }
             }
-            if (player.GetButtonUp("Confirm") && chest != null)
+            else if (player.GetButtonDown("Confirm") || currentReviveTime != 0f)
             {
-                chest.OpenChest();
+                if (reviveController != null && reviveController.vc.isDead)
+                {
+                    currentReviveTime += Time.deltaTime;
+                    if (reviveTime < currentReviveTime)
+                    {
+                        reviveController.Revive();
+                        currentReviveTime = 0f;
+                    }
+                }
             }
             if (player.GetButtonUp("Pause"))
             {
@@ -161,11 +207,16 @@ public class PlayerController : MonoBehaviour
         float x = player.GetAxis("Look Horizontal");
         float y = player.GetAxis("Look Vertical");
 
-        if (x != 0 || y != 0)
+        if (joystickDeadzone < Mathf.Abs(x) || joystickDeadzone < Mathf.Abs(y))
         {
             rotationVector.x = x;
             rotationVector.y = y;
             projectileDirection.SetCrosshair(rotationVector);
+
+            if (!attackButton)
+            {
+                doAttack = true;
+            }
         }
     }
 
@@ -175,5 +226,11 @@ public class PlayerController : MonoBehaviour
         moveVector.y = player.GetAxis("Move Vertical");
 
         rb2d.AddForce(moveVector * stats.movementSpeed, ForceMode2D.Impulse);
+    }
+
+    public IEnumerator DelayJoystick()
+    {
+        yield return new WaitForSeconds(joystickStatsDelay);
+        canNavigateStats = true;
     }
 }

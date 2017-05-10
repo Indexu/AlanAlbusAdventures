@@ -20,30 +20,14 @@ GameObject:
   m_Component:
   - component: {fileID: 4486181698763662}
   - component: {fileID: 212955403847223468}
-  - component: {fileID: 61453548947059272}
   - component: {fileID: 50627708281434602}
   - component: {fileID: 114062515723596210}
   - component: {fileID: 114324679443999514}
   - component: {fileID: 114402262844147464}
+  - component: {fileID: 60952801737492826}
   m_Layer: 9
   m_Name: ProjectileBlob
   m_TagString: Enemy
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!1 &1564968907728782
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 4506692486631872}
-  - component: {fileID: 61120345984059058}
-  m_Layer: 11
-  m_Name: Child
-  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -55,24 +39,10 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1043773221181346}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.01994, y: 2.5222142, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 4506692486631872}
-  m_Father: {fileID: 0}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4506692486631872
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1564968907728782}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -4.16, y: -0.91, z: 0}
+  m_LocalScale: {x: 0.3422709, y: 0.3422709, z: 0.3422709}
   m_Children: []
-  m_Father: {fileID: 4486181698763662}
+  m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &50627708281434602
@@ -95,33 +65,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!61 &61120345984059058
-BoxCollider2D:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1564968907728782}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 5.07, y: 4.59}
-  m_EdgeRadius: 0
---- !u!61 &61453548947059272
-BoxCollider2D:
+--- !u!60 &60952801737492826
+PolygonCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -142,9 +87,95 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 5.51, y: 4.82}
-  m_EdgeRadius: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0.98999995, y: -2.3}
+      - {x: 1.22, y: -2.26}
+      - {x: 1.61, y: -2.1699998}
+      - {x: 1.7099999, y: -2.1399999}
+      - {x: 1.9499999, y: -2.05}
+      - {x: 2.23, y: -1.92}
+      - {x: 2.34, y: -1.8499999}
+      - {x: 2.4199998, y: -1.79}
+      - {x: 2.59, y: -1.61}
+      - {x: 2.6599998, y: -1.49}
+      - {x: 2.6799998, y: -1.37}
+      - {x: 2.6799998, y: -1.16}
+      - {x: 2.6599998, y: -1.03}
+      - {x: 2.6399999, y: -0.91999996}
+      - {x: 2.59, y: -0.69}
+      - {x: 2.55, y: -0.53999996}
+      - {x: 2.5, y: -0.32999998}
+      - {x: 2.29, y: 0.21}
+      - {x: 2.1699998, y: 0.48}
+      - {x: 2.04, y: 0.75}
+      - {x: 1.9499999, y: 0.90999997}
+      - {x: 1.87, y: 1.04}
+      - {x: 1.75, y: 1.22}
+      - {x: 1.6899999, y: 1.3}
+      - {x: 1.5799999, y: 1.43}
+      - {x: 1.51, y: 1.51}
+      - {x: 1.27, y: 1.75}
+      - {x: 1.1999999, y: 1.81}
+      - {x: 1.05, y: 1.93}
+      - {x: 0.91999996, y: 2.01}
+      - {x: 0.66999996, y: 2.1299999}
+      - {x: 0.62, y: 2.1499999}
+      - {x: 0.38, y: 2.2}
+      - {x: 0.19999999, y: 2.22}
+      - {x: -0.02, y: 2.22}
+      - {x: -0.14999999, y: 2.21}
+      - {x: -0.29, y: 2.19}
+      - {x: -0.55, y: 2.1399999}
+      - {x: -0.69, y: 2.08}
+      - {x: -0.81, y: 2.03}
+      - {x: -1.0799999, y: 1.89}
+      - {x: -1.1999999, y: 1.81}
+      - {x: -1.3299999, y: 1.6999999}
+      - {x: -1.43, y: 1.61}
+      - {x: -1.56, y: 1.48}
+      - {x: -1.65, y: 1.38}
+      - {x: -1.7099999, y: 1.31}
+      - {x: -1.8399999, y: 1.15}
+      - {x: -1.93, y: 1.02}
+      - {x: -2.01, y: 0.89}
+      - {x: -2.09, y: 0.75}
+      - {x: -2.23, y: 0.45999998}
+      - {x: -2.3, y: 0.29999998}
+      - {x: -2.36, y: 0.14999999}
+      - {x: -2.4199998, y: 0.02}
+      - {x: -2.51, y: -0.29999998}
+      - {x: -2.59, y: -0.61}
+      - {x: -2.61, y: -0.69}
+      - {x: -2.6599998, y: -0.96999997}
+      - {x: -2.6699998, y: -1.05}
+      - {x: -2.69, y: -1.1999999}
+      - {x: -2.71, y: -1.26}
+      - {x: -2.72, y: -1.3199999}
+      - {x: -2.72, y: -1.39}
+      - {x: -2.7, y: -1.48}
+      - {x: -2.6699998, y: -1.56}
+      - {x: -2.61, y: -1.65}
+      - {x: -2.4299998, y: -1.8299999}
+      - {x: -2.33, y: -1.89}
+      - {x: -2.07, y: -2.02}
+      - {x: -1.9499999, y: -2.07}
+      - {x: -1.8399999, y: -2.11}
+      - {x: -1.78, y: -2.1299999}
+      - {x: -1.68, y: -2.1599998}
+      - {x: -1.5699999, y: -2.19}
+      - {x: -1.41, y: -2.23}
+      - {x: -1.3199999, y: -2.25}
+      - {x: -1.1, y: -2.29}
+      - {x: -0.96999997, y: -2.31}
+      - {x: -0.71999997, y: -2.34}
+      - {x: -0.61, y: -2.35}
+      - {x: -0.47, y: -2.36}
+      - {x: -0.26, y: -2.37}
+      - {x: 0.21, y: -2.37}
+      - {x: 0.42, y: -2.36}
+      - {x: 0.56, y: -2.35}
+      - {x: 0.76, y: -2.33}
 --- !u!114 &114062515723596210
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -210,10 +241,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hitAnim:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.08804193
+      value: 0.99306726
+      inSlope: 0.03798126
+      outSlope: 0.03798126
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.2486639
+      value: -0.003022952
+      inSlope: -0.000020775842
+      outSlope: -0.000020775842
+      tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
 --- !u!212 &212955403847223468
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -29,6 +29,23 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1118105545228110
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4409833859342320}
+  - component: {fileID: 58257672545421070}
+  - component: {fileID: 114060000693638254}
+  m_Layer: 13
+  m_Name: ReviveCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1982120085269070
 GameObject:
   m_ObjectHideFlags: 0
@@ -39,11 +56,11 @@ GameObject:
   - component: {fileID: 4913991801055438}
   - component: {fileID: 212678879276215822}
   - component: {fileID: 50155289889663368}
-  - component: {fileID: 61880475253447444}
   - component: {fileID: 114403823282788978}
   - component: {fileID: 114362158653015788}
   - component: {fileID: 114100942056328564}
   - component: {fileID: 114342200494456704}
+  - component: {fileID: 70139851508929758}
   m_Layer: 8
   m_Name: Alan 1
   m_TagString: Player
@@ -51,6 +68,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!4 &4409833859342320
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1118105545228110}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4913991801055438}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4913991801055438
 Transform:
   m_ObjectHideFlags: 1
@@ -62,6 +92,7 @@ Transform:
   m_LocalScale: {x: 0.05, y: 0.05, z: 0.1}
   m_Children:
   - {fileID: 4962124986724642}
+  - {fileID: 4409833859342320}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -98,6 +129,21 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!58 &58257672545421070
+CircleCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1118105545228110}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 40
 --- !u!61 &61168821951279594
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -123,8 +169,8 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 43.72, y: 42.38}
   m_EdgeRadius: 0
---- !u!61 &61880475253447444
-BoxCollider2D:
+--- !u!70 &70139851508929758
+CapsuleCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -136,18 +182,21 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 44.38, y: 50.3}
-    newSize: {x: 44.38, y: 50.3}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 30.12, y: 46.5}
-  m_EdgeRadius: 0
+  m_Size: {x: 38.74, y: 50.3}
+  m_Direction: 0
+--- !u!114 &114060000693638254
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1118105545228110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2881d2ef720a4e878df00f03341aee1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vc: {fileID: 0}
+  reviveTime: 2.5
 --- !u!114 &114062160457536394
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -257,6 +306,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerID: 0
   projectileDirection: {fileID: 114062160457536394}
+  attackButton: 0
 --- !u!212 &212554700095030402
 SpriteRenderer:
   m_ObjectHideFlags: 1

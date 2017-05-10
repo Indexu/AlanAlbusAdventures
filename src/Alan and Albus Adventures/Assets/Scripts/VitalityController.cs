@@ -37,6 +37,13 @@ public class VitalityController : MonoBehaviour
     private GameObject selectedParticle;
     private AnimationCurveController acc;
     private float damageTextOffset;
+    private SpriteRenderer spriteRenderer;
+    private bool lowHealth;
+    private const float lowHealthThreshold = 0.2f;
+    private const float minColor = 190f / 255f;
+    private const float maxColor = 255f / 255f;
+    private const float colorSpeed = 200f / 255f;
+    private bool colorUp;
 
     public void Damage(float amount, bool isMagical, bool isCrit)
     {
@@ -68,6 +75,16 @@ public class VitalityController : MonoBehaviour
         currentHealth += amount;
     }
 
+    public void Revive()
+    {
+        isDead = false;
+        lowHealth = false;
+        currentHealth += stats.maxHealth / 2;
+        doUpdateUI = true;
+        isInvincibilityFrame = true;
+        StartCoroutine(InvincibiltyFrame());
+    }
+
     public void Knockback(Vector2 direction, float force)
     {
         knockback = true;
@@ -82,6 +99,7 @@ public class VitalityController : MonoBehaviour
         bounds = GetComponent<Renderer>().bounds;
         acc = GetComponent<AnimationCurveController>();
         damageTextOffset = bounds.extents.y * healthBarOffset;
+        spriteRenderer = GetComponent<SpriteRenderer>();
 
         if (gameObject.tag == "Player")
         {
@@ -115,6 +133,47 @@ public class VitalityController : MonoBehaviour
             PositionHealthbar();
         }
     }
+
+    private void Update()
+    {
+        if (player && lowHealth && !isDead)
+        {
+            var color = spriteRenderer.color;
+            var increase = colorSpeed * Time.deltaTime;
+
+            if (colorUp)
+            {
+                if (color.g + increase < maxColor)
+                {
+                    color.g += increase;
+                    color.b += increase;
+                }
+                else
+                {
+                    color.g = maxColor;
+                    color.b = maxColor;
+                    colorUp = false;
+                }
+            }
+            else
+            {
+                if (minColor < color.g + increase)
+                {
+                    color.g -= increase;
+                    color.b -= increase;
+                }
+                else
+                {
+                    color.g = minColor;
+                    color.b = minColor;
+                    colorUp = true;
+                }
+            }
+
+            spriteRenderer.color = color;
+        }
+    }
+
     private void FixedUpdate()
     {
         CheckKnockback();
@@ -152,6 +211,8 @@ public class VitalityController : MonoBehaviour
         {
             Instantiate(selectedParticle, transform.position, Quaternion.identity);
         }
+
+        lowHealth = player && ((float)currentHealth / (float)stats.maxHealth < lowHealthThreshold);
     }
 
     private void UpdateUI()

@@ -66,6 +66,7 @@ public class FloorManager : MonoBehaviour
 
     public void GenerateFloor()
     {
+        Init();
         GenerateCoords();
         InstantiateRooms();
         ConnectRooms();
