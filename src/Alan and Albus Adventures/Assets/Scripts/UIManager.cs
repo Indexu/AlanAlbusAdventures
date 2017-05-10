@@ -22,6 +22,8 @@ public class UIManager : MonoBehaviour
     public Sprite XboxRightStick;
     public Sprite PS4Attack;
     public Sprite XboxAttack;
+    public Sprite PS4ItemMode;
+    public Sprite XboxItemMode;
     public Sprite PS4Pause;
     public Sprite XboxPause;
 
