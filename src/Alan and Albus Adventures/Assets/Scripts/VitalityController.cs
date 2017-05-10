@@ -19,6 +19,7 @@ public class VitalityController : MonoBehaviour
     public GameObject deathParticle;
     public bool boss;
     public bool player;
+    public List<AudioClip> blobDeathSound;
     public bool doUpdateUI;
 
     private float damageAmount = -1;
@@ -139,6 +140,7 @@ public class VitalityController : MonoBehaviour
             }
             else
             {
+                SoundManager.instance.PlayBlobDeath(blobDeathSound);
                 gameManager.EnemyKilled();
                 healthSlider.gameObject.SetActive(false);
                 gameObject.SetActive(false);

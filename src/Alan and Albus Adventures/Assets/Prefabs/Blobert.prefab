@@ -203,7 +203,6 @@ MonoBehaviour:
   invincibilityFrameTime: 0
   healthText: {fileID: 0}
   healthSlider: {fileID: 0}
-  damageText: {fileID: 1896640256646990, guid: 82b7b37d32ad04392b59c4639e6983bb, type: 2}
   hitParticle: {fileID: 1373689730982888, guid: 112512c6403d9478a89cc58a9f783b08,
     type: 2}
   critParticle: {fileID: 1122653249056378, guid: decdc1cc479dd4827abd93d885803001,
@@ -212,6 +211,8 @@ MonoBehaviour:
     type: 2}
   boss: 1
   player: 0
+  blobDeathSound:
+  - {fileID: 8300000, guid: 5d023783706a1f44dbc5d4400a403edb, type: 3}
   doUpdateUI: 0
 --- !u!212 &212407990224719220
 SpriteRenderer:

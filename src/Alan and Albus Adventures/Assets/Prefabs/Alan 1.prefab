@@ -162,7 +162,23 @@ MonoBehaviour:
   radius: 2
   attackForce: 75
   projectile: {fileID: 1035552101150598, guid: 5d1950b306e9f47ad8dd2362e5f321ba, type: 2}
-  projectileSound: {fileID: 8300000, guid: e08c6ebfc990cf94b9ebd2703e831c49, type: 3}
+  projectileSound:
+  - {fileID: 8300000, guid: b7db68c4741f15d4ba57c0e36a283835, type: 3}
+  - {fileID: 8300000, guid: 52fa067c25c5c401b811eb86d142287e, type: 3}
+  - {fileID: 8300000, guid: 9e6e03e20fe124a40a3c25a7ba0b8d1c, type: 3}
+  - {fileID: 8300000, guid: f2eee034b30622f4891a231b7f92e00c, type: 3}
+  - {fileID: 8300000, guid: 9a4bf0096e661cd4383a441f6e382f1e, type: 3}
+  - {fileID: 8300000, guid: e30347a8204afe8459eedb0581fd7d58, type: 3}
+  - {fileID: 8300000, guid: 77939aab5f6dc134e9f91d40b6f0c054, type: 3}
+  projectileHitSound:
+  - {fileID: 8300000, guid: 9d0263522427e034585e932b79cf4e71, type: 3}
+  - {fileID: 8300000, guid: 4d6f1a4a377839e4eaa8dca097cf16c9, type: 3}
+  - {fileID: 8300000, guid: d63a8dd6ad62d904b9dbdf0caea3c971, type: 3}
+  critProjectileHitSound:
+  - {fileID: 8300000, guid: 9d0263522427e034585e932b79cf4e71, type: 3}
+  - {fileID: 8300000, guid: 4d6f1a4a377839e4eaa8dca097cf16c9, type: 3}
+  - {fileID: 8300000, guid: 2d2b13f760908ff49a5c97bf2b5b75e8, type: 3}
+  - {fileID: 8300000, guid: 8d215aa6ca0cc3742b17101e50a0c4d5, type: 3}
 --- !u!114 &114100942056328564
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -181,15 +197,6 @@ MonoBehaviour:
   baseDamage: 1
   attackSpeed: 1
   statPoints: 6
-  movementSpeedText: {fileID: 0}
-  maxHealthText: {fileID: 0}
-  critHitChanceText: {fileID: 0}
-  critHitDamageText: {fileID: 0}
-  baseDamageText: {fileID: 0}
-  attackSpeedText: {fileID: 0}
-  statPointsText: {fileID: 0}
-  selectedBorder: {fileID: 0}
-  statsTable: {fileID: 0}
 --- !u!114 &114342200494456704
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -227,7 +234,6 @@ MonoBehaviour:
   invincibilityFrameTime: 0.8
   healthText: {fileID: 0}
   healthSlider: {fileID: 0}
-  damageText: {fileID: 0}
   hitParticle: {fileID: 1373689730982888, guid: 427e192878b274827b17de555573b644,
     type: 2}
   critParticle: {fileID: 1122653249056378, guid: fb7f6b889eac947bc819af711ff254ac,
@@ -236,6 +242,7 @@ MonoBehaviour:
     type: 2}
   boss: 0
   player: 0
+  blobDeathSound: []
   doUpdateUI: 0
 --- !u!114 &114403823282788978
 MonoBehaviour:
