@@ -22,6 +22,21 @@ public class GameManager : MonoBehaviour
     public float maxExperience;
     public float currentExperience;
 
+    // Loot
+    public float dropChance;
+    // Please make these \/ add up to 1
+    public float commonChance;
+    public float rareChance;
+    public float epicChance;
+    public float legendaryChance;
+    // End ----------------------------
+    public GameObject[] maxHealthItems;
+    public GameObject[] movementSpeedItems;
+    public GameObject[] attackSpeedItems;
+    public GameObject[] criticalChanceItems;
+    public GameObject[] criticalDamageItems;
+    public GameObject[] baseDamageItems;
+
     private FloorManager floorManager;
     private Vector3 newRoom;
     private Vector3 oldRoom;
@@ -30,6 +45,7 @@ public class GameManager : MonoBehaviour
     private Direction direction;
     private GameObject currentRoom;
     private int enemies;
+    private int killed;
     private List<DoorController> doors;
     private bool bossFight;
     private int deadPlayers;
@@ -55,6 +71,7 @@ public class GameManager : MonoBehaviour
     public void EnemyKilled(float xp)
     {
         GameManager.instance.enemies--;
+        GameManager.instance.killed++;
 
         GameManager.instance.AddExperience(xp);
 
@@ -62,6 +79,8 @@ public class GameManager : MonoBehaviour
         {
             inCombat = false;
             UnlockDoors();
+
+            DropLoot();
 
             if (GameManager.instance.bossFight)
             {
@@ -264,6 +283,8 @@ public class GameManager : MonoBehaviour
                 enemy.gameObject.GetComponent<VitalityController>().healthSlider.gameObject.SetActive(true);
             }
         }
+
+        killed = 0;
     }
 
     private void LockDoors()
@@ -295,6 +316,150 @@ public class GameManager : MonoBehaviour
         foreach (var player in playerStats)
         {
             player.statPoints++;
+        }
+    }
+
+    private bool DidLootDrop()
+    {
+        return Random.Range(0f, 1f) <= dropChance;
+    }
+
+    private Quality GetQualityOfItem()
+    {
+        var quality = Random.Range(0f, 1f);
+        if (quality <= legendaryChance)
+        {
+            return Quality.LEGENDARY;
+        }
+        else if (quality <= legendaryChance + epicChance)
+        {
+            return Quality.EPIC;
+        }
+        else if (quality <= legendaryChance + epicChance + rareChance)
+        {
+            return Quality.RARE;
+        }
+        else
+        {
+            return Quality.COMMON;
+        }
+    }
+
+    private Postfix GetPostfixOfItem()
+    {
+        var quality = Random.Range(0f, 1f);
+        if (quality <= legendaryChance)
+        {
+            return Postfix.MAJOR;
+        }
+        else if (quality <= legendaryChance + epicChance)
+        {
+            return Postfix.SUPERIOR;
+        }
+        else if (quality <= legendaryChance + epicChance + rareChance)
+        {
+            return Postfix.LESSER;
+        }
+        else
+        {
+            return Postfix.MINOR;
+        }
+    }
+
+    private Property GetPropertyOfItem()
+    {
+        var property = Random.Range(0f, 1.5f);
+        if (property <= 0.25f)
+        {
+            return Property.MAXHEALTH;
+        }
+        else if (property <= 0.5f)
+        {
+            return Property.MOVEMENTSPEED;
+        }
+        else if (property <= 0.75f)
+        {
+            return Property.ATTACKSPEED;
+        }
+        else if (property <= 1f)
+        {
+            return Property.CRITCHANCE;
+        }
+        else if (property <= 1.25f)
+        {
+            return Property.CRITDAMAGE;
+        }
+        else
+        {
+            return Property.BASEDAMAGE;
+        }
+    }
+
+    private void DropLoot()
+    {
+        for (int i = 0; i < GameManager.instance.killed; i++)
+        {
+            if (DidLootDrop())
+            {
+                var property = GetPropertyOfItem();
+                GameObject item;
+                GameObject[] arr = null;
+                switch (property)
+                {
+                    case Property.MAXHEALTH:
+                        arr = maxHealthItems;
+                        break;
+                    case Property.MOVEMENTSPEED:
+                        arr = movementSpeedItems;
+                        break;
+                    case Property.ATTACKSPEED:
+                        arr = attackSpeedItems;
+                        break;
+                    case Property.CRITCHANCE:
+                        arr = criticalChanceItems;
+                        break;
+                    case Property.CRITDAMAGE:
+                        arr = criticalDamageItems;
+                        break;
+                    case Property.BASEDAMAGE:
+                        arr = baseDamageItems;
+                        break;
+                };
+                item = Instantiate(arr[(Random.Range(0, arr.Length))], GameManager.instance.currentRoom.transform.position, Quaternion.identity, GameManager.instance.currentRoom.transform);
+                Debug.Log(item.transform.position);
+                var itemComponent = item.GetComponent<Item>();
+                itemComponent.quality = GetQualityOfItem();
+                for (int j = 0; j < (int)itemComponent.quality; j++)
+                {
+                    if (DidLootDrop())
+                    {
+                        itemComponent.bonusProperty = GetPropertyOfItem();
+                        switch (itemComponent.bonusProperty)
+                        {
+                            case Property.MAXHEALTH:
+                                itemComponent.bonusBaseStat = 10;
+                                break;
+                            case Property.MOVEMENTSPEED:
+                                itemComponent.bonusBaseStat = 15;
+                                break;
+                            case Property.ATTACKSPEED:
+                                itemComponent.bonusBaseStat = 10;
+                                break;
+                            case Property.CRITCHANCE:
+                                itemComponent.bonusBaseStat = 5;
+                                break;
+                            case Property.CRITDAMAGE:
+                                itemComponent.bonusBaseStat = 10;
+                                break;
+                            case Property.BASEDAMAGE:
+                                itemComponent.bonusBaseStat = 15;
+                                break;
+                        };
+                        itemComponent.bonusQuality = GetPostfixOfItem();
+                        break;
+                    }
+                }
+            }
         }
     }
 }
