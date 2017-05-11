@@ -277,11 +277,6 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 436820581}
   m_Script: {fileID: -113659843, guid: f70555f144d8491a825f0804e09c671c, type: 3}
---- !u!1 &570800188 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1199847135786660, guid: d0f86b9f1447945f5b4104416edcc93c,
-    type: 2}
-  m_PrefabInternal: {fileID: 436820581}
 --- !u!114 &618355894 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 114527814973988920, guid: d0f86b9f1447945f5b4104416edcc93c,
@@ -743,11 +738,6 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 436820581}
   m_Script: {fileID: -113659843, guid: f70555f144d8491a825f0804e09c671c, type: 3}
---- !u!1 &1922369146 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1321877773786824, guid: d0f86b9f1447945f5b4104416edcc93c,
-    type: 2}
-  m_PrefabInternal: {fileID: 436820581}
 --- !u!114 &1997575546 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 114786520783631188, guid: d0f86b9f1447945f5b4104416edcc93c,
@@ -793,25 +783,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
-    - target: {fileID: 1339429279564648, guid: db3da6a9f0fe740e19a79602176b85bb, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114419086237275724, guid: db3da6a9f0fe740e19a79602176b85bb,
-        type: 2}
-      propertyPath: bossUI
-      value: 
-      objectReference: {fileID: 570800188}
-    - target: {fileID: 114419086237275724, guid: db3da6a9f0fe740e19a79602176b85bb,
-        type: 2}
-      propertyPath: winText
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 114419086237275724, guid: db3da6a9f0fe740e19a79602176b85bb,
-        type: 2}
-      propertyPath: pauseScreen
-      value: 
-      objectReference: {fileID: 1922369146}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: db3da6a9f0fe740e19a79602176b85bb, type: 2}
   m_IsPrefabParent: 0
