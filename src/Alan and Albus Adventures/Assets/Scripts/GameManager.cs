@@ -17,6 +17,10 @@ public class GameManager : MonoBehaviour
     public Camera mainCamera;
     public GameObject canvas;
     public RectTransform canvasRect;
+    public bool inCombat;
+    public float timeBeforeAttacking;
+    public float maxExperience;
+    public float currentExperience;
 
     private FloorManager floorManager;
     private Vector3 newRoom;
@@ -29,6 +33,7 @@ public class GameManager : MonoBehaviour
     private List<DoorController> doors;
     private bool bossFight;
     private int deadPlayers;
+    private Stats[] playerStats;
 
     public void changeRooms(GameObject room, Transform door, Direction dir, bool boss)
     {
@@ -43,14 +48,19 @@ public class GameManager : MonoBehaviour
 
         GameManager.instance.vector = newRoom - oldRoom;
         GameManager.instance.vector.z = -10f;
+
+        UIManager.instance.ClearDoorButtons();
     }
 
-    public void EnemyKilled()
+    public void EnemyKilled(float xp)
     {
         GameManager.instance.enemies--;
 
+        GameManager.instance.AddExperience(xp);
+
         if (GameManager.instance.enemies == 0)
         {
+            inCombat = false;
             UnlockDoors();
 
             if (GameManager.instance.bossFight)
@@ -98,6 +108,23 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void AddExperience(float amount)
+    {
+        currentExperience += amount;
+
+        if (maxExperience <= currentExperience)
+        {
+            foreach (var player in playerStats)
+            {
+                player.statPoints++;
+            }
+
+            currentExperience = currentExperience % maxExperience;
+        }
+
+        UIManager.instance.SetExperienceBar(currentExperience, maxExperience);
+    }
+
     private void Awake()
     {
         if (instance == null)
@@ -112,6 +139,11 @@ public class GameManager : MonoBehaviour
         }
 
         DontDestroyOnLoad(gameObject);
+    }
+
+    private void Start()
+    {
+        UIManager.instance.SetExperienceBar(currentExperience, maxExperience);
     }
 
     private void Update()
@@ -155,6 +187,12 @@ public class GameManager : MonoBehaviour
         GameManager.instance.pauseScreen.SetActive(false);
         GameManager.instance.isPaused = false;
 
+        playerStats = new Stats[GameManager.instance.players.Length];
+        for (int i = 0; i < GameManager.instance.players.Length; i++)
+        {
+            playerStats[i] = players[i].GetComponent<Stats>();
+        }
+
         GameManager.instance.floorManager.GenerateFloor();
     }
 
@@ -177,20 +215,20 @@ public class GameManager : MonoBehaviour
             players[i].transform.position = spawns[i];
         }
 
-        ActivateEnemies();
+        StartCoroutine(ActivateEnemies());
     }
 
-    private void ActivateEnemies()
+    private IEnumerator ActivateEnemies()
     {
         GameManager.instance.doors.Clear();
 
+        var enemyList = new List<Enemy>();
         var children = currentRoom.GetComponentsInChildren<Transform>();
         foreach (var child in children)
         {
             if (child.gameObject.tag == "Enemy")
             {
-                child.gameObject.GetComponent<Enemy>().Attacking = true;
-                child.gameObject.GetComponent<VitalityController>().healthSlider.gameObject.SetActive(true);
+                enemyList.Add(child.gameObject.GetComponent<Enemy>());
                 enemies++;
 
                 if (bossFight)
@@ -211,11 +249,19 @@ public class GameManager : MonoBehaviour
 
         if (enemies != 0)
         {
+            inCombat = true;
             LockDoors();
 
             if (bossFight)
             {
                 StartBossFight();
+            }
+
+            yield return new WaitForSeconds(timeBeforeAttacking);
+            foreach (var enemy in enemyList)
+            {
+                enemy.Attacking = true;
+                enemy.gameObject.GetComponent<VitalityController>().healthSlider.gameObject.SetActive(true);
             }
         }
     }
@@ -245,5 +291,10 @@ public class GameManager : MonoBehaviour
     {
         GameManager.instance.bossFight = false;
         GameManager.instance.bossUI.SetActive(false);
+
+        foreach (var player in playerStats)
+        {
+            player.statPoints++;
+        }
     }
 }

@@ -53,6 +53,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraSpeed: 2.5
   bossUI: {fileID: 0}
-  winText: {fileID: 0}
   pauseScreen: {fileID: 0}
   isPaused: 0
+  changingRooms: 0
+  players: []
+  mainCamera: {fileID: 0}
+  canvas: {fileID: 0}
+  canvasRect: {fileID: 0}
+  inCombat: 0
+  timeBeforeAttacking: 0.15
+  maxExperience: 50
+  currentExperience: 0

@@ -17,6 +17,7 @@ public class VitalityController : MonoBehaviour
     public GameObject hitParticle;
     public GameObject critParticle;
     public GameObject deathParticle;
+    public GameObject reviveParticle;
     public bool boss;
     public bool player;
     public List<AudioClip> blobDeathSound;
@@ -76,6 +77,11 @@ public class VitalityController : MonoBehaviour
     public void Heal(float amount)
     {
         currentHealth += amount;
+        if (currentHealth > stats.maxHealth)
+        {
+            currentHealth = stats.maxHealth;
+        }
+        doUpdateUI = true;
     }
 
     public void Revive()
@@ -83,9 +89,12 @@ public class VitalityController : MonoBehaviour
         isDead = false;
         lowHealth = false;
         currentHealth += stats.maxHealth / 2;
+        spriteRenderer.color = Color.white;
         doUpdateUI = true;
         isInvincibilityFrame = true;
         StartCoroutine(InvincibiltyFrame());
+
+        Instantiate(reviveParticle, transform.position, Quaternion.identity);
     }
 
     public void Knockback(Vector2 direction, float force)
@@ -198,13 +207,16 @@ public class VitalityController : MonoBehaviour
             if (player)
             {
                 isDead = true;
+                currentHealth = 0;
+                spriteRenderer.color = Color.gray;
                 SoundManager.instance.PlaySounds(playerDeathSound);
-                gameManager.PlayerKilled();
+                GameManager.instance.PlayerKilled();         
             }
             else
             {
+                var xp = GetComponent<Enemy>().experienceValue;
+                GameManager.instance.EnemyKilled(xp);
                 SoundManager.instance.PlaySounds(blobDeathSound);
-                gameManager.EnemyKilled();
                 healthSlider.gameObject.SetActive(false);
                 gameObject.SetActive(false);
             }

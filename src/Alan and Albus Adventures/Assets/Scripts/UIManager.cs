@@ -10,6 +10,8 @@ public class UIManager : MonoBehaviour
     public RectTransform canvasRect;
     public Camera mainCamera;
     public GameObject damageText;
+    public GameObject reviveUI;
+    public GameObject button;
     public Texture PS4Confirm;
     public Texture XboxConfirm;
     public Texture PS4Stats;
@@ -34,14 +36,27 @@ public class UIManager : MonoBehaviour
     private const float damageTextDuration = 0.6f;
     private const float damageTextSpeed = 3f;
 
-
     private const int numberOfSlots = 5;
-
     private RawImage[] AlanButtons;
     private RawImage[] AlbusButtons;
-
     private RawImage[] AlanItemIcons;
     private RawImage[] AlbusItemIcons;
+
+    private GameObject reviveUIInstance;
+    private Slider reviveUISlider;
+    private Transform reviveUITransformPos;
+    private RectTransform reviveUIRectTransform;
+    private const float reviveUIOffset = 150f;
+
+    private RawImage doorButton1;
+    private Direction doorButton1Direction;
+    private RawImage doorButton2;
+    private Direction doorButton2Direction;
+
+
+    private GameObject experienceBar;
+    private Slider experienceBarSlider;
+    private Text experienceBarText;
 
     public Vector3 PositionToUI(Vector3 pos)
     {
@@ -163,6 +178,150 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void ShowReviveUI(Transform pos, bool ps4)
+    {
+        reviveUITransformPos = pos;
+        reviveUIInstance = Instantiate(reviveUI, Vector3.zero, Quaternion.identity, UIManager.instance.canvas.transform);
+        reviveUIRectTransform = reviveUIInstance.GetComponent<RectTransform>();
+
+        reviveUISlider = reviveUIInstance.transform.Find("Slider").GetComponent<Slider>();
+        reviveUISlider.value = 0f;
+
+        if (!ps4)
+        {
+            reviveUIInstance.transform.Find("Button").GetComponent<RawImage>().texture = XboxConfirm;
+        }
+    }
+
+    public void HideReviveUI()
+    {
+        if (reviveUIInstance != null)
+        {
+            GameObject.Destroy(reviveUIInstance);
+        }
+    }
+
+    public void UpdateReviveSlider(float value)
+    {
+        reviveUISlider.value = value;
+    }
+
+    public void ShowDoorButton(Vector3 pos, Direction dir, bool ps4)
+    {
+        var UIpos = (Vector2)UIManager.instance.PositionToUI(pos);
+        var createButton = true;
+
+        if (doorButton1 != null && dir == doorButton1Direction)
+        {
+            createButton = false;
+            var color = doorButton1.color;
+            color.a = 1f;
+
+            doorButton1.color = color;
+        }
+        else if (doorButton2 != null && dir == doorButton2Direction)
+        {
+            createButton = false;
+            var color = doorButton2.color;
+            color.a = 1f;
+
+            doorButton2.color = color;
+        }
+
+        if (createButton)
+        {
+            var doorButtonInstance = Instantiate(button, Vector3.zero, Quaternion.identity, UIManager.instance.canvas.transform);
+
+            var rt = doorButtonInstance.GetComponent<RectTransform>();
+            rt.anchoredPosition = UIpos;
+
+            RawImage doorButton;
+            if (doorButton1 == null)
+            {
+                doorButton1 = doorButtonInstance.GetComponent<RawImage>();
+                doorButton1Direction = dir;
+                doorButton = doorButton1;
+            }
+            else
+            {
+                doorButton2 = doorButtonInstance.GetComponent<RawImage>();
+                doorButton2Direction = dir;
+                doorButton = doorButton2;
+            }
+
+            if (!ps4)
+            {
+                doorButton.texture = XboxConfirm;
+            }
+
+            var color = doorButton.color;
+            color.a = 0.5f;
+
+            doorButton.color = color;
+        }
+
+    }
+
+    public void HideDoorButton(Direction dir)
+    {
+        if (doorButton1 != null && doorButton1Direction == dir)
+        {
+            if (doorButton1.color.a == 1f)
+            {
+                var color = doorButton1.color;
+                color.a = 0.5f;
+
+                doorButton1.color = color;
+            }
+            else
+            {
+                GameObject.Destroy(doorButton1.gameObject);
+            }
+        }
+        else if (doorButton2 != null && doorButton2Direction == dir)
+        {
+            if (doorButton2.color.a == 1f)
+            {
+                var color = doorButton2.color;
+                color.a = 0.5f;
+
+                doorButton2.color = color;
+            }
+            else
+            {
+                GameObject.Destroy(doorButton2.gameObject);
+            }
+        }
+    }
+
+    public void ClearDoorButtons()
+    {
+        if (doorButton1 != null)
+        {
+            GameObject.Destroy(doorButton1.gameObject);
+        }
+        if (doorButton2 != null)
+        {
+            GameObject.Destroy(doorButton2.gameObject);
+        }
+    }
+
+    public void ShowExperienceBar()
+    {
+        experienceBar.SetActive(true);
+    }
+
+    public void HideExperienceBar()
+    {
+        experienceBar.SetActive(false);
+    }
+
+    public void SetExperienceBar(float current, float max)
+    {
+        experienceBarText.text = (int)current + "/" + (int)max;
+        experienceBarSlider.value = current / max;
+    }
+
     private void Awake()
     {
         if (instance == null)
@@ -179,20 +338,38 @@ public class UIManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
+    private void OnGUI()
+    {
+        if (reviveUIInstance != null)
+        {
+            Vector2 screenPos = UIManager.instance.PositionToUI(reviveUITransformPos.position);
+            screenPos.y += reviveUIOffset;
+            reviveUIRectTransform.anchoredPosition = screenPos;
+        }
+    }
+
     private void Init()
     {
         UIManager.instance.mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         UIManager.instance.canvas = GameObject.FindGameObjectWithTag("Canvas");
         UIManager.instance.canvasRect = UIManager.instance.canvas.GetComponent<RectTransform>();
 
-        AlanButtons = new RawImage[numberOfSlots];
-        AlbusButtons = new RawImage[numberOfSlots];
-        AlanItemIcons = new RawImage[numberOfSlots];
-        AlbusItemIcons = new RawImage[numberOfSlots];
+        UIManager.instance.experienceBar = UIManager.instance.canvas.transform.Find("ExperienceBar").gameObject;
+        UIManager.instance.experienceBarSlider = experienceBar.transform.Find("ExperienceSlider").GetComponent<Slider>();
+        UIManager.instance.experienceBarText = experienceBarSlider.transform.Find("BarText").GetComponent<Text>();
 
-        GetItemSlotButtons();
-        SetPassiveItemSlots(0, false);
-        SetPassiveItemSlots(1, false);
+        UIManager.instance.AlanButtons = new RawImage[numberOfSlots];
+        UIManager.instance.AlbusButtons = new RawImage[numberOfSlots];
+        UIManager.instance.AlanItemIcons = new RawImage[numberOfSlots];
+        UIManager.instance.AlbusItemIcons = new RawImage[numberOfSlots];
+
+        UIManager.instance.doorButton1 = null;
+        UIManager.instance.doorButton2 = null;
+
+        UIManager.instance.GetItemSlotButtons();
+        UIManager.instance.SetPassiveItemSlots(0, false);
+        UIManager.instance.SetPassiveItemSlots(1, false);
+        UIManager.instance.HideExperienceBar();
     }
 
     private void GetItemSlotButtons()
@@ -207,6 +384,7 @@ public class UIManager : MonoBehaviour
 
             AlanButtons[counter] = button;
             AlanItemIcons[counter] = icon;
+            icon.gameObject.SetActive(false);
 
             counter++;
         }
@@ -221,6 +399,7 @@ public class UIManager : MonoBehaviour
 
             AlbusButtons[counter] = button;
             AlbusItemIcons[counter] = icon;
+            icon.gameObject.SetActive(false);
 
             counter++;
         }
