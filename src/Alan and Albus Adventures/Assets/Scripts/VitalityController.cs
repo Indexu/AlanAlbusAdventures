@@ -200,11 +200,12 @@ public class VitalityController : MonoBehaviour
                 isDead = true;
                 currentHealth = 0;
                 spriteRenderer.color = Color.gray;
-                gameManager.PlayerKilled();
+                GameManager.instance.PlayerKilled();
             }
             else
             {
-                gameManager.EnemyKilled();
+                var xp = GetComponent<Enemy>().experienceValue;
+                GameManager.instance.EnemyKilled(xp);
                 healthSlider.gameObject.SetActive(false);
                 gameObject.SetActive(false);
             }

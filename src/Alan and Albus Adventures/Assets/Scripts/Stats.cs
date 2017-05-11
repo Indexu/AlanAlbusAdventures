@@ -22,6 +22,7 @@ public class Stats : MonoBehaviour
     private Text statPointsText;
     private RectTransform selectedBorder;
     private GameObject statsTable;
+    private int viewing;
 
     private VitalityController vc;
     private int playerID;
@@ -170,11 +171,19 @@ public class Stats : MonoBehaviour
     {
         doUpdateUI = true;
         statsTable.SetActive(true);
+        UIManager.instance.ShowExperienceBar();
+        viewing++;
     }
 
     public void HideStats()
     {
         statsTable.SetActive(false);
+        viewing--;
+
+        if (viewing == 0)
+        {
+            UIManager.instance.HideExperienceBar();
+        }
     }
 
     private void Start()
@@ -187,6 +196,8 @@ public class Stats : MonoBehaviour
 
         FindTexts();
         HideStats();
+
+        viewing = 0;
     }
 
     private void OnGUI()

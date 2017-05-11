@@ -200,7 +200,7 @@ public class PlayerController : MonoBehaviour
             {
                 doAttack = true;
             }
-            if (player.GetButtonUp("Triangle"))
+            if (player.GetButtonUp("Triangle") && !GameManager.instance.inCombat)
             {
                 inStatsScreen = true;
                 stats.ShowStats();

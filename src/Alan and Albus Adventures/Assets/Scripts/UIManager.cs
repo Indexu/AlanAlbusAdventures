@@ -53,6 +53,11 @@ public class UIManager : MonoBehaviour
     private RawImage doorButton2;
     private Direction doorButton2Direction;
 
+
+    private GameObject experienceBar;
+    private Slider experienceBarSlider;
+    private Text experienceBarText;
+
     public Vector3 PositionToUI(Vector3 pos)
     {
         Vector2 viewportPos = UIManager.instance.mainCamera.WorldToViewportPoint(pos);
@@ -289,6 +294,34 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void ClearDoorButtons()
+    {
+        if (doorButton1 != null)
+        {
+            GameObject.Destroy(doorButton1.gameObject);
+        }
+        if (doorButton2 != null)
+        {
+            GameObject.Destroy(doorButton2.gameObject);
+        }
+    }
+
+    public void ShowExperienceBar()
+    {
+        experienceBar.SetActive(true);
+    }
+
+    public void HideExperienceBar()
+    {
+        experienceBar.SetActive(false);
+    }
+
+    public void SetExperienceBar(float current, float max)
+    {
+        experienceBarText.text = (int)current + "/" + (int)max;
+        experienceBarSlider.value = current / max;
+    }
+
     private void Awake()
     {
         if (instance == null)
@@ -321,17 +354,22 @@ public class UIManager : MonoBehaviour
         UIManager.instance.canvas = GameObject.FindGameObjectWithTag("Canvas");
         UIManager.instance.canvasRect = UIManager.instance.canvas.GetComponent<RectTransform>();
 
-        AlanButtons = new RawImage[numberOfSlots];
-        AlbusButtons = new RawImage[numberOfSlots];
-        AlanItemIcons = new RawImage[numberOfSlots];
-        AlbusItemIcons = new RawImage[numberOfSlots];
+        UIManager.instance.experienceBar = UIManager.instance.canvas.transform.Find("ExperienceBar").gameObject;
+        UIManager.instance.experienceBarSlider = experienceBar.transform.Find("ExperienceSlider").GetComponent<Slider>();
+        UIManager.instance.experienceBarText = experienceBarSlider.transform.Find("BarText").GetComponent<Text>();
 
-        doorButton1 = null;
-        doorButton2 = null;
+        UIManager.instance.AlanButtons = new RawImage[numberOfSlots];
+        UIManager.instance.AlbusButtons = new RawImage[numberOfSlots];
+        UIManager.instance.AlanItemIcons = new RawImage[numberOfSlots];
+        UIManager.instance.AlbusItemIcons = new RawImage[numberOfSlots];
 
-        GetItemSlotButtons();
-        SetPassiveItemSlots(0, false);
-        SetPassiveItemSlots(1, false);
+        UIManager.instance.doorButton1 = null;
+        UIManager.instance.doorButton2 = null;
+
+        UIManager.instance.GetItemSlotButtons();
+        UIManager.instance.SetPassiveItemSlots(0, false);
+        UIManager.instance.SetPassiveItemSlots(1, false);
+        UIManager.instance.HideExperienceBar();
     }
 
     private void GetItemSlotButtons()

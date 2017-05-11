@@ -227,6 +227,7 @@ MonoBehaviour:
   magicalDamage: 1
   Attacking: 0
   knockbackForceOnTouch: 0
+  experienceValue: 30
   BossName: Blobert The Vile
   nameText: {fileID: 0}
   projectileForce: 20
@@ -258,6 +259,7 @@ MonoBehaviour:
     type: 2}
   deathParticle: {fileID: 1806162901150684, guid: b596b851183844c80ac2bb74db5d5cb3,
     type: 2}
+  reviveParticle: {fileID: 0}
   boss: 1
   player: 0
   doUpdateUI: 0
