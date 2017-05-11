@@ -69,7 +69,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            if (player.GetButtonUp("Confirm"))
+            if (player.GetButtonUp("Cross"))
             {
                 gameManager.DeadReset();
             }
@@ -105,10 +105,16 @@ public class PlayerController : MonoBehaviour
         if (collider.gameObject.tag == "Door")
         {
             door = collider.gameObject.GetComponent<DoorController>();
+            UIManager.instance.ShowDoorButton(collider.transform.position, door.direction, playstationController);
         }
         else if (collider.gameObject.layer == LayerMask.NameToLayer("ReviveTriggers"))
         {
             reviveController = collider.gameObject.GetComponent<ReviveController>();
+
+            if (reviveController.vc.isDead)
+            {
+                UIManager.instance.ShowReviveUI(collider.transform.parent, playstationController);
+            }
         }
         else if (collider.gameObject.tag == "Item")
         {
@@ -124,10 +130,16 @@ public class PlayerController : MonoBehaviour
     {
         if (collider.gameObject.tag == "Door")
         {
+            UIManager.instance.HideDoorButton(door.direction);
             door = null;
         }
         else if (collider.gameObject.layer == LayerMask.NameToLayer("ReviveTriggers"))
         {
+            if (reviveController.vc.isDead)
+            {
+                UIManager.instance.HideReviveUI();
+            }
+
             reviveController = null;
         }
         else if (collider.gameObject.tag == "Item")
@@ -212,7 +224,7 @@ public class PlayerController : MonoBehaviour
             {
                 doAttack = true;
             }
-            if (player.GetButtonUp("Triangle"))
+            if (player.GetButtonUp("Triangle") && !GameManager.instance.inCombat)
             {
                 inStatsScreen = true;
                 stats.ShowStats();
@@ -223,6 +235,7 @@ public class PlayerController : MonoBehaviour
                 if (currentReviveTime != 0f)
                 {
                     currentReviveTime = 0f;
+                    UIManager.instance.UpdateReviveSlider(0f);
                 }
                 else if (chest != null)
                 {
@@ -242,8 +255,11 @@ public class PlayerController : MonoBehaviour
                 if (reviveController != null && reviveController.vc.isDead)
                 {
                     currentReviveTime += Time.deltaTime;
+                    UIManager.instance.UpdateReviveSlider(currentReviveTime / reviveTime);
+
                     if (reviveTime < currentReviveTime)
                     {
+                        UIManager.instance.HideReviveUI();
                         reviveController.Revive();
                         currentReviveTime = 0f;
                     }

@@ -61,6 +61,7 @@ GameObject:
   - component: {fileID: 114100942056328564}
   - component: {fileID: 114342200494456704}
   - component: {fileID: 70139851508929758}
+  - component: {fileID: 114703608959597848}
   m_Layer: 8
   m_Name: Alan 1
   m_TagString: Player
@@ -273,6 +274,8 @@ MonoBehaviour:
     type: 2}
   deathParticle: {fileID: 1259393622160624, guid: 1394c75f6f074429686066ecfbe2bc19,
     type: 2}
+  reviveParticle: {fileID: 1913297041956092, guid: 4a6f544d71bc245ee836746135189f69,
+    type: 2}
   boss: 0
   player: 0
   doUpdateUI: 0
@@ -290,6 +293,20 @@ MonoBehaviour:
   playerID: 0
   projectileDirection: {fileID: 114062160457536394}
   attackButton: 0
+--- !u!114 &114703608959597848
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1982120085269070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0103f02b3899d0f43a248a1d3054d1ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healAmount: 10
+  healthPotions: 2
+  bonusStats: 640000006400000064000000640000006400000064000000
 --- !u!212 &212554700095030402
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -319,8 +336,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -2142754077
-  m_SortingLayer: 3
+  m_SortingLayerID: -843540687
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 3706ce9fcb4164b4ab1c3e2f5388f7dc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

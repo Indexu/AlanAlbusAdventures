@@ -9,6 +9,7 @@ public abstract class Enemy : MonoBehaviour
     public bool magicalDamage;
     public bool Attacking;
     public float knockbackForceOnTouch;
+    public float experienceValue;
 
     protected Rigidbody2D rb2d;
     protected GameObject target;

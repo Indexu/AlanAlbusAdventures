@@ -17,6 +17,7 @@ public class VitalityController : MonoBehaviour
     public GameObject hitParticle;
     public GameObject critParticle;
     public GameObject deathParticle;
+    public GameObject reviveParticle;
     public bool boss;
     public bool player;
     public bool doUpdateUI;
@@ -84,9 +85,12 @@ public class VitalityController : MonoBehaviour
         isDead = false;
         lowHealth = false;
         currentHealth += stats.maxHealth / 2;
+        spriteRenderer.color = Color.white;
         doUpdateUI = true;
         isInvincibilityFrame = true;
         StartCoroutine(InvincibiltyFrame());
+
+        Instantiate(reviveParticle, transform.position, Quaternion.identity);
     }
 
     public void Knockback(Vector2 direction, float force)
@@ -199,11 +203,14 @@ public class VitalityController : MonoBehaviour
             if (player)
             {
                 isDead = true;
-                gameManager.PlayerKilled();
+                currentHealth = 0;
+                spriteRenderer.color = Color.gray;
+                GameManager.instance.PlayerKilled();
             }
             else
             {
-                gameManager.EnemyKilled();
+                var xp = GetComponent<Enemy>().experienceValue;
+                GameManager.instance.EnemyKilled(xp);
                 healthSlider.gameObject.SetActive(false);
                 gameObject.SetActive(false);
             }
