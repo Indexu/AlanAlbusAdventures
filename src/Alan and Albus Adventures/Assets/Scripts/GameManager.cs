@@ -413,7 +413,7 @@ public class GameManager : MonoBehaviour
     {
         for (int i = 0; i < GameManager.instance.killed; i++)
         {
-            if (DidLootDrop())
+            if (DidLootDrop() || true)
             {
                 var property = GetPropertyOfItem();
                 GameObject item;

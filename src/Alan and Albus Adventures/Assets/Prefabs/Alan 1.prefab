@@ -89,7 +89,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1982120085269070}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.45, y: -3.26, z: 0}
+  m_LocalPosition: {x: 25.973593, y: 0, z: 0}
   m_LocalScale: {x: 0.05, y: 0.05, z: 0.1}
   m_Children:
   - {fileID: 4962124986724642}
@@ -104,7 +104,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1071123298440950}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.6, y: 34.7, z: 0}
+  m_LocalPosition: {x: 0, y: 40, z: 0}
   m_LocalScale: {x: 0.980564, y: 0.980564, z: 0.490282}
   m_Children: []
   m_Father: {fileID: 4913991801055438}
@@ -196,7 +196,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2881d2ef720a4e878df00f03341aee1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vc: {fileID: 0}
+  vc: {fileID: 114362158653015788}
   reviveTime: 2.5
 --- !u!114 &114062160457536394
 MonoBehaviour:
@@ -228,8 +228,8 @@ MonoBehaviour:
   maxHealth: 60
   critHitChance: 10
   critHitDamage: 2
-  baseDamage: 1
-  attackSpeed: 1
+  baseDamage: 100
+  attackSpeed: 0.1
   statPoints: 6
 --- !u!114 &114342200494456704
 MonoBehaviour:
@@ -277,7 +277,7 @@ MonoBehaviour:
   reviveParticle: {fileID: 1913297041956092, guid: 4a6f544d71bc245ee836746135189f69,
     type: 2}
   boss: 0
-  player: 0
+  player: 1
   doUpdateUI: 0
 --- !u!114 &114403823282788978
 MonoBehaviour:
@@ -293,6 +293,8 @@ MonoBehaviour:
   playerID: 0
   projectileDirection: {fileID: 114062160457536394}
   attackButton: 0
+  playstationController: 1
+  door: {fileID: 0}
 --- !u!114 &114703608959597848
 MonoBehaviour:
   m_ObjectHideFlags: 1

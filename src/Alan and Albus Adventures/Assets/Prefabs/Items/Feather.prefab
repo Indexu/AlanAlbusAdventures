@@ -9,48 +9,48 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1002787247115474}
+  m_RootGameObject: {fileID: 1187648168037280}
   m_IsPrefabParent: 1
---- !u!1 &1002787247115474
+--- !u!1 &1187648168037280
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4349105648141288}
-  - component: {fileID: 212065178465298006}
-  - component: {fileID: 61051571857589388}
-  - component: {fileID: 114508268330169396}
-  - component: {fileID: 58649995974793696}
-  - component: {fileID: 50479602521696416}
+  - component: {fileID: 4981279942404732}
+  - component: {fileID: 212736661409505472}
+  - component: {fileID: 114514915235593440}
+  - component: {fileID: 58185868104935146}
+  - component: {fileID: 50995708131030194}
+  - component: {fileID: 61067200699381724}
   m_Layer: 14
-  m_Name: Armor
+  m_Name: Feather
   m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4349105648141288
+--- !u!4 &4981279942404732
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1002787247115474}
+  m_GameObject: {fileID: 1187648168037280}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.75, y: -1.75, z: 0}
-  m_LocalScale: {x: 0.04849359, y: 0.04849359, z: 0.04849359}
+  m_LocalPosition: {x: -0.97, y: 0.31, z: 0}
+  m_LocalScale: {x: 0.11375327, y: 0.11375327, z: 0.11375327}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!50 &50479602521696416
+--- !u!50 &50995708131030194
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1002787247115474}
+  m_GameObject: {fileID: 1187648168037280}
   m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
@@ -64,12 +64,12 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!58 &58649995974793696
+--- !u!58 &58185868104935146
 CircleCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1002787247115474}
+  m_GameObject: {fileID: 1187648168037280}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
@@ -78,13 +78,13 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 24
---- !u!61 &61051571857589388
+  m_Radius: 10.07
+--- !u!61 &61067200699381724
 BoxCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1002787247115474}
+  m_GameObject: {fileID: 1187648168037280}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
@@ -95,39 +95,39 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 26.220001, y: 27.680002}
-    newSize: {x: 26.220001, y: 27.680002}
+    oldSize: {x: 10.27, y: 8.94}
+    newSize: {x: 19.68, y: 24.86}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 19.68, y: 24.86}
+  m_Size: {x: 10.27, y: 8.94}
   m_EdgeRadius: 0
---- !u!114 &114508268330169396
+--- !u!114 &114514915235593440
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1002787247115474}
+  m_GameObject: {fileID: 1187648168037280}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f3deb69bf60773644bddc58846e980f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   quality: 0
-  property: 0
-  baseStat: 10
+  property: 2
+  baseStat: 15
   bonusQuality: 0
   bonusProperty: 0
   bonusBaseStat: 0
-  name: Armor
---- !u!212 &212065178465298006
+  name: Feather
+--- !u!212 &212736661409505472
 SpriteRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1002787247115474}
+  m_GameObject: {fileID: 1187648168037280}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -154,11 +154,11 @@ SpriteRenderer:
   m_SortingLayerID: -1224094433
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 88cd059e18796477eb668864d14aa8ef, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1af42d4488d574966ae7edf9e68d5c8c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 26.220001, y: 27.680002}
+  m_Size: {x: 19.68, y: 24.86}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
