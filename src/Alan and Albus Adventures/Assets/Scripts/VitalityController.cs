@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -209,14 +210,17 @@ public class VitalityController : MonoBehaviour
                 isDead = true;
                 currentHealth = 0;
                 spriteRenderer.color = Color.gray;
-                SoundManager.instance.PlaySounds(playerDeathSound);
+                int index = Random.Range(0, playerDeathSound.Count);
+                Debug.Log(index + "This is the player death sound index");
+                SoundManager.instance.PlaySounds(playerDeathSound.ElementAt(index));
                 GameManager.instance.PlayerKilled();         
             }
             else
             {
                 var xp = GetComponent<Enemy>().experienceValue;
                 GameManager.instance.EnemyKilled(xp);
-                SoundManager.instance.PlaySounds(blobDeathSound);
+                int index = Random.Range(0, blobDeathSound.Count);
+                SoundManager.instance.PlaySounds(blobDeathSound.ElementAt(index));
                 healthSlider.gameObject.SetActive(false);
                 gameObject.SetActive(false);
             }
@@ -228,11 +232,13 @@ public class VitalityController : MonoBehaviour
             Instantiate(selectedParticle, transform.position, Quaternion.identity);
             if(tag == "enemy")
             {
-                SoundManager.instance.PlaySounds(blobDamageSound);
+                int index = Random.Range(0, blobDamageSound.Count);
+                SoundManager.instance.PlaySounds(blobDamageSound.ElementAt(index));
             }
-            else
+            else if(tag == "player")
             {
-                SoundManager.instance.PlaySounds(playerDamageSound);
+                int index = Random.Range(0, playerDamageSound.Count);
+                SoundManager.instance.PlaySounds(playerDamageSound.ElementAt(index));
             }
         }
 

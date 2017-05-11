@@ -260,14 +260,15 @@ MonoBehaviour:
     type: 2}
   deathParticle: {fileID: 1259393622160624, guid: 9306520cd1dca49df905233b3fee4740,
     type: 2}
-  reviveParticle: {fileID: 1913297041956092, guid: 4a6f544d71bc245ee836746135189f69,
-    type: 2}
+  reviveParticle: {fileID: 0}
   boss: 0
   player: 0
   blobDeathSound: []
   blobDamageSound: []
-  playerDamageSound: {fileID: 8300000, guid: 858f7a75734a92247a5b9afa18aba11f, type: 3}
-  playerDeathSound: {fileID: 8300000, guid: 4aa6dec80a1c61247980b51aef1194dc, type: 3}
+  playerDamageSound:
+  - {fileID: 8300000, guid: 858f7a75734a92247a5b9afa18aba11f, type: 3}
+  playerDeathSound:
+  - {fileID: 8300000, guid: 4aa6dec80a1c61247980b51aef1194dc, type: 3}
   doUpdateUI: 0
 --- !u!114 &114426173884873286
 MonoBehaviour:
@@ -280,8 +281,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0103f02b3899d0f43a248a1d3054d1ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healAmount: 10
-  healthPotions: 2
+  healAmount: 0
+  healthPotions: 0
   bonusStats: 640000006400000064000000640000006400000064000000
 --- !u!114 &114788960184840176
 MonoBehaviour:

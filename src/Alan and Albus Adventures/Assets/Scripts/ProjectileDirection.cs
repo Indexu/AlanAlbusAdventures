@@ -54,9 +54,11 @@ public class ProjectileDirection : MonoBehaviour
             {
                 if(isCrit)
                 {
-                    SoundManager.instance.PlaySounds(critProjectileHitSound);
+                    int inx = Random.Range(0, critProjectileHitSound.Count);
+                    SoundManager.instance.PlaySounds(critProjectileHitSound.ElementAt(inx));
                 }
-                SoundManager.instance.PlaySounds(projectileSound);
+                int index = Random.Range(0, projectileSound.Count);
+                SoundManager.instance.PlaySounds(projectileSound.ElementAt(index));
             }
 
             projectileComponent.isCrit = isCrit;
@@ -82,17 +84,20 @@ public class ProjectileDirection : MonoBehaviour
 
             if(!collidingEnemies.Any())
             {
-                SoundManager.instance.PlaySounds(projectileSound);
+                int index = Random.Range(0, projectileSound.Count);        
+                SoundManager.instance.PlaySounds(projectileSound.ElementAt(index));
             }
             else
             {
                 if(!isCrit)
                 {
-                    SoundManager.instance.PlaySounds(projectileHitSound);
+                    int index = Random.Range(0, projectileHitSound.Count); 
+                    SoundManager.instance.PlaySounds(projectileHitSound.ElementAt(index));
                 }
                 else
                 {
-                    SoundManager.instance.PlaySounds(critProjectileHitSound);
+                    int index = Random.Range(0, critProjectileHitSound.Count); 
+                    SoundManager.instance.PlaySounds(critProjectileHitSound.ElementAt(index));
                 }
             }
 

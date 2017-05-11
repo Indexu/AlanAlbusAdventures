@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ProjectileBlobController : Enemy
@@ -10,11 +11,11 @@ public class ProjectileBlobController : Enemy
     public float minTime;
     public float maxTime;
     public GameObject projectile;
+    public List<AudioClip> blobFireSounds;
 
     private float nextFire;
     private Vector2 moveVector;
     private float nextVector;
-    private List<AudioClip> blobFireSounds;
 
     protected override void Start()
     {
@@ -51,7 +52,8 @@ public class ProjectileBlobController : Enemy
         if (nextFire < Time.time)
         {
             nextFire = Time.time + fireRate;
-            SoundManager.instance.PlaySounds(blobFireSounds);
+            int index = Random.Range(0, blobFireSounds.Count);
+            SoundManager.instance.PlaySounds(blobFireSounds.ElementAt(index));
             var projectileInstance = (GameObject)Instantiate(projectile, transform.position, transform.rotation);
             projectileInstance.GetComponent<Rigidbody2D>().AddForce(targetVector.normalized * projectileForce, ForceMode2D.Impulse);
 
