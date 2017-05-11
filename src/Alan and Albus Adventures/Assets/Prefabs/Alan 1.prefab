@@ -221,9 +221,9 @@ MonoBehaviour:
   - {fileID: 8300000, guid: e30347a8204afe8459eedb0581fd7d58, type: 3}
   - {fileID: 8300000, guid: 77939aab5f6dc134e9f91d40b6f0c054, type: 3}
   projectileHitSound:
-  - {fileID: 8300000, guid: 9d0263522427e034585e932b79cf4e71, type: 3}
-  - {fileID: 8300000, guid: 4d6f1a4a377839e4eaa8dca097cf16c9, type: 3}
   - {fileID: 8300000, guid: d63a8dd6ad62d904b9dbdf0caea3c971, type: 3}
+  - {fileID: 8300000, guid: 83d4e73e36426f341ac185989fe73d1a, type: 3}
+  - {fileID: 8300000, guid: 866c314db4f957d4e866525a6110ddb1, type: 3}
   critProjectileHitSound:
   - {fileID: 8300000, guid: 9d0263522427e034585e932b79cf4e71, type: 3}
   - {fileID: 8300000, guid: 4d6f1a4a377839e4eaa8dca097cf16c9, type: 3}
