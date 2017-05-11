@@ -52,7 +52,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 408ffade74e110c46a169d3d1206a406, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.26
+  m_Volume: 0.055
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -132,8 +132,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9ea462f769af9a449700129c9372aeb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ProjectileHittingWallSounds:
-  - {fileID: 8300000, guid: b65ef0c68a64e6c4a807d089e07774c2, type: 3}
+  ProjectileHittingWallSounds: {fileID: 8300000, guid: b65ef0c68a64e6c4a807d089e07774c2,
+    type: 3}
   BlobShootingProjectilesSounds:
   - {fileID: 8300000, guid: 6ff186e76c333c24daaad142eae3c510, type: 3}
   - {fileID: 8300000, guid: e08c6ebfc990cf94b9ebd2703e831c49, type: 3}

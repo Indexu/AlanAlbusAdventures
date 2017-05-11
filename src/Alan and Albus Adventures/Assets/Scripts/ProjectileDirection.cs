@@ -52,11 +52,6 @@ public class ProjectileDirection : MonoBehaviour
 
             if(!collidingEnemies.Any())
             {
-                if(isCrit)
-                {
-                    int inx = Random.Range(0, critProjectileHitSound.Count);
-                    SoundManager.instance.PlaySounds(critProjectileHitSound.ElementAt(inx));
-                }
                 int index = Random.Range(0, projectileSound.Count);
                 SoundManager.instance.PlaySounds(projectileSound.ElementAt(index));
             }
@@ -89,16 +84,8 @@ public class ProjectileDirection : MonoBehaviour
             }
             else
             {
-                if(!isCrit)
-                {
-                    int index = Random.Range(0, projectileHitSound.Count); 
-                    SoundManager.instance.PlaySounds(projectileHitSound.ElementAt(index));
-                }
-                else
-                {
-                    int index = Random.Range(0, critProjectileHitSound.Count); 
-                    SoundManager.instance.PlaySounds(critProjectileHitSound.ElementAt(index));
-                }
+                int index = Random.Range(0, critProjectileHitSound.Count); 
+                SoundManager.instance.PlaySounds(critProjectileHitSound.ElementAt(index));
             }
 
             for (int i = collidingEnemies.Count - 1; i >= 0; i--)

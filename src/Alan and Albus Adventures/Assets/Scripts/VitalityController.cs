@@ -25,6 +25,7 @@ public class VitalityController : MonoBehaviour
     public List<AudioClip> blobDamageSound;
     public List<AudioClip> playerDamageSound;
     public List<AudioClip> playerDeathSound;
+    public AudioClip playerReviveSound;
     public bool doUpdateUI;
 
     private float damageAmount = -1;
@@ -93,6 +94,7 @@ public class VitalityController : MonoBehaviour
         spriteRenderer.color = Color.white;
         doUpdateUI = true;
         isInvincibilityFrame = true;
+        SoundManager.instance.PlaySounds(playerReviveSound);
         StartCoroutine(InvincibiltyFrame());
 
         Instantiate(reviveParticle, transform.position, Quaternion.identity);
@@ -211,7 +213,6 @@ public class VitalityController : MonoBehaviour
                 currentHealth = 0;
                 spriteRenderer.color = Color.gray;
                 int index = Random.Range(0, playerDeathSound.Count);
-                Debug.Log(index + "This is the player death sound index");
                 SoundManager.instance.PlaySounds(playerDeathSound.ElementAt(index));
                 GameManager.instance.PlayerKilled();         
             }
@@ -233,7 +234,8 @@ public class VitalityController : MonoBehaviour
             if(tag == "enemy")
             {
                 int index = Random.Range(0, blobDamageSound.Count);
-                SoundManager.instance.PlaySounds(blobDamageSound.ElementAt(index));
+                bool critHit = (selectedParticle == critParticle);
+                SoundManager.instance.PlayDamageSounds(blobDamageSound.ElementAt(index), critHit);
             }
             else if(tag == "player")
             {

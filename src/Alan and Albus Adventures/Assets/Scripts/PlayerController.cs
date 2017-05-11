@@ -86,7 +86,7 @@ public class PlayerController : MonoBehaviour
 
             if (doAttack)
             {
-                if (playerID == 1)
+                if (playerID == 0)
                 {
                     projectileDirection.Slash(stats, rotationVector);
                 }
