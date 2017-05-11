@@ -49,6 +49,7 @@ public class Projectile : MonoBehaviour
         }
         else
         {
+            SoundManager.instance.PlayWallSound();
             Instantiate(hitParticle, transform.position, Quaternion.identity);
         }
 

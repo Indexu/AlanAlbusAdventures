@@ -49,21 +49,16 @@ public class ProjectileDirection : MonoBehaviour
                 projectileComponent.damage *= stats.critHitDamage;
                 isCrit = true;
             }
+
             if(!collidingEnemies.Any())
             {
-                SoundManager.instance.PlaySlash(projectileSound);
-            }
-            else
-            {
-                if(!isCrit)
+                if(isCrit)
                 {
-                    SoundManager.instance.PlayHackNSlash(projectileHitSound);
+                    SoundManager.instance.PlayCritShoot(critProjectileHitSound);
                 }
-                else
-                {
-                    SoundManager.instance.PlayCritHackNSlash(critProjectileHitSound);
-                }
+                SoundManager.instance.PlayShoot(projectileSound);
             }
+
             projectileComponent.isCrit = isCrit;
 
             projectileComponent.Init();

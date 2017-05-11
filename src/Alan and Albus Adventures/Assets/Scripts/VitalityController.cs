@@ -20,6 +20,8 @@ public class VitalityController : MonoBehaviour
     public bool boss;
     public bool player;
     public List<AudioClip> blobDeathSound;
+    public List<AudioClip> blobDamageSound;
+    public List<AudioClip> playerDamageSound;
     public bool doUpdateUI;
 
     private float damageAmount = -1;
@@ -210,6 +212,14 @@ public class VitalityController : MonoBehaviour
         else
         {
             Instantiate(selectedParticle, transform.position, Quaternion.identity);
+            if(tag == "enemy")
+            {
+                SoundManager.instance.PlayBlobDamage();
+            }
+            else
+            {
+                SoundManager.instance.PlayPlayerDamage();
+            }
         }
 
         lowHealth = player && ((float)currentHealth / (float)stats.maxHealth < lowHealthThreshold);

@@ -222,11 +222,17 @@ MonoBehaviour:
   projectile: {fileID: 1035552101150598, guid: 5d1950b306e9f47ad8dd2362e5f321ba, type: 2}
   projectileSound:
   - {fileID: 8300000, guid: 3d6cfc110b17d0e46bade064bd025726, type: 3}
+  - {fileID: 8300000, guid: fd380da3485a709458d027c18f0f8f17, type: 3}
+  - {fileID: 8300000, guid: 6646e0c7e5aa6c343924a771a5bdf297, type: 3}
+  - {fileID: 8300000, guid: ee6c21496ebc57c4d9c07f3bca47daf6, type: 3}
   projectileHitSound:
   - {fileID: 8300000, guid: 3d6cfc110b17d0e46bade064bd025726, type: 3}
+  - {fileID: 8300000, guid: fd380da3485a709458d027c18f0f8f17, type: 3}
+  - {fileID: 8300000, guid: 6646e0c7e5aa6c343924a771a5bdf297, type: 3}
+  - {fileID: 8300000, guid: ee6c21496ebc57c4d9c07f3bca47daf6, type: 3}
   critProjectileHitSound:
-  - {fileID: 8300000, guid: fd4f286e30fac1e44af27e57f73c2ef8, type: 3}
-  - {fileID: 8300000, guid: a699d770341264d4a849d1c9931fc98e, type: 3}
+  - {fileID: 8300000, guid: 631f0c93b90abd849828e162c2eae2f9, type: 3}
+  - {fileID: 8300000, guid: 7a82fc944637cdb469613920cfbc73ea, type: 3}
 --- !u!114 &114391854451563084
 MonoBehaviour:
   m_ObjectHideFlags: 1
