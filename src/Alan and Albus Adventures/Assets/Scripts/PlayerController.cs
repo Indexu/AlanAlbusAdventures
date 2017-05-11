@@ -8,10 +8,11 @@ public class PlayerController : MonoBehaviour
     public int playerID; // ReWired player ID
     public ProjectileDirection projectileDirection;
     public bool attackButton;
+    public bool playstationController;
+    public DoorController door;
 
     private Rigidbody2D rb2d;
     private VitalityController vc;
-    private DoorController door;
     private ChestAnimationController chest;
     private ReviveController reviveController;
     private GameManager gameManager;
@@ -29,7 +30,6 @@ public class PlayerController : MonoBehaviour
     private bool canNavigateStats;
     private float joystickStatsDelay = 0.15f;
     private const float joystickDeadzone = 0.4f;
-    private bool playstationController;
     private bool showingPassives;
 
     private void Awake()
@@ -102,12 +102,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collider.gameObject.tag == "Door")
-        {
-            door = collider.gameObject.GetComponent<DoorController>();
-            UIManager.instance.ShowDoorButton(collider.transform.position, door.direction, playstationController);
-        }
-        else if (collider.gameObject.layer == LayerMask.NameToLayer("ReviveTriggers"))
+        if (collider.gameObject.layer == LayerMask.NameToLayer("ReviveTriggers"))
         {
             reviveController = collider.gameObject.GetComponent<ReviveController>();
 
@@ -128,12 +123,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collider)
     {
-        if (collider.gameObject.tag == "Door")
-        {
-            UIManager.instance.HideDoorButton(door.direction);
-            door = null;
-        }
-        else if (collider.gameObject.layer == LayerMask.NameToLayer("ReviveTriggers"))
+        if (collider.gameObject.layer == LayerMask.NameToLayer("ReviveTriggers"))
         {
             if (reviveController.vc.isDead)
             {

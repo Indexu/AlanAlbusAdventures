@@ -55,14 +55,18 @@ public class DoorController : MonoBehaviour
         {
             playersAdjacent++;
             halo.enabled = true;
+            var pc = collider.GetComponent<PlayerController>();
+            pc.door = this;
+            UIManager.instance.ShowDoorButton(transform.position, direction, pc.playstationController);
         }
     }
-
     private void OnTriggerExit2D(Collider2D collider)
     {
         if (!locked && collider.gameObject.tag == "Player")
         {
             playersAdjacent--;
+            collider.GetComponent<PlayerController>().door = null;
+            UIManager.instance.HideDoorButton(direction);
 
             if (playersAdjacent == 0)
             {
