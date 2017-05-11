@@ -48,8 +48,10 @@ public class UIManager : MonoBehaviour
     private RectTransform reviveUIRectTransform;
     private const float reviveUIOffset = 150f;
 
-    private RawImage alanDoorButton;
-    private RawImage albusDoorButton;
+    private RawImage doorButton1;
+    private Direction doorButton1Direction;
+    private RawImage doorButton2;
+    private Direction doorButton2Direction;
 
     public Vector3 PositionToUI(Vector3 pos)
     {
@@ -199,25 +201,47 @@ public class UIManager : MonoBehaviour
         reviveUISlider.value = value;
     }
 
-    public void ShowDoorButton(int playerID, Vector3 pos, bool ps4)
+    public void ShowDoorButton(Vector3 pos, Direction dir, bool ps4)
     {
-        if (alanDoorButton == null && albusDoorButton == null)
+        var UIpos = (Vector2)UIManager.instance.PositionToUI(pos);
+        var createButton = true;
+
+        if (doorButton1 != null && dir == doorButton1Direction)
+        {
+            createButton = false;
+            var color = doorButton1.color;
+            color.a = 1f;
+
+            doorButton1.color = color;
+        }
+        else if (doorButton2 != null && dir == doorButton2Direction)
+        {
+            createButton = false;
+            var color = doorButton2.color;
+            color.a = 1f;
+
+            doorButton2.color = color;
+        }
+
+        if (createButton)
         {
             var doorButtonInstance = Instantiate(button, Vector3.zero, Quaternion.identity, UIManager.instance.canvas.transform);
 
             var rt = doorButtonInstance.GetComponent<RectTransform>();
-            rt.anchoredPosition = UIManager.instance.PositionToUI(pos);
+            rt.anchoredPosition = UIpos;
 
             RawImage doorButton;
-            if (playerID == 0)
+            if (doorButton1 == null)
             {
-                alanDoorButton = doorButtonInstance.GetComponent<RawImage>();
-                doorButton = alanDoorButton;
+                doorButton1 = doorButtonInstance.GetComponent<RawImage>();
+                doorButton1Direction = dir;
+                doorButton = doorButton1;
             }
             else
             {
-                albusDoorButton = doorButtonInstance.GetComponent<RawImage>();
-                doorButton = albusDoorButton;
+                doorButton2 = doorButtonInstance.GetComponent<RawImage>();
+                doorButton2Direction = dir;
+                doorButton = doorButton2;
             }
 
             if (!ps4)
@@ -230,42 +254,38 @@ public class UIManager : MonoBehaviour
 
             doorButton.color = color;
         }
-        else if (alanDoorButton != null)
-        {
-            var color = alanDoorButton.color;
-            color.a = 1f;
 
-            alanDoorButton.color = color;
-        }
-        else
-        {
-            var color = albusDoorButton.color;
-            color.a = 1f;
-
-            albusDoorButton.color = color;
-        }
     }
 
-    public void HideDoorButton(int playerID)
+    public void HideDoorButton(Direction dir)
     {
-        if (albusDoorButton != null && albusDoorButton.color.a == 1f)
+        if (doorButton1 != null && doorButton1Direction == dir)
         {
-            var color = albusDoorButton.color;
-            color.a = 0.5f;
+            if (doorButton1.color.a == 1f)
+            {
+                var color = doorButton1.color;
+                color.a = 0.5f;
 
-            albusDoorButton.color = color;
+                doorButton1.color = color;
+            }
+            else
+            {
+                GameObject.Destroy(doorButton1.gameObject);
+            }
         }
-        else if (alanDoorButton != null && alanDoorButton.color.a == 1f)
+        else if (doorButton2 != null && doorButton2Direction == dir)
         {
-            var color = alanDoorButton.color;
-            color.a = 0.5f;
+            if (doorButton2.color.a == 1f)
+            {
+                var color = doorButton2.color;
+                color.a = 0.5f;
 
-            alanDoorButton.color = color;
-        }
-        else
-        {
-            var doorButton = (alanDoorButton != null ? alanDoorButton : albusDoorButton);
-            GameObject.Destroy(doorButton.gameObject);
+                doorButton2.color = color;
+            }
+            else
+            {
+                GameObject.Destroy(doorButton2.gameObject);
+            }
         }
     }
 
@@ -306,8 +326,8 @@ public class UIManager : MonoBehaviour
         AlanItemIcons = new RawImage[numberOfSlots];
         AlbusItemIcons = new RawImage[numberOfSlots];
 
-        alanDoorButton = null;
-        albusDoorButton = null;
+        doorButton1 = null;
+        doorButton2 = null;
 
         GetItemSlotButtons();
         SetPassiveItemSlots(0, false);
