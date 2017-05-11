@@ -322,6 +322,69 @@ public class UIManager : MonoBehaviour
         experienceBarSlider.value = current / max;
     }
 
+    public GameObject CreateAndShowButton(Vector3 pos, float yOffset, Direction dir, bool ps4)
+    {
+        var buttonInstance = Instantiate(button, Vector3.zero, Quaternion.identity, UIManager.instance.canvas.transform);
+
+        var rt = buttonInstance.GetComponent<RectTransform>();
+
+        rt.sizeDelta = new Vector2(100f, 100f);
+
+        Vector2 screenPos = (Vector2)UIManager.instance.PositionToUI(pos);
+        screenPos.y += yOffset;
+        rt.anchoredPosition = screenPos;
+
+        if (ps4)
+        {
+            if (dir == Direction.up)
+            {
+                buttonInstance.GetComponent<RawImage>().texture = PS4Stats;
+            }
+            else if (dir == Direction.right)
+            {
+                buttonInstance.GetComponent<RawImage>().texture = PS4PassiveButtonRight;
+            }
+            else if (dir == Direction.down)
+            {
+                buttonInstance.GetComponent<RawImage>().texture = PS4Confirm;
+            }
+            else
+            {
+                buttonInstance.GetComponent<RawImage>().texture = PS4PassiveButtonLeft;
+            }
+        }
+        else
+        {
+            if (dir == Direction.up)
+            {
+                buttonInstance.GetComponent<RawImage>().texture = XboxStats;
+            }
+            else if (dir == Direction.right)
+            {
+                buttonInstance.GetComponent<RawImage>().texture = XboxPassiveButtonRight;
+            }
+            else if (dir == Direction.down)
+            {
+                buttonInstance.GetComponent<RawImage>().texture = XboxConfirm;
+            }
+            else
+            {
+                buttonInstance.GetComponent<RawImage>().texture = XboxPassiveButtonLeft;
+            }
+        }
+
+        return buttonInstance;
+    }
+
+    public void MoveUIElement(GameObject elem, Vector3 pos, float yOffset)
+    {
+        var rt = elem.GetComponent<RectTransform>();
+
+        Vector2 screenPos = (Vector2)UIManager.instance.PositionToUI(pos);
+        screenPos.y += yOffset;
+        rt.anchoredPosition = screenPos;
+    }
+
     private void Awake()
     {
         if (instance == null)

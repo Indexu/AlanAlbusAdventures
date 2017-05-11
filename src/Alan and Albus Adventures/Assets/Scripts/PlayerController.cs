@@ -76,7 +76,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
     private void FixedUpdate()
     {
         if (!vc.isDead && !inStatsScreen)
@@ -119,6 +118,12 @@ public class PlayerController : MonoBehaviour
         {
             healthPotion = collider.gameObject;
         }
+        else if (collider.gameObject.tag == "Door")
+        {
+            door = collider.gameObject.GetComponent<DoorController>();
+            door.EnterRange();
+            UIManager.instance.ShowDoorButton(collider.transform.position, door.direction, playstationController);
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collider)
@@ -139,6 +144,15 @@ public class PlayerController : MonoBehaviour
         else if (collider.gameObject.tag == "HealthPotion")
         {
             healthPotion = null;
+        }
+        else if (collider.tag == "Door")
+        {
+            if (door != null)
+            {
+                door.ExitRange();
+                UIManager.instance.HideDoorButton(door.direction);
+                door = null;
+            }
         }
     }
 

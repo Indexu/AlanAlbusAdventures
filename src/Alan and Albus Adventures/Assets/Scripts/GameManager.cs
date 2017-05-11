@@ -309,5 +309,7 @@ public class GameManager : MonoBehaviour
         {
             player.statPoints++;
         }
+
+        currentRoom.transform.Find("Hole").gameObject.SetActive(true);
     }
 }
