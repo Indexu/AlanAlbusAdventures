@@ -447,7 +447,11 @@ public class UIManager : MonoBehaviour
 
             AlanButtons[counter] = button;
             AlanItemIcons[counter] = icon;
-            icon.gameObject.SetActive(false);
+
+            if (slot.name != "UseItemSlot")
+            {
+                icon.gameObject.SetActive(false);
+            }
 
             counter++;
         }
@@ -462,7 +466,11 @@ public class UIManager : MonoBehaviour
 
             AlbusButtons[counter] = button;
             AlbusItemIcons[counter] = icon;
-            icon.gameObject.SetActive(false);
+
+            if (slot.name != "UseItemSlot")
+            {
+                icon.gameObject.SetActive(false);
+            }
 
             counter++;
         }
