@@ -64,3 +64,21 @@ MonoBehaviour:
   timeBeforeAttacking: 0.15
   maxExperience: 50
   currentExperience: 0
+  dropChance: 0.25
+  commonChance: 0.4
+  rareChance: 0.3
+  epicChance: 0.2
+  legendaryChance: 0.1
+  maxHealthItems:
+  - {fileID: 1002787247115474, guid: 2d15c557ba3a59f47a5ba756adaaafa1, type: 2}
+  - {fileID: 1926167468222706, guid: 32a47b2a1bde377449084e1c9ef60bba, type: 2}
+  movementSpeedItems:
+  - {fileID: 1350443865905052, guid: ba3c649bb35cd8a4087152a5d04018ef, type: 2}
+  attackSpeedItems:
+  - {fileID: 1669107131193822, guid: bb8544486e7c098468723e727df93d76, type: 2}
+  criticalChanceItems:
+  - {fileID: 1669107131193822, guid: bb8544486e7c098468723e727df93d76, type: 2}
+  criticalDamageItems:
+  - {fileID: 1669107131193822, guid: bb8544486e7c098468723e727df93d76, type: 2}
+  baseDamageItems:
+  - {fileID: 1065537316072298, guid: 905f0b563b0d7514fb322a4f3075d4fe, type: 2}
