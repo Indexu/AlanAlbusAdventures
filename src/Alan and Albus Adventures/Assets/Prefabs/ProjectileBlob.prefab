@@ -235,7 +235,8 @@ MonoBehaviour:
   minTime: 0.5
   maxTime: 1.5
   projectile: {fileID: 1035552101150598, guid: 5d1950b306e9f47ad8dd2362e5f321ba, type: 2}
-  blobFireSounds: []
+  blobFireSounds:
+  - {fileID: 8300000, guid: 5d56d7cb09404d1469036addc52ce562, type: 3}
 --- !u!114 &114402262844147464
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -8,7 +8,6 @@ public class SoundManager : MonoBehaviour
 {
     public static SoundManager instance = null;
 	public AudioClip projectileHittingWallSounds;
-	public List<AudioClip> blobShootingProjectilesSounds;
 	private const int audioSourceAmount = 20;
 	private int counterCurrAudioSource = 0;
 	private int counterCurrDamageAudioSource = 0;
