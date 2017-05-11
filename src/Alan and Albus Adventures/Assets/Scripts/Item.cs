@@ -2,12 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum ItemType
-{
-    PASSIVE,
-    ACTIVE
-};
-
 public enum Quality
 {
     COMMON    = 1,
@@ -34,11 +28,8 @@ public enum Postfix
     MAJOR    = 4
 }
 
-public abstract class Item : MonoBehaviour
+public class Item : MonoBehaviour
 {
-    // Item type
-    public ItemType itemType;
-
     // Standard stats
     public Quality  quality;
     public Property property;
@@ -49,13 +40,52 @@ public abstract class Item : MonoBehaviour
     public Property bonusProperty;
     public int      bonusBaseStat;
 
+    private bool player1Enter;
+    private bool player2Enter;
+
+    public void PickedUp()
+    {
+        GameObject.Destroy(gameObject);
+    }
+
     public void OnTriggerEnter2D(Collider2D collision)
     {
-        var player = collision.gameObject;
-        if (player.tag == "Player")
+        var tag = collision.gameObject.tag;
+        if (tag == "Player")
         {
-            player.GetComponent<Inventory>().AddItem(gameObject);
-            // TODO: Move item to item slot.
+            var player = collision.gameObject;
+            var playerID = player.GetComponent<PlayerController>().playerID;
+            if (playerID == 0)
+            {
+                player1Enter = true;
+            }
+            else
+            {
+                player2Enter = true;
+            }
+            // Display Tooltip
+        }
+    }
+
+    public void OnTriggerExit2D(Collider2D collision)
+    {
+        var tag = collision.gameObject.tag;
+        if (tag == "Player")
+        {
+            var playerID = collision.gameObject.GetComponent<PlayerController>().playerID;
+            if (playerID == 0)
+            {
+                player1Enter = false;
+            }
+            else
+            {
+                player2Enter = false;
+            }
+
+            if (!player1Enter && !player2Enter)
+            {
+                // Hide Tooltip
+            }
         }
     }
 }

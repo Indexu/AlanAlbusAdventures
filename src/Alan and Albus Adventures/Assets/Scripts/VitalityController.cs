@@ -72,6 +72,11 @@ public class VitalityController : MonoBehaviour
     public void Heal(float amount)
     {
         currentHealth += amount;
+        if (currentHealth > stats.maxHealth)
+        {
+            currentHealth = stats.maxHealth;
+        }
+        doUpdateUI = true;
     }
 
     public void Revive()
