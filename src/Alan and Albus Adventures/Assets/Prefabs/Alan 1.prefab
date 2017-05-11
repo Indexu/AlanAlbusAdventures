@@ -61,6 +61,7 @@ GameObject:
   - component: {fileID: 114100942056328564}
   - component: {fileID: 114342200494456704}
   - component: {fileID: 70139851508929758}
+  - component: {fileID: 114703608959597848}
   m_Layer: 8
   m_Name: Alan 1
   m_TagString: Player
@@ -292,6 +293,20 @@ MonoBehaviour:
   playerID: 0
   projectileDirection: {fileID: 114062160457536394}
   attackButton: 0
+--- !u!114 &114703608959597848
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1982120085269070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0103f02b3899d0f43a248a1d3054d1ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healAmount: 10
+  healthPotions: 2
+  bonusStats: 640000006400000064000000640000006400000064000000
 --- !u!212 &212554700095030402
 SpriteRenderer:
   m_ObjectHideFlags: 1

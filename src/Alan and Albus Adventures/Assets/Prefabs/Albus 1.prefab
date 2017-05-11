@@ -26,6 +26,7 @@ GameObject:
   - component: {fileID: 114009495269605658}
   - component: {fileID: 114140529522161248}
   - component: {fileID: 70236962089043720}
+  - component: {fileID: 114426173884873286}
   m_Layer: 8
   m_Name: Albus 1
   m_TagString: Player
@@ -252,6 +253,20 @@ MonoBehaviour:
   boss: 0
   player: 0
   doUpdateUI: 0
+--- !u!114 &114426173884873286
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1244990036264402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0103f02b3899d0f43a248a1d3054d1ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healAmount: 10
+  healthPotions: 2
+  bonusStats: 640000006400000064000000640000006400000064000000
 --- !u!114 &114788960184840176
 MonoBehaviour:
   m_ObjectHideFlags: 1
