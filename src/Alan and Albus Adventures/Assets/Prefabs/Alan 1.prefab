@@ -212,7 +212,23 @@ MonoBehaviour:
   radius: 2
   attackForce: 75
   projectile: {fileID: 1035552101150598, guid: 5d1950b306e9f47ad8dd2362e5f321ba, type: 2}
-  projectileSound: {fileID: 8300000, guid: e08c6ebfc990cf94b9ebd2703e831c49, type: 3}
+  projectileSound:
+  - {fileID: 8300000, guid: b7db68c4741f15d4ba57c0e36a283835, type: 3}
+  - {fileID: 8300000, guid: 52fa067c25c5c401b811eb86d142287e, type: 3}
+  - {fileID: 8300000, guid: 9e6e03e20fe124a40a3c25a7ba0b8d1c, type: 3}
+  - {fileID: 8300000, guid: f2eee034b30622f4891a231b7f92e00c, type: 3}
+  - {fileID: 8300000, guid: 9a4bf0096e661cd4383a441f6e382f1e, type: 3}
+  - {fileID: 8300000, guid: e30347a8204afe8459eedb0581fd7d58, type: 3}
+  - {fileID: 8300000, guid: 77939aab5f6dc134e9f91d40b6f0c054, type: 3}
+  projectileHitSound:
+  - {fileID: 8300000, guid: 9d0263522427e034585e932b79cf4e71, type: 3}
+  - {fileID: 8300000, guid: 4d6f1a4a377839e4eaa8dca097cf16c9, type: 3}
+  - {fileID: 8300000, guid: d63a8dd6ad62d904b9dbdf0caea3c971, type: 3}
+  critProjectileHitSound:
+  - {fileID: 8300000, guid: 9d0263522427e034585e932b79cf4e71, type: 3}
+  - {fileID: 8300000, guid: 4d6f1a4a377839e4eaa8dca097cf16c9, type: 3}
+  - {fileID: 8300000, guid: 2d2b13f760908ff49a5c97bf2b5b75e8, type: 3}
+  - {fileID: 8300000, guid: 8d215aa6ca0cc3742b17101e50a0c4d5, type: 3}
 --- !u!114 &114100942056328564
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -274,10 +290,16 @@ MonoBehaviour:
     type: 2}
   deathParticle: {fileID: 1259393622160624, guid: 1394c75f6f074429686066ecfbe2bc19,
     type: 2}
-  reviveParticle: {fileID: 1913297041956092, guid: 4a6f544d71bc245ee836746135189f69,
-    type: 2}
+  reviveParticle: {fileID: 0}
   boss: 0
   player: 0
+  blobDeathSound: []
+  blobDamageSound: []
+  playerDamageSound:
+  - {fileID: 8300000, guid: 858f7a75734a92247a5b9afa18aba11f, type: 3}
+  playerDeathSound:
+  - {fileID: 8300000, guid: 4aa6dec80a1c61247980b51aef1194dc, type: 3}
+  playerReviveSound: {fileID: 8300000, guid: c51b01899cc31cb49806da27676b7da7, type: 3}
   doUpdateUI: 0
 --- !u!114 &114403823282788978
 MonoBehaviour:
@@ -304,8 +326,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0103f02b3899d0f43a248a1d3054d1ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healAmount: 10
-  healthPotions: 2
+  healAmount: 0
+  healthPotions: 0
   bonusStats: 640000006400000064000000640000006400000064000000
 --- !u!212 &212554700095030402
 SpriteRenderer:

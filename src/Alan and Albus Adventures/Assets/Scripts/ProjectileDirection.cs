@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ProjectileDirection : MonoBehaviour
@@ -7,8 +8,9 @@ public class ProjectileDirection : MonoBehaviour
     public float radius;
     public float attackForce;
     public GameObject projectile;
-    public AudioClip projectileSound;
-
+    public List<AudioClip> projectileSound;
+    public List<AudioClip> projectileHitSound;
+    public List<AudioClip> critProjectileHitSound;
     private float nextFire;
     private int playerID;
     private bool magicalDamage;
@@ -30,8 +32,6 @@ public class ProjectileDirection : MonoBehaviour
     {
         if (nextFire < Time.time)
         {
-            SoundManager.instance.PlaySingle(projectileSound);
-
             nextFire = Time.time + stats.attackSpeed;
 
             var projectileInstance = Instantiate(projectile, transform.position, transform.rotation) as GameObject;
@@ -49,6 +49,13 @@ public class ProjectileDirection : MonoBehaviour
                 projectileComponent.damage *= stats.critHitDamage;
                 isCrit = true;
             }
+
+            if(!collidingEnemies.Any())
+            {
+                int index = Random.Range(0, projectileSound.Count);
+                SoundManager.instance.PlaySounds(projectileSound.ElementAt(index));
+            }
+
             projectileComponent.isCrit = isCrit;
 
             projectileComponent.Init();
@@ -59,8 +66,6 @@ public class ProjectileDirection : MonoBehaviour
     {
         if (nextFire < Time.time)
         {
-            SoundManager.instance.PlaySingle(projectileSound);
-
             nextFire = Time.time + stats.attackSpeed;
 
             var damage = stats.baseDamage;
@@ -70,6 +75,17 @@ public class ProjectileDirection : MonoBehaviour
             {
                 damage *= stats.critHitDamage;
                 isCrit = true;
+            }
+
+            if(!collidingEnemies.Any())
+            {
+                int index = Random.Range(0, projectileSound.Count);        
+                SoundManager.instance.PlaySounds(projectileSound.ElementAt(index));
+            }
+            else
+            {
+                int index = Random.Range(0, critProjectileHitSound.Count); 
+                SoundManager.instance.PlaySounds(critProjectileHitSound.ElementAt(index));
             }
 
             for (int i = collidingEnemies.Count - 1; i >= 0; i--)
