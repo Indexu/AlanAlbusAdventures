@@ -292,6 +292,9 @@ MonoBehaviour:
   boss: 0
   player: 0
   blobDeathSound: []
+  blobDamageSound: []
+  playerDamageSound: {fileID: 8300000, guid: 858f7a75734a92247a5b9afa18aba11f, type: 3}
+  playerDeathSound: {fileID: 8300000, guid: 4aa6dec80a1c61247980b51aef1194dc, type: 3}
   doUpdateUI: 0
 --- !u!114 &114403823282788978
 MonoBehaviour:
@@ -304,7 +307,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75a615cbc24ae4ee79f7a47a5e2c9eb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerID: 0
+  playerID: 1
   projectileDirection: {fileID: 114062160457536394}
   attackButton: 0
 --- !u!212 &212554700095030402

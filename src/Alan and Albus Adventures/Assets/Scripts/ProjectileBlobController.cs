@@ -14,11 +14,11 @@ public class ProjectileBlobController : Enemy
     private float nextFire;
     private Vector2 moveVector;
     private float nextVector;
+    private List<AudioClip> blobFireSounds;
 
     protected override void Start()
     {
         base.Start();
-
         nextFire = 0;
     }
 
@@ -51,7 +51,7 @@ public class ProjectileBlobController : Enemy
         if (nextFire < Time.time)
         {
             nextFire = Time.time + fireRate;
-
+            SoundManager.instance.PlaySounds(blobFireSounds);
             var projectileInstance = (GameObject)Instantiate(projectile, transform.position, transform.rotation);
             projectileInstance.GetComponent<Rigidbody2D>().AddForce(targetVector.normalized * projectileForce, ForceMode2D.Impulse);
 

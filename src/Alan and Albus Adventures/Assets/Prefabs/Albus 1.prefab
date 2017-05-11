@@ -262,6 +262,9 @@ MonoBehaviour:
   boss: 0
   player: 0
   blobDeathSound: []
+  blobDamageSound: []
+  playerDamageSound: {fileID: 8300000, guid: 858f7a75734a92247a5b9afa18aba11f, type: 3}
+  playerDeathSound: {fileID: 8300000, guid: 4aa6dec80a1c61247980b51aef1194dc, type: 3}
   doUpdateUI: 0
 --- !u!114 &114788960184840176
 MonoBehaviour:

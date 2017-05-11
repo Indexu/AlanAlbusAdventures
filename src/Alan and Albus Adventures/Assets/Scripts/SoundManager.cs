@@ -7,11 +7,14 @@ using Random = UnityEngine.Random;
 public class SoundManager : MonoBehaviour
 {
     public static SoundManager instance = null;
-    //public AudioSource soundEffect;
-	//public AudioSource theme;
-	//private List<AudioSource> slashAudioSource;
 	public List<AudioClip> ProjectileHittingWallSounds;
-	private AudioSource ProjectileHittingWallAudioSource; 
+	public List<AudioClip> BlobShootingProjectilesSounds;
+	private const int AudioSourceAmount = 20;
+	private int counterCurrAudioSource = 0;
+	private List<AudioSource> AudioSources;
+	private AudioSource ProjectileHittingWallAudioSource;
+	/*private List<AudioSource> BlobShootingProjectilesAudioSource;
+	 
 	private AudioSource slashAudioSource;
 	private AudioSource hackNSlashAudioSource;
 	private AudioSource critHackNSlashAudioSource;
@@ -22,7 +25,9 @@ public class SoundManager : MonoBehaviour
 	//private List<AudioSource> critHackNSlashAudioSource;
 	private List<AudioSource> deadBlobAudioSource;
 	private List<AudioSource> damageBlobAudioSource;
-
+	private AudioSource damagePlayerAudioSource;
+	private AudioSource deadPlayerAudioSource;
+*/
 
 	private void Awake() {
 		if (instance == null)
@@ -39,23 +44,59 @@ public class SoundManager : MonoBehaviour
 	
 	private void Start()
 	{
+		for(int i = 0; i < AudioSourceAmount; i++)
+		{
+			AudioSources.Add(gameObject.AddComponent<AudioSource>());
+		}
+		ProjectileHittingWallAudioSource = gameObject.AddComponent<AudioSource>();
 		//slashAudioSource = new List<AudioSource>();
-		slashAudioSource = gameObject.AddComponent<AudioSource>();
+		//slashAudioSource = gameObject.AddComponent<AudioSource>();
 		//hackNSlashAudioSource = new List<AudioSource>();
-		hackNSlashAudioSource = gameObject.AddComponent<AudioSource>();
+		//hackNSlashAudioSource = gameObject.AddComponent<AudioSource>();
 		//critHackNSlashAudioSource = new List<AudioSource>();
-		critHackNSlashAudioSource = gameObject.AddComponent<AudioSource>();
+		/*critHackNSlashAudioSource = gameObject.AddComponent<AudioSource>();
 		critShootAudioSource = gameObject.AddComponent<AudioSource>();
 		shootAudioSource = gameObject.AddComponent<AudioSource>();
-		ProjectileHittingWallAudioSource = gameObject.AddComponent<AudioSource>();
+		
 		deadBlobAudioSource = new List<AudioSource>();
 		damageBlobAudioSource = new List<AudioSource>();
-	}
+		damagePlayerAudioSource = gameObject.AddComponent<AudioSource>();
+		deadPlayerAudioSource = gameObject.AddComponent<AudioSource>();
+		BlobShootingProjectilesAudioSource = new List<AudioSource>();*/
 
-	public void PlaySlash(List<AudioClip> soundList)
+		/*foreach (AudioClip clip in BlobShootingProjectilesSounds)
+		{
+			BlobShootingProjectilesAudioSource.Add(gameObject.AddComponent<AudioSource>());
+			BlobShootingProjectilesAudioSource.Last().clip = clip;
+		}*/
+	}
+	public void PlaySounds(List<AudioClip> soundList)
 	{
 		int index = Random.Range(0, soundList.Count);
-		slashAudioSource.PlayOneShot(soundList.ElementAt(index), 0.2f);
+		AudioSources.ElementAt(counterCurrAudioSource).PlayOneShot(soundList.ElementAt(index), 0.2f);
+		counterCurrAudioSource++;
+		if(counterCurrAudioSource >= 20)
+		{
+			counterCurrAudioSource = 0;
+		}
+	}
+
+	public void PlayWallSound()
+	{
+		int index = Random.Range(0, ProjectileHittingWallSounds.Count);
+		ProjectileHittingWallAudioSource.PlayOneShot(ProjectileHittingWallSounds.ElementAt(index), 0.1f);
+	}
+
+	/*public void PlayProjectileBlobFireSound()
+	{
+		BlobShootingProjectilesAudioSource
+		//(BlobShootingProjectilesAudioSource.ElementAt(index)).Play();
+	} */
+
+/*	public void PlaySlash(List<AudioClip> soundList)
+	{
+		int index = Random.Range(0, soundList.Count);
+		AudioSources.PlayOneShot(soundList.ElementAt(index), 0.2f);
 	}
 
 	public void PlayHackNSlash(List<AudioClip> soundList)
@@ -109,9 +150,35 @@ public class SoundManager : MonoBehaviour
 		int index = Random.Range(0, soundList.Count);
 		(damageBlobAudioSource.ElementAt(index)).Play();
 	}
-	public void PlayWallSound()
+
+	public void PlayBlogDamage(List<AudioClip> soundList)
 	{
-		int index = Random.Range(0, ProjectileHittingWallSounds.Count);
-		critShootAudioSource.PlayOneShot(ProjectileHittingWallSounds.ElementAt(index), 0.1f);
+		if(!damageBlobAudioSource.Any())
+		{
+			foreach (AudioClip clip in soundList)
+			{
+				damageBlobAudioSource.Add(gameObject.AddComponent<AudioSource>());
+				damageBlobAudioSource.Last().clip = clip;
+			}
+		}
+		int index = Random.Range(0, soundList.Count);
+		(damageBlobAudioSource.ElementAt(index)).Play();
 	}
+
+	public void PlayPlayerDamage(AudioClip sound)
+	{
+		damagePlayerAudioSource.PlayOneShot(sound, 0.1f);
+	}
+	public void PlayPlayerDeath(AudioClip sound)
+	{
+		deadPlayerAudioSource.PlayOneShot(sound, 0.2f);
+	}
+
+	public void PlayProjectileBlobFireSound(AudioSource source)
+	{
+		BlobShootingProjectilesAudioSource
+		//(BlobShootingProjectilesAudioSource.ElementAt(index)).Play();
+	}
+*/
+
 }

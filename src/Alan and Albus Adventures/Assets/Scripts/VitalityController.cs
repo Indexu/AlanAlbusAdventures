@@ -22,6 +22,7 @@ public class VitalityController : MonoBehaviour
     public List<AudioClip> blobDeathSound;
     public List<AudioClip> blobDamageSound;
     public List<AudioClip> playerDamageSound;
+    public List<AudioClip> playerDeathSound;
     public bool doUpdateUI;
 
     private float damageAmount = -1;
@@ -197,11 +198,12 @@ public class VitalityController : MonoBehaviour
             if (player)
             {
                 isDead = true;
+                SoundManager.instance.PlaySounds(playerDeathSound);
                 gameManager.PlayerKilled();
             }
             else
             {
-                SoundManager.instance.PlayBlobDeath(blobDeathSound);
+                SoundManager.instance.PlaySounds(blobDeathSound);
                 gameManager.EnemyKilled();
                 healthSlider.gameObject.SetActive(false);
                 gameObject.SetActive(false);
@@ -214,11 +216,11 @@ public class VitalityController : MonoBehaviour
             Instantiate(selectedParticle, transform.position, Quaternion.identity);
             if(tag == "enemy")
             {
-                SoundManager.instance.PlayBlobDamage();
+                SoundManager.instance.PlaySounds(blobDamageSound);
             }
             else
             {
-                SoundManager.instance.PlayPlayerDamage();
+                SoundManager.instance.PlaySounds(playerDamageSound);
             }
         }
 
