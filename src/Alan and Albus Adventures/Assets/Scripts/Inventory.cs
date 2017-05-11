@@ -2,45 +2,56 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public class InventoryItem
+{
+    // Standard stats
+    public Quality quality;
+    public Property property;
+    public int baseStat;
+
+    // Bonus stats
+    public Postfix bonusQuality;
+    public Property bonusProperty;
+    public int bonusBaseStat;
+}
+
 public class Inventory : MonoBehaviour
 {
-    private const int passiveItemCount = 4;
-    private const int activeItemCount = 2;
-    private const int statsCount = 6;
+    public float healAmount;
 
-    public GameObject[] passives = new GameObject[passiveItemCount];
-    public GameObject[]  actives = new GameObject[activeItemCount];
+    public int healthPotions = 0;
 
     public int[] bonusStats = new int[statsCount]
     {
         100, 100, 100, 100, 100, 100
     };
 
-    public void AddItem(GameObject gameObject)
+    private const int passiveItemCount = 4;
+    private const int statsCount = 6;
+
+    private InventoryItem[] passives = new InventoryItem[passiveItemCount];
+
+    private VitalityController vc;
+
+    public void AddItem(Item item, int pos)
     {
-        var item = gameObject.GetComponent<Item>();
         if (item != null)
         {
-            Debug.Log(item);
-            if (item.itemType == ItemType.PASSIVE)
+            if (0 <= pos && pos < passiveItemCount)
             {
-                var pos = GetNextFreeSlot(item.itemType);
-                if (pos.HasValue)
+                passives[pos] = new InventoryItem
                 {
-                    passives[pos.Value] = gameObject;
-                    bonusStats[(int)item.property] += ((int)item.quality * item.baseStat);
-                    if (item.bonusQuality != 0 && item.bonusBaseStat != 0)
-                    {
-                        bonusStats[(int)item.bonusProperty] += ((int)item.bonusQuality * item.bonusBaseStat);
-                    }
-                }
-            }
-            else if (item.itemType == ItemType.ACTIVE)
-            {
-                var pos = GetNextFreeSlot(item.itemType);
-                if (pos.HasValue)
+                    quality = item.quality,
+                    property = item.property,
+                    baseStat = item.baseStat,
+                    bonusQuality = item.bonusQuality,
+                    bonusProperty = item.bonusProperty,
+                    bonusBaseStat = item.bonusBaseStat
+                };
+                bonusStats[(int)item.property] += ((int)item.quality * item.baseStat);
+                if (item.bonusQuality != 0 && item.bonusBaseStat != 0)
                 {
-                    actives[pos.Value] = gameObject;
+                    bonusStats[(int)item.bonusProperty] += ((int)item.bonusQuality * item.bonusBaseStat);
                 }
             }
         }
@@ -50,8 +61,7 @@ public class Inventory : MonoBehaviour
     {
         if (0 <= pos && pos < passiveItemCount)
         {
-            GameObject discardObject = passives[pos];
-            Item discardItem = discardObject.GetComponent<Item>();
+            InventoryItem discardItem = passives[pos];
             bonusStats[(int)discardItem.property] -= ((int)discardItem.quality * discardItem.baseStat);
             if (discardItem.bonusQuality != 0 && discardItem.bonusBaseStat != 0)
             {
@@ -61,35 +71,17 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    public void UseActive(bool isFirstItem)
+    public void AddHealthPotion(int charges)
     {
-        var item = (isFirstItem ? actives[0] : actives[1]).GetComponent<ActiveItem>();
-        if (item != null)
+        healthPotions += charges;
+    }
+
+    public void UseHealthPotion()
+    {
+        if (healthPotions > 0)
         {
-            bonusStats[(int)item.property] += ((int)item.quality * item.baseStat);
-            if (item.bonusQuality != 0 && item.bonusBaseStat != 0)
-            {
-                bonusStats[(int)item.bonusProperty] += ((int)item.bonusQuality * item.bonusBaseStat);
-            }
-            StartCoroutine(item.useItem());
-            bonusStats[(int)item.property] -= ((int)item.quality * item.baseStat);
-            if (item.bonusQuality != 0 && item.bonusBaseStat != 0)
-            {
-                bonusStats[(int)item.bonusProperty] -= ((int)item.bonusQuality * item.bonusBaseStat);
-            }
-            if (item.charges <= 0)
-            {
-                if (isFirstItem)
-                {
-                    GameObject.Destroy(actives[0]);
-                    actives[0] = null;
-                }
-                else
-                {
-                    GameObject.Destroy(actives[1]);
-                    actives[1] = null;
-                }
-            }
+            healthPotions--;
+            vc.Heal(healAmount);
         }
     }
 
@@ -98,26 +90,18 @@ public class Inventory : MonoBehaviour
         return ((float)bonusStats[(int)property] / 100f);
     }
 
-    private int? GetNextFreeSlot(ItemType itemType)
+    private void Start()
     {
-        if (itemType == ItemType.PASSIVE)
+        vc = GetComponent<VitalityController>();
+    }
+
+    private int? GetNextFreeSlot()
+    {
+        for (var i = 0; i < passives.Length; i++)
         {
-            for (var i = 0; i < passives.Length; i++)
+            if (passives[i] == null)
             {
-                if (passives[i] == null)
-                {
-                    return i;
-                }
-            }
-        }
-        else if (itemType == ItemType.ACTIVE)
-        {
-            for (var i = 0; i < actives.Length; i++)
-            {
-                if (actives[i] == null)
-                {
-                    return i;
-                }
+                return i;
             }
         }
         return null;

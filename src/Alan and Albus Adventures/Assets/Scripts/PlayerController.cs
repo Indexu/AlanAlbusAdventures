@@ -17,6 +17,9 @@ public class PlayerController : MonoBehaviour
     private GameManager gameManager;
     private Stats stats;
     private Player player;
+    private Inventory inventory;
+    private GameObject item;
+    private GameObject healthPotion;
     private Vector2 moveVector;
     private Vector2 rotationVector;
     private bool doAttack;
@@ -55,6 +58,7 @@ public class PlayerController : MonoBehaviour
         canNavigateStats = true;
         currentReviveTime = 0f;
         gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+        inventory = GetComponent<Inventory>();
     }
 
     private void Update()
@@ -106,6 +110,14 @@ public class PlayerController : MonoBehaviour
         {
             reviveController = collider.gameObject.GetComponent<ReviveController>();
         }
+        else if (collider.gameObject.tag == "Item")
+        {
+            item = collider.gameObject;
+        }
+        else if (collider.gameObject.tag == "HealthPotion")
+        {
+            healthPotion = collider.gameObject;
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collider)
@@ -117,6 +129,14 @@ public class PlayerController : MonoBehaviour
         else if (collider.gameObject.layer == LayerMask.NameToLayer("ReviveTriggers"))
         {
             reviveController = null;
+        }
+        else if (collider.gameObject.tag == "Item")
+        {
+            item = null;
+        }
+        else if (collider.gameObject.tag == "HealthPotion")
+        {
+            healthPotion = null;
         }
     }
 
@@ -176,6 +196,10 @@ public class PlayerController : MonoBehaviour
                 showingPassives = false;
                 UIManager.instance.SetPassiveItemSlots(playerID, false);
             }
+            if (item != null)
+            {
+                AttemptToPickUpItem();
+            }
         }
         else
         {
@@ -204,6 +228,10 @@ public class PlayerController : MonoBehaviour
                 {
                     chest.OpenChest();
                 }
+                else if (healthPotion != null)
+                {
+                    PickUpHealthPotion();
+                }
                 else if (door != null && !gameManager.changingRooms)
                 {
                     door.GoThrough();
@@ -224,6 +252,10 @@ public class PlayerController : MonoBehaviour
             if (player.GetButtonUp("Start"))
             {
                 gameManager.Pause();
+            }
+            if (player.GetButtonDown("R1"))
+            {
+                inventory.UseHealthPotion();
             }
         }
     }
@@ -252,6 +284,47 @@ public class PlayerController : MonoBehaviour
         moveVector.y = player.GetAxis("Move Vertical");
 
         rb2d.AddForce(moveVector * stats.movementSpeed, ForceMode2D.Impulse);
+    }
+
+    private void AttemptToPickUpItem()
+    {
+        var itemToAdd = item.GetComponent<Item>();
+        if (player.GetButtonUp("Square"))
+        {
+            inventory.AddItem(itemToAdd, 0);
+            UIManager.instance.SetPassiveItemLeft(playerID, (Texture)item.GetComponent<SpriteRenderer>().sprite.texture);
+            itemToAdd.PickedUp();
+            item = null;
+        }
+        else if (player.GetButtonUp("Cross"))
+        {
+            inventory.AddItem(itemToAdd, 1);
+            UIManager.instance.SetPassiveItemDown(playerID, (Texture)item.GetComponent<SpriteRenderer>().sprite.texture);
+            itemToAdd.PickedUp();
+            item = null;
+        }
+        else if (player.GetButtonUp("Circle"))
+        {
+            inventory.AddItem(itemToAdd, 2);
+            UIManager.instance.SetPassiveItemRight(playerID, (Texture)item.GetComponent<SpriteRenderer>().sprite.texture);
+            itemToAdd.PickedUp();
+            item = null;
+        }
+        else if (player.GetButtonUp("Triangle"))
+        {
+            inventory.AddItem(itemToAdd, 3);
+            UIManager.instance.SetPassiveItemUp(playerID, (Texture)item.GetComponent<SpriteRenderer>().sprite.texture);
+            itemToAdd.PickedUp();
+            item = null;
+        }
+    }
+
+    private void PickUpHealthPotion()
+    {
+        var hp = healthPotion.GetComponent<HealthPotion>();
+        inventory.AddHealthPotion(hp.charges);
+        hp.PickedUp();
+        healthPotion = null;
     }
 
     public IEnumerator DelayJoystick()
