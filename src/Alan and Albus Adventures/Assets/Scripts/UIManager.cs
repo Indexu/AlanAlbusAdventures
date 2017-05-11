@@ -12,6 +12,14 @@ public class UIManager : MonoBehaviour
     public GameObject damageText;
     public GameObject reviveUI;
     public GameObject button;
+    public GameObject tooltip;
+    public Color rareItemColor;
+    public Color epicItemColor;
+    public Color legendaryItemColor;
+    public Color minorItemColor;
+    public Color lesserItemColor;
+    public Color superiorItemColor;
+    public Color majorItemColor;
     public Texture PS4Confirm;
     public Texture XboxConfirm;
     public Texture PS4Stats;
@@ -322,6 +330,156 @@ public class UIManager : MonoBehaviour
         experienceBarSlider.value = current / max;
     }
 
+    public GameObject CreateAndShowButton(Vector3 pos, float yOffset, Direction dir, bool ps4)
+    {
+        var buttonInstance = Instantiate(button, Vector3.zero, Quaternion.identity, UIManager.instance.canvas.transform);
+
+        var rt = buttonInstance.GetComponent<RectTransform>();
+
+        rt.sizeDelta = new Vector2(100f, 100f);
+
+        Vector2 screenPos = (Vector2)UIManager.instance.PositionToUI(pos);
+        screenPos.y += yOffset;
+        rt.anchoredPosition = screenPos;
+
+        if (ps4)
+        {
+            if (dir == Direction.up)
+            {
+                buttonInstance.GetComponent<RawImage>().texture = PS4Stats;
+            }
+            else if (dir == Direction.right)
+            {
+                buttonInstance.GetComponent<RawImage>().texture = PS4PassiveButtonRight;
+            }
+            else if (dir == Direction.down)
+            {
+                buttonInstance.GetComponent<RawImage>().texture = PS4Confirm;
+            }
+            else
+            {
+                buttonInstance.GetComponent<RawImage>().texture = PS4PassiveButtonLeft;
+            }
+        }
+        else
+        {
+            if (dir == Direction.up)
+            {
+                buttonInstance.GetComponent<RawImage>().texture = XboxStats;
+            }
+            else if (dir == Direction.right)
+            {
+                buttonInstance.GetComponent<RawImage>().texture = XboxPassiveButtonRight;
+            }
+            else if (dir == Direction.down)
+            {
+                buttonInstance.GetComponent<RawImage>().texture = XboxConfirm;
+            }
+            else
+            {
+                buttonInstance.GetComponent<RawImage>().texture = XboxPassiveButtonLeft;
+            }
+        }
+
+        return buttonInstance;
+    }
+
+    public void MoveUIElement(GameObject elem, Vector3 pos, float yOffset)
+    {
+        var rt = elem.GetComponent<RectTransform>();
+
+        Vector2 screenPos = (Vector2)UIManager.instance.PositionToUI(pos);
+        screenPos.y += yOffset;
+        rt.anchoredPosition = screenPos;
+    }
+
+    public GameObject CreateAndShowTooltip(Vector3 pos, float yOffset, Quality quality, Postfix postfix, Property postFixProperty, bool hasPostfix, string itemName, string statsText)
+    {
+        var tooltipInstance = Instantiate(tooltip, Vector3.zero, Quaternion.identity, UIManager.instance.canvas.transform);
+
+        var rt = tooltipInstance.GetComponent<RectTransform>();
+
+        Vector2 screenPos = (Vector2)UIManager.instance.PositionToUI(pos);
+        screenPos.y += yOffset;
+        rt.anchoredPosition = screenPos;
+
+        var nameContainer = tooltipInstance.transform.Find("Name").transform;
+        var statsTextObject = tooltipInstance.transform.Find("Stats").Find("Text").GetComponent<Text>();
+        var qualityText = nameContainer.Find("QualityText").GetComponent<Text>();
+        var nameText = nameContainer.Find("ItemText").GetComponent<Text>();
+        var postfixText = nameContainer.Find("PostfixText").GetComponent<Text>();
+
+        nameText.text = " " + itemName.Replace("(Clone)", string.Empty) + " ";
+        statsTextObject.text = statsText;
+
+        switch (quality)
+        {
+            case Quality.RARE:
+                {
+                    qualityText.color = rareItemColor;
+                    qualityText.text = "Rare";
+                    break;
+                }
+            case Quality.EPIC:
+                {
+                    qualityText.color = epicItemColor;
+                    qualityText.text = "Epic";
+                    break;
+                }
+            case Quality.LEGENDARY:
+                {
+                    qualityText.color = legendaryItemColor;
+                    qualityText.text = "Legendary";
+                    break;
+                }
+            default:
+                {
+                    GameObject.Destroy(qualityText.gameObject);
+                    break;
+                }
+        }
+
+        if (hasPostfix)
+        {
+            postfixText.text = "of " + Item.PropertyToString(postFixProperty);
+
+            switch (postfix)
+            {
+                case Postfix.MINOR:
+                    {
+                        postfixText.color = minorItemColor;
+                        break;
+                    }
+                case Postfix.LESSER:
+                    {
+                        postfixText.color = lesserItemColor;
+                        break;
+                    }
+                case Postfix.SUPERIOR:
+                    {
+                        postfixText.color = superiorItemColor;
+                        break;
+                    }
+                case Postfix.MAJOR:
+                    {
+                        postfixText.color = majorItemColor;
+                        break;
+                    }
+                default:
+                    {
+                        postfixText.text = string.Empty;
+                        break;
+                    }
+            }
+        }
+        else
+        {
+            GameObject.Destroy(postfixText.gameObject);
+        }
+
+        return tooltipInstance;
+    }
+
     private void Awake()
     {
         if (instance == null)
@@ -384,7 +542,11 @@ public class UIManager : MonoBehaviour
 
             AlanButtons[counter] = button;
             AlanItemIcons[counter] = icon;
-            icon.gameObject.SetActive(false);
+
+            if (slot.name != "UseItemSlot")
+            {
+                icon.gameObject.SetActive(false);
+            }
 
             counter++;
         }
@@ -399,7 +561,11 @@ public class UIManager : MonoBehaviour
 
             AlbusButtons[counter] = button;
             AlbusItemIcons[counter] = icon;
-            icon.gameObject.SetActive(false);
+
+            if (slot.name != "UseItemSlot")
+            {
+                icon.gameObject.SetActive(false);
+            }
 
             counter++;
         }

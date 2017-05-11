@@ -226,8 +226,8 @@ MonoBehaviour:
   damage: 2
   magicalDamage: 1
   Attacking: 0
-  knockbackForceOnTouch: 0
-  experienceValue: 0
+  knockbackForceOnTouch: 100
+  experienceValue: 30
   BossName: Blobert The Vile
   nameText: {fileID: 0}
   projectileForce: 20

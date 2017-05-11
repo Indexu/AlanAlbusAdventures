@@ -24,7 +24,8 @@ public class DoorController : MonoBehaviour
     {
         if (playersAdjacent == requiredPlayers)
         {
-            gameManager.changeRooms(connectedRoom, connectedDoor, direction, leadsToBoss);
+            playersAdjacent = 0;
+            GameManager.instance.changeRooms(connectedRoom, connectedDoor, direction, leadsToBoss);
             halo.enabled = false;
         }
     }
@@ -41,33 +42,26 @@ public class DoorController : MonoBehaviour
         gameObject.SetActive(true);
     }
 
+    public void EnterRange()
+    {
+        playersAdjacent++;
+        halo.enabled = true;
+    }
+
+    public void ExitRange()
+    {
+        playersAdjacent--;
+        if (playersAdjacent == 0)
+        {
+            halo.enabled = false;
+        }
+    }
+
     private void Start()
     {
         playersAdjacent = 0;
         gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
         halo = (Behaviour)GetComponent("Halo");
         halo.enabled = false;
-    }
-
-    private void OnTriggerEnter2D(Collider2D collider)
-    {
-        if (!locked && collider.gameObject.tag == "Player")
-        {
-            playersAdjacent++;
-            halo.enabled = true;
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D collider)
-    {
-        if (!locked && collider.gameObject.tag == "Player")
-        {
-            playersAdjacent--;
-
-            if (playersAdjacent == 0)
-            {
-                halo.enabled = false;
-            }
-        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InventoryItem
 {
@@ -32,6 +33,7 @@ public class Inventory : MonoBehaviour
     private InventoryItem[] passives = new InventoryItem[passiveItemCount];
 
     private VitalityController vc;
+    private Text healthPotionCounterText;
 
     public void AddItem(Item item, int pos)
     {
@@ -74,6 +76,7 @@ public class Inventory : MonoBehaviour
     public void AddHealthPotion(int charges)
     {
         healthPotions += charges;
+        SetCharges();
     }
 
     public void UseHealthPotion()
@@ -82,6 +85,7 @@ public class Inventory : MonoBehaviour
         {
             healthPotions--;
             vc.Heal(healAmount);
+            SetCharges();
         }
     }
 
@@ -93,6 +97,17 @@ public class Inventory : MonoBehaviour
     private void Start()
     {
         vc = GetComponent<VitalityController>();
+
+        var playerID = GetComponent<PlayerController>().playerID;
+        var searchString = (playerID == 0 ? "AlanItemSlots" : "AlbusItemSlots");
+        healthPotionCounterText = UIManager.instance.canvas.transform.Find(searchString).Find("UseItemSlot").Find("UsesFrame").Find("Text").GetComponent<Text>();
+
+        SetCharges();
+    }
+
+    private void SetCharges()
+    {
+        healthPotionCounterText.text = healthPotions.ToString();
     }
 
     private int? GetNextFreeSlot()

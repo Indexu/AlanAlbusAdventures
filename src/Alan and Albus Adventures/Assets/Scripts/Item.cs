@@ -4,51 +4,111 @@ using UnityEngine;
 
 public enum Quality
 {
-    COMMON    = 1,
-    RARE      = 2,
-    EPIC      = 3,
+    COMMON = 1,
+    RARE = 2,
+    EPIC = 3,
     LEGENDARY = 4
 };
 
 public enum Property
 {
-    MAXHEALTH     = 0,
+    MAXHEALTH = 0,
     MOVEMENTSPEED = 1,
-    ATTACKSPEED   = 2,
-    CRITCHANCE    = 3,
-    CRITDAMAGE    = 4,
-    BASEDAMAGE    = 5
+    ATTACKSPEED = 2,
+    CRITCHANCE = 3,
+    CRITDAMAGE = 4,
+    BASEDAMAGE = 5
 };
 
 public enum Postfix
 {
-    MINOR    = 1,
-    LESSER   = 2,
+    MINOR = 1,
+    LESSER = 2,
     SUPERIOR = 3,
-    MAJOR    = 4
+    MAJOR = 4
 }
 
 public class Item : MonoBehaviour
 {
     // Standard stats
-    public Quality  quality;
+    public Quality quality;
     public Property property;
-    public int      baseStat;
+    public int baseStat;
 
     // Bonus stats
-    public Postfix  bonusQuality;
+    public Postfix bonusQuality;
     public Property bonusProperty;
-    public int      bonusBaseStat;
+    public int bonusBaseStat;
+
+    public string name;
 
     private bool player1Enter;
     private bool player2Enter;
+    private GameObject tooltip;
+    private const float yOffset = 150f;
+    private string statsText;
+    private bool hasPostfix;
+
+    public static string PropertyToString(Property prop)
+    {
+        switch (prop)
+        {
+            case Property.ATTACKSPEED:
+                {
+                    return "Attack Speed";
+                }
+            case Property.BASEDAMAGE:
+                {
+                    return "Damage";
+                }
+            case Property.CRITCHANCE:
+                {
+                    return "Critical Chance";
+                }
+            case Property.CRITDAMAGE:
+                {
+                    return "Critical Damage";
+                }
+            case Property.MAXHEALTH:
+                {
+                    return "Health";
+                }
+            case Property.MOVEMENTSPEED:
+                {
+                    return "Movement Speed";
+                }
+            default:
+                return string.Empty;
+        }
+    }
 
     public void PickedUp()
     {
         GameObject.Destroy(gameObject);
     }
 
-    public void OnTriggerEnter2D(Collider2D collision)
+    private void Start()
+    {
+        hasPostfix = (bonusBaseStat != 0);
+
+        statsText = "+" + (int)quality + "% to " + Item.PropertyToString(property);
+
+        if (hasPostfix)
+        {
+            statsText += "\n";
+            statsText += "+" + (int)bonusQuality + "% to " + Item.PropertyToString(bonusProperty);
+        }
+    }
+
+    private void OnGUI()
+    {
+        if (tooltip != null)
+        {
+            UIManager.instance.MoveUIElement(tooltip, transform.position, yOffset);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         var tag = collision.gameObject.tag;
         if (tag == "Player")
@@ -63,11 +123,17 @@ public class Item : MonoBehaviour
             {
                 player2Enter = true;
             }
-            // Display Tooltip
+
+            if (tooltip != null)
+            {
+                GameObject.Destroy(tooltip);
+            }
+
+            tooltip = UIManager.instance.CreateAndShowTooltip(transform.position, yOffset, quality, bonusQuality, bonusProperty, hasPostfix, name, statsText);
         }
     }
 
-    public void OnTriggerExit2D(Collider2D collision)
+    private void OnTriggerExit2D(Collider2D collision)
     {
         var tag = collision.gameObject.tag;
         if (tag == "Player")
@@ -84,7 +150,7 @@ public class Item : MonoBehaviour
 
             if (!player1Enter && !player2Enter)
             {
-                // Hide Tooltip
+                GameObject.Destroy(tooltip);
             }
         }
     }

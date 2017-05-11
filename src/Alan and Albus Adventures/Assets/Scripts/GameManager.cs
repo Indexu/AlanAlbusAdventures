@@ -66,6 +66,15 @@ public class GameManager : MonoBehaviour
         GameManager.instance.vector.z = -10f;
 
         UIManager.instance.ClearDoorButtons();
+
+        var playersLayer = LayerMask.NameToLayer("Players");
+        var doorsLayer = LayerMask.NameToLayer("DoorTriggers");
+        Physics2D.IgnoreLayerCollision(playersLayer, doorsLayer, true);
+
+        foreach (var player in players)
+        {
+            player.GetComponent<PlayerController>().door = null;
+        }
     }
 
     public void EnemyKilled(float xp)
@@ -218,7 +227,6 @@ public class GameManager : MonoBehaviour
     private void endTransition()
     {
         GameManager.instance.mainCamera.transform.position = new Vector3(newRoom.x, newRoom.y, vector.z);
-        GameManager.instance.changingRooms = false;
 
         var spawns = new List<Vector3>();
         foreach (Transform child in door)
@@ -235,6 +243,7 @@ public class GameManager : MonoBehaviour
         }
 
         StartCoroutine(ActivateEnemies());
+        GameManager.instance.changingRooms = false;
     }
 
     private IEnumerator ActivateEnemies()
@@ -284,6 +293,9 @@ public class GameManager : MonoBehaviour
             }
         }
 
+        var playersLayer = LayerMask.NameToLayer("Players");
+        var doorsLayer = LayerMask.NameToLayer("DoorTriggers");
+        Physics2D.IgnoreLayerCollision(playersLayer, doorsLayer, false);
         killed = 0;
     }
 
@@ -317,6 +329,8 @@ public class GameManager : MonoBehaviour
         {
             player.statPoints++;
         }
+
+        currentRoom.transform.Find("Hole").gameObject.SetActive(true);
     }
 
     private bool DidLootDrop()
@@ -399,7 +413,7 @@ public class GameManager : MonoBehaviour
     {
         for (int i = 0; i < GameManager.instance.killed; i++)
         {
-            if (DidLootDrop())
+            if (DidLootDrop() || true)
             {
                 var property = GetPropertyOfItem();
                 GameObject item;
@@ -426,7 +440,6 @@ public class GameManager : MonoBehaviour
                         break;
                 };
                 item = Instantiate(arr[(Random.Range(0, arr.Length))], GameManager.instance.currentRoom.transform.position, Quaternion.identity, GameManager.instance.currentRoom.transform);
-                Debug.Log(item.transform.position);
                 var itemComponent = item.GetComponent<Item>();
                 itemComponent.quality = GetQualityOfItem();
                 for (int j = 0; j < (int)itemComponent.quality; j++)
