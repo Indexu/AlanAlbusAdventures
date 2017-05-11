@@ -205,6 +205,13 @@ MonoBehaviour:
   reviveParticle: {fileID: 0}
   boss: 0
   player: 0
+  blobDeathSound:
+  - {fileID: 8300000, guid: 5d023783706a1f44dbc5d4400a403edb, type: 3}
+  blobDamageSound:
+  - {fileID: 8300000, guid: 01a30b06d3bdef841abf079f6be27076, type: 3}
+  playerDamageSound: []
+  playerDeathSound: []
+  playerReviveSound: {fileID: 0}
   doUpdateUI: 0
 --- !u!114 &114125428037720236
 MonoBehaviour:
@@ -222,7 +229,7 @@ MonoBehaviour:
   magicalDamage: 0
   Attacking: 0
   knockbackForceOnTouch: 100
-  experienceValue: 10
+  experienceValue: 0
 --- !u!114 &114419555587202980
 MonoBehaviour:
   m_ObjectHideFlags: 1

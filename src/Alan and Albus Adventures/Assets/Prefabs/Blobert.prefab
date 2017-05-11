@@ -262,6 +262,13 @@ MonoBehaviour:
   reviveParticle: {fileID: 0}
   boss: 1
   player: 0
+  blobDeathSound:
+  - {fileID: 8300000, guid: 5d023783706a1f44dbc5d4400a403edb, type: 3}
+  blobDamageSound:
+  - {fileID: 8300000, guid: 01a30b06d3bdef841abf079f6be27076, type: 3}
+  playerDamageSound: []
+  playerDeathSound: []
+  playerReviveSound: {fileID: 0}
   doUpdateUI: 0
 --- !u!212 &212407990224719220
 SpriteRenderer:

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,6 +21,11 @@ public class VitalityController : MonoBehaviour
     public GameObject reviveParticle;
     public bool boss;
     public bool player;
+    public List<AudioClip> blobDeathSound;
+    public List<AudioClip> blobDamageSound;
+    public List<AudioClip> playerDamageSound;
+    public List<AudioClip> playerDeathSound;
+    public AudioClip playerReviveSound;
     public bool doUpdateUI;
 
     private float damageAmount = -1;
@@ -88,6 +94,7 @@ public class VitalityController : MonoBehaviour
         spriteRenderer.color = Color.white;
         doUpdateUI = true;
         isInvincibilityFrame = true;
+        SoundManager.instance.PlaySounds(playerReviveSound);
         StartCoroutine(InvincibiltyFrame());
 
         Instantiate(reviveParticle, transform.position, Quaternion.identity);
@@ -205,12 +212,16 @@ public class VitalityController : MonoBehaviour
                 isDead = true;
                 currentHealth = 0;
                 spriteRenderer.color = Color.gray;
-                GameManager.instance.PlayerKilled();
+                int index = Random.Range(0, playerDeathSound.Count);
+                SoundManager.instance.PlaySounds(playerDeathSound.ElementAt(index));
+                GameManager.instance.PlayerKilled();         
             }
             else
             {
                 var xp = GetComponent<Enemy>().experienceValue;
                 GameManager.instance.EnemyKilled(xp);
+                int index = Random.Range(0, blobDeathSound.Count);
+                SoundManager.instance.PlaySounds(blobDeathSound.ElementAt(index));
                 healthSlider.gameObject.SetActive(false);
                 gameObject.SetActive(false);
             }
@@ -220,6 +231,17 @@ public class VitalityController : MonoBehaviour
         else
         {
             Instantiate(selectedParticle, transform.position, Quaternion.identity);
+            if(tag == "enemy")
+            {
+                int index = Random.Range(0, blobDamageSound.Count);
+                bool critHit = (selectedParticle == critParticle);
+                SoundManager.instance.PlayDamageSounds(blobDamageSound.ElementAt(index), critHit);
+            }
+            else if(tag == "player")
+            {
+                int index = Random.Range(0, playerDamageSound.Count);
+                SoundManager.instance.PlaySounds(playerDamageSound.ElementAt(index));
+            }
         }
 
         lowHealth = player && ((float)currentHealth / (float)stats.maxHealth < lowHealthThreshold);
