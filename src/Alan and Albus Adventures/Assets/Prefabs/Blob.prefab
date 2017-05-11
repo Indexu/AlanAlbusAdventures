@@ -207,12 +207,11 @@ MonoBehaviour:
   player: 0
   blobDeathSound:
   - {fileID: 8300000, guid: 5d023783706a1f44dbc5d4400a403edb, type: 3}
-  - {fileID: 8300000, guid: 5d023783706a1f44dbc5d4400a403edb, type: 3}
   blobDamageSound:
-  - {fileID: 8300000, guid: 6d274f3976da75648accfd9cd2de9202, type: 3}
-  - {fileID: 8300000, guid: 6d274f3976da75648accfd9cd2de9202, type: 3}
+  - {fileID: 8300000, guid: 01a30b06d3bdef841abf079f6be27076, type: 3}
   playerDamageSound: []
   playerDeathSound: []
+  playerReviveSound: {fileID: 0}
   doUpdateUI: 0
 --- !u!114 &114125428037720236
 MonoBehaviour:
