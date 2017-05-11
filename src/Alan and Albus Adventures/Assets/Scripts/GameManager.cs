@@ -440,7 +440,6 @@ public class GameManager : MonoBehaviour
                         break;
                 };
                 item = Instantiate(arr[(Random.Range(0, arr.Length))], GameManager.instance.currentRoom.transform.position, Quaternion.identity, GameManager.instance.currentRoom.transform);
-                Debug.Log(item.transform.position);
                 var itemComponent = item.GetComponent<Item>();
                 itemComponent.quality = GetQualityOfItem();
                 for (int j = 0; j < (int)itemComponent.quality; j++)
