@@ -364,7 +364,7 @@ public class PlayerController : MonoBehaviour
         moveVector.x = player.GetAxis("Move Horizontal");
         moveVector.y = player.GetAxis("Move Vertical");
 
-        rb2d.AddForce(moveVector * stats.movementSpeed, ForceMode2D.Impulse);
+        rb2d.AddForce(moveVector * stats.movementSpeed * inventory.GetStatBonus(Property.MOVEMENTSPEED), ForceMode2D.Impulse);
     }
 
     private void AttemptToPickUpItem()

@@ -20,6 +20,7 @@ public class ProjectileDirection : MonoBehaviour
     private Vector2 playerPos;
     private List<Collider2D> collidingEnemies;
     private Stats stats;
+    private Inventory inventory;
     private SpriteRenderer spriteRenderer;
 
     public void SetCrosshair(Vector2 coords)
@@ -37,21 +38,21 @@ public class ProjectileDirection : MonoBehaviour
     {
         if (nextFire < Time.time)
         {
-            nextFire = Time.time + stats.attackSpeed;
+            nextFire = Time.time + (stats.attackSpeed / inventory.GetStatBonus(Property.ATTACKSPEED));
 
             var projectileInstance = Instantiate(projectile, transform.position, transform.rotation) as GameObject;
 
             projectileInstance.GetComponent<Rigidbody2D>().AddForce(rotationVector.normalized * attackForce, ForceMode2D.Impulse);
 
             var projectileComponent = projectileInstance.GetComponent<Projectile>();
-            projectileComponent.damage = stats.baseDamage;
+            projectileComponent.damage = stats.baseDamage * inventory.GetStatBonus(Property.BASEDAMAGE);
             projectileComponent.isMagical = magicalDamage;
             projectileComponent.playerFired = true;
             var isCrit = false;
 
-            if (Random.value * 100 < stats.critHitChance)
+            if (Random.value * 100 < (stats.critHitChance * inventory.GetStatBonus(Property.CRITCHANCE)))
             {
-                projectileComponent.damage *= stats.critHitDamage;
+                projectileComponent.damage *= (stats.critHitDamage * inventory.GetStatBonus(Property.CRITDAMAGE));
                 isCrit = true;
             }
 
@@ -71,16 +72,16 @@ public class ProjectileDirection : MonoBehaviour
     {
         if (nextFire < Time.time)
         {
-            nextFire = Time.time + stats.attackSpeed;
+            nextFire = Time.time + (stats.attackSpeed / inventory.GetStatBonus(Property.ATTACKSPEED));
 
             StartCoroutine(AlanAttackAnimation());
 
-            var damage = stats.baseDamage;
+            var damage = stats.baseDamage * inventory.GetStatBonus(Property.BASEDAMAGE);
             var isCrit = false;
 
-            if (Random.value * 100 < stats.critHitChance)
+            if (Random.value * 100 < (stats.critHitChance * inventory.GetStatBonus(Property.CRITCHANCE)))
             {
-                damage *= stats.critHitDamage;
+                damage *= (stats.critHitDamage * inventory.GetStatBonus(Property.CRITDAMAGE));
                 isCrit = true;
             }
 
@@ -118,6 +119,7 @@ public class ProjectileDirection : MonoBehaviour
         playerID = gameObject.transform.parent.gameObject.GetComponent<PlayerController>().playerID;
         stats = gameObject.transform.parent.gameObject.GetComponent<Stats>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        inventory = gameObject.transform.parent.gameObject.GetComponent<Inventory>();
         magicalDamage = (playerID == 1);
         SetCrosshair(Vector2.up);
         collidingEnemies = (playerID == 0) ? new List<Collider2D>() : null;
@@ -141,7 +143,7 @@ public class ProjectileDirection : MonoBehaviour
 
     private IEnumerator AlanAttackAnimation()
     {
-        var interval = stats.attackSpeed / AlanAttackSprites.Length;
+        var interval = (stats.attackSpeed / inventory.GetStatBonus(Property.ATTACKSPEED)) / AlanAttackSprites.Length;
         foreach (var sprite in AlanAttackSprites)
         {
             yield return new WaitForSeconds(interval);
