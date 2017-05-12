@@ -40,12 +40,14 @@ public class Inventory : MonoBehaviour
     private Text healthPotionCounterText;
     private bool updateUI = false;
     private int updatePos;
+    private bool destroy;
+    private float currentDestroyTime;
 
-    public void AddItem(Item item, int pos)
+    public bool AddItem(Item item, int pos)
     {
         if (item != null)
         {
-            if (0 <= pos && pos < passiveItemCount)
+            if (0 <= pos && pos < passiveItemCount && passives[pos] == null)
             {
                 passives[pos] = new InventoryItem
                 {
@@ -63,13 +65,17 @@ public class Inventory : MonoBehaviour
                 {
                     bonusStats[(int)item.bonusProperty] += ((int)item.bonusQuality * item.bonusBaseStat);
                 }
+
+                return true;
             }
         }
+
+        return false;
     }
 
     public void RemoveItem(int pos)
     {
-        if (0 <= pos && pos < passiveItemCount)
+        if (0 <= pos && pos < passiveItemCount && passives[pos] != null)
         {
             InventoryItem discardItem = passives[pos];
             bonusStats[(int)discardItem.property] -= ((int)discardItem.quality * discardItem.baseStat);
@@ -104,8 +110,25 @@ public class Inventory : MonoBehaviour
 
     public void ViewItem(int pos)
     {
+        currentDestroyTime = 0f;
         updateUI = true;
+        destroy = false;
         updatePos = pos;
+        UIManager.instance.SetInventoryTooltipDestroySlider(pc.playerID, 0f);
+    }
+
+    public void DestroyItem(int pos, float destroyTime)
+    {
+        if (pos == updatePos)
+        {
+            destroy = true;
+            currentDestroyTime = destroyTime;
+        }
+        else
+        {
+            currentDestroyTime = 0f;
+            destroy = false;
+        }
     }
 
     private void Start()
@@ -134,7 +157,73 @@ public class Inventory : MonoBehaviour
                 var itemName = passives[updatePos].itemName;
                 var statsText = passives[updatePos].statsText;
 
-                UIManager.instance.ShowInventoryTooltip(pc.playerID, quality, postfix, postfixProperty, hasPostfix, itemName, statsText);
+                var dir = Direction.up;
+
+                switch (updatePos)
+                {
+                    case 0:
+                        {
+                            dir = Direction.left;
+                            break;
+                        }
+                    case 1:
+                        {
+                            dir = Direction.down;
+                            break;
+                        }
+                    case 2:
+                        {
+                            dir = Direction.right;
+                            break;
+                        }
+                    default:
+                        {
+                            break;
+                        }
+                }
+
+                UIManager.instance.ShowInventoryTooltip(pc.playerID, pc.playstationController, dir, quality, postfix, postfixProperty, hasPostfix, itemName, statsText);
+            }
+        }
+
+        if (destroy)
+        {
+            UIManager.instance.SetInventoryTooltipDestroySlider(pc.playerID, currentDestroyTime);
+
+            if (1f <= currentDestroyTime)
+            {
+                RemoveItem(updatePos);
+                currentDestroyTime = 0f;
+                destroy = false;
+                UIManager.instance.HideInventoryTooltip(pc.playerID);
+
+                switch (updatePos)
+                {
+                    case 0:
+                        {
+                            UIManager.instance.DestroyPassiveItemLeft(pc.playerID);
+                            break;
+                        }
+                    case 1:
+                        {
+                            UIManager.instance.DestroyPassiveItemDown(pc.playerID);
+                            break;
+                        }
+                    case 2:
+                        {
+                            UIManager.instance.DestroyPassiveItemRight(pc.playerID);
+                            break;
+                        }
+                    case 3:
+                        {
+                            UIManager.instance.DestroyPassiveItemUp(pc.playerID);
+                            break;
+                        }
+                    default:
+                        {
+                            break;
+                        }
+                }
             }
         }
     }

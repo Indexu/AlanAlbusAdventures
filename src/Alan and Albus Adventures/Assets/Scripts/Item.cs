@@ -87,19 +87,6 @@ public class Item : MonoBehaviour
         GameObject.Destroy(gameObject);
     }
 
-    private void Start()
-    {
-        hasPostfix = (bonusBaseStat != 0);
-
-        statsText = "+" + (int)quality + "% to " + Item.PropertyToString(property);
-
-        if (hasPostfix)
-        {
-            statsText += "\n";
-            statsText += "+" + (int)bonusQuality + "% to " + Item.PropertyToString(bonusProperty);
-        }
-    }
-
     private void OnGUI()
     {
         if (tooltip != null)
@@ -129,6 +116,11 @@ public class Item : MonoBehaviour
                 GameObject.Destroy(tooltip);
             }
 
+            if (string.IsNullOrEmpty(statsText))
+            {
+                CreateStatText();
+            }
+
             tooltip = UIManager.instance.CreateAndShowTooltip(transform.position, yOffset, quality, bonusQuality, bonusProperty, hasPostfix, itemName, statsText);
         }
     }
@@ -152,6 +144,19 @@ public class Item : MonoBehaviour
             {
                 GameObject.Destroy(tooltip);
             }
+        }
+    }
+
+    private void CreateStatText()
+    {
+        hasPostfix = (bonusBaseStat != 0);
+
+        statsText = "+" + (int)quality + "% to " + Item.PropertyToString(property);
+
+        if (hasPostfix)
+        {
+            statsText += "\n";
+            statsText += "+" + (int)bonusQuality + "% to " + Item.PropertyToString(bonusProperty);
         }
     }
 }

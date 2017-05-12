@@ -71,6 +71,8 @@ public class UIManager : MonoBehaviour
     private Text[] playerTooltipsItemNameText;
     private Text[] playerTooltipsPostfixText;
     private Text[] playerTooltipsStatsText;
+    private RawImage[] playerTooltipsDestroyButton;
+    private Slider[] playerTooltipsDestroySlider;
 
     public Vector3 PositionToUI(Vector3 pos)
     {
@@ -486,29 +488,14 @@ public class UIManager : MonoBehaviour
         return tooltipInstance;
     }
 
-    public void ShowInventoryTooltip(int playerID, Quality quality, Postfix postfix, Property postFixProperty, bool hasPostfix, string itemName, string statsText)
+    public void ShowInventoryTooltip(int playerID, bool ps4, Direction dir, Quality quality, Postfix postfix, Property postFixProperty, bool hasPostfix, string itemName, string statsText)
     {
-        /* 
-        var tooltipInstance = Instantiate(tooltip, playerTooltips[playerID].transform.position, Quaternion.identity, UIManager.instance.canvas.transform);
-
-        var rt = tooltipInstance.GetComponent<RectTransform>();
-
-        var rtt = playerTooltips[playerID].GetComponent<RectTransform>();
-
-        rt.anchoredPosition = rtt.anchoredPosition;
-
-        var nameContainer = tooltipInstance.transform.Find("Name").transform;
-        var statsTextObject = tooltipInstance.transform.Find("Stats").Find("Text").GetComponent<Text>();
-        var qualityText = nameContainer.Find("QualityText").GetComponent<Text>();
-        var nameText = nameContainer.Find("ItemText").GetComponent<Text>();
-        var postfixText = nameContainer.Find("PostfixText").GetComponent<Text>();
-
-        */
-
         playerTooltips[playerID].SetActive(true);
 
-        // playerTooltipsItemNameText[playerID].text = " " + itemName.Replace("(Clone)", string.Empty) + " ";
         playerTooltipsItemNameText[playerID].text = itemName.Replace("(Clone)", string.Empty);
+
+
+        UIManager.instance.SetInventoryTooltipDestroySlider(playerID, 0f);
 
         switch (quality)
         {
@@ -579,12 +566,56 @@ public class UIManager : MonoBehaviour
             playerTooltipsPostfixText[playerID].gameObject.SetActive(false);
         }
 
+        if (ps4)
+        {
+            if (dir == Direction.up)
+            {
+                playerTooltipsDestroyButton[playerID].texture = PS4Stats;
+            }
+            else if (dir == Direction.right)
+            {
+                playerTooltipsDestroyButton[playerID].texture = PS4PassiveButtonRight;
+            }
+            else if (dir == Direction.down)
+            {
+                playerTooltipsDestroyButton[playerID].texture = PS4Confirm;
+            }
+            else
+            {
+                playerTooltipsDestroyButton[playerID].texture = PS4PassiveButtonLeft;
+            }
+        }
+        else
+        {
+            if (dir == Direction.up)
+            {
+                playerTooltipsDestroyButton[playerID].texture = XboxStats;
+            }
+            else if (dir == Direction.right)
+            {
+                playerTooltipsDestroyButton[playerID].texture = XboxPassiveButtonRight;
+            }
+            else if (dir == Direction.down)
+            {
+                playerTooltipsDestroyButton[playerID].texture = XboxConfirm;
+            }
+            else
+            {
+                playerTooltipsDestroyButton[playerID].texture = XboxPassiveButtonLeft;
+            }
+        }
+
         StartCoroutine(StatsAndSpacing(playerID, statsText));
     }
 
     public void HideInventoryTooltip(int playerID)
     {
         playerTooltips[playerID].SetActive(false);
+    }
+
+    public void SetInventoryTooltipDestroySlider(int playerID, float value)
+    {
+        playerTooltipsDestroySlider[playerID].value = value;
     }
 
     private void Awake()
@@ -636,6 +667,8 @@ public class UIManager : MonoBehaviour
         UIManager.instance.playerTooltipsPostfixText = new Text[2];
         UIManager.instance.playerTooltipsQualityText = new Text[2];
         UIManager.instance.playerTooltipsStatsText = new Text[2];
+        UIManager.instance.playerTooltipsDestroyButton = new RawImage[2];
+        UIManager.instance.playerTooltipsDestroySlider = new Slider[2];
 
         UIManager.instance.FindTooltips();
         UIManager.instance.playerTooltips[0].SetActive(false);
@@ -698,6 +731,8 @@ public class UIManager : MonoBehaviour
             UIManager.instance.playerTooltipsItemNameText[i] = playerTooltips[i].transform.Find("Name").Find("ItemText").GetComponent<Text>();
             UIManager.instance.playerTooltipsPostfixText[i] = playerTooltips[i].transform.Find("Name").Find("PostfixText").GetComponent<Text>();
             UIManager.instance.playerTooltipsQualityText[i] = playerTooltips[i].transform.Find("Name").Find("QualityText").GetComponent<Text>();
+            UIManager.instance.playerTooltipsDestroyButton[i] = playerTooltips[i].transform.Find("DestructionText").Find("DestroyButton").GetComponent<RawImage>();
+            UIManager.instance.playerTooltipsDestroySlider[i] = playerTooltips[i].transform.Find("DestroySlider").GetComponent<Slider>();
         }
     }
 

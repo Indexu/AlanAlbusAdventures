@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     public bool attackButton;
     public bool playstationController;
     public DoorController door;
+    public float destroyTime;
 
     private Rigidbody2D rb2d;
     private VitalityController vc;
@@ -31,6 +32,9 @@ public class PlayerController : MonoBehaviour
     private float joystickStatsDelay = 0.15f;
     private const float joystickDeadzone = 0.4f;
     private bool showingPassives;
+    private int viewItem;
+    private float currentDestroyTime;
+    private bool destroyingItem;
 
     private void Awake()
     {
@@ -57,6 +61,7 @@ public class PlayerController : MonoBehaviour
         inStatsScreen = false;
         canNavigateStats = true;
         currentReviveTime = 0f;
+        viewItem = -1;
         gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
         inventory = GetComponent<Inventory>();
     }
@@ -211,6 +216,7 @@ public class PlayerController : MonoBehaviour
             {
                 showingPassives = false;
                 UIManager.instance.SetPassiveItemSlots(playerID, false);
+                UIManager.instance.HideInventoryTooltip(playerID);
             }
             if (item != null)
             {
@@ -218,19 +224,39 @@ public class PlayerController : MonoBehaviour
             }
             else if (player.GetButtonUp("Square"))
             {
-                inventory.ViewItem(0);
+                viewItem = 0;
+                ViewItem();
             }
             else if (player.GetButtonUp("Cross"))
             {
-                inventory.ViewItem(1);
+                viewItem = 1;
+                ViewItem();
             }
             else if (player.GetButtonUp("Circle"))
             {
-                inventory.ViewItem(2);
+                viewItem = 2;
+                ViewItem();
             }
             else if (player.GetButtonUp("Triangle"))
             {
-                inventory.ViewItem(3);
+                viewItem = 3;
+                ViewItem();
+            }
+            else if ((player.GetButtonDown("Square") || destroyingItem) && viewItem == 0)
+            {
+                DestroyItem();
+            }
+            else if ((player.GetButtonDown("Cross") || destroyingItem) && viewItem == 1)
+            {
+                DestroyItem();
+            }
+            else if ((player.GetButtonDown("Circle") || destroyingItem) && viewItem == 2)
+            {
+                DestroyItem();
+            }
+            else if ((player.GetButtonDown("Triangle") || destroyingItem) && viewItem == 3)
+            {
+                DestroyItem();
             }
         }
         else
@@ -325,30 +351,26 @@ public class PlayerController : MonoBehaviour
     private void AttemptToPickUpItem()
     {
         var itemToAdd = item.GetComponent<Item>();
-        if (player.GetButtonUp("Square"))
+        if (player.GetButtonUp("Square") && inventory.AddItem(itemToAdd, 0))
         {
-            inventory.AddItem(itemToAdd, 0);
             UIManager.instance.SetPassiveItemLeft(playerID, (Texture)item.GetComponent<SpriteRenderer>().sprite.texture);
             itemToAdd.PickedUp();
             item = null;
         }
-        else if (player.GetButtonUp("Cross"))
+        else if (player.GetButtonUp("Cross") && inventory.AddItem(itemToAdd, 1))
         {
-            inventory.AddItem(itemToAdd, 1);
             UIManager.instance.SetPassiveItemDown(playerID, (Texture)item.GetComponent<SpriteRenderer>().sprite.texture);
             itemToAdd.PickedUp();
             item = null;
         }
-        else if (player.GetButtonUp("Circle"))
+        else if (player.GetButtonUp("Circle") && inventory.AddItem(itemToAdd, 2))
         {
-            inventory.AddItem(itemToAdd, 2);
             UIManager.instance.SetPassiveItemRight(playerID, (Texture)item.GetComponent<SpriteRenderer>().sprite.texture);
             itemToAdd.PickedUp();
             item = null;
         }
-        else if (player.GetButtonUp("Triangle"))
+        else if (player.GetButtonUp("Triangle") && inventory.AddItem(itemToAdd, 3))
         {
-            inventory.AddItem(itemToAdd, 3);
             UIManager.instance.SetPassiveItemUp(playerID, (Texture)item.GetComponent<SpriteRenderer>().sprite.texture);
             itemToAdd.PickedUp();
             item = null;
@@ -361,6 +383,27 @@ public class PlayerController : MonoBehaviour
         inventory.AddHealthPotion(hp.charges);
         hp.PickedUp();
         healthPotion = null;
+    }
+
+    private void ViewItem()
+    {
+        inventory.ViewItem(viewItem);
+        destroyingItem = false;
+        currentDestroyTime = 0f;
+    }
+
+    private void DestroyItem()
+    {
+        destroyingItem = true;
+        currentDestroyTime += Time.deltaTime;
+        inventory.DestroyItem(viewItem, currentDestroyTime / destroyTime);
+
+        if (destroyTime <= currentDestroyTime)
+        {
+            destroyingItem = false;
+            currentDestroyTime = 0f;
+            viewItem = -1;
+        }
     }
 
     public IEnumerator DelayJoystick()
