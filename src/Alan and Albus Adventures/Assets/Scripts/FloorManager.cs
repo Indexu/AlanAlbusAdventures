@@ -77,6 +77,8 @@ public class FloorManager : MonoBehaviour
         SpawnBoss();
         SpawnChest();
         PlacePlayersAndCamera();
+
+        floorLevel++;
     }
 
     private void Init()
