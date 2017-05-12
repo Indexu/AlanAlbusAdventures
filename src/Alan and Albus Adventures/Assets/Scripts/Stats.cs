@@ -20,11 +20,18 @@ public class Stats : MonoBehaviour
     private Text baseDamageText;
     private Text attackSpeedText;
     private Text statPointsText;
+    private Text movementSpeedBonusText;
+    private Text maxHealthBonusText;
+    private Text critHitChanceBonusText;
+    private Text critHitDamageBonusText;
+    private Text baseDamageBonusText;
+    private Text attackSpeedBonusText;
     private RectTransform selectedBorder;
     private GameObject statsTable;
     private int viewing;
 
     private VitalityController vc;
+    private Inventory inventory;
     private int playerID;
     private const float maxHealthYPos = 248f;
     private const float movementSpeedYPos = 123.7f;
@@ -157,13 +164,22 @@ public class Stats : MonoBehaviour
 
     public void UpdateUI()
     {
+        statPointsText.text = statPoints.ToString();
+
         movementSpeedText.text = movementSpeed.ToString();
         maxHealthText.text = maxHealth.ToString();
         critHitChanceText.text = critHitChance + "%";
         critHitDamageText.text = critHitDamage + "x";
         baseDamageText.text = baseDamage.ToString();
         attackSpeedText.text = attackSpeed.ToString("0.00") + "s";
-        statPointsText.text = statPoints.ToString();
+
+        movementSpeedBonusText.text = "(x" + inventory.GetStatBonus(Property.MOVEMENTSPEED).ToString("0.00") + ")";
+        maxHealthBonusText.text = "(x" + inventory.GetStatBonus(Property.MAXHEALTH).ToString("0.00") + ")";
+        critHitChanceBonusText.text = "(x" + inventory.GetStatBonus(Property.CRITCHANCE).ToString("0.00") + ")";
+        critHitDamageBonusText.text = "(x" + inventory.GetStatBonus(Property.CRITDAMAGE).ToString("0.00") + ")";
+        baseDamageBonusText.text = "(x" + inventory.GetStatBonus(Property.BASEDAMAGE).ToString("0.00") + ")";
+        attackSpeedBonusText.text = "(x" + inventory.GetStatBonus(Property.ATTACKSPEED).ToString("0.00") + ")";
+
         vc.doUpdateUI = true;
     }
 
@@ -189,6 +205,7 @@ public class Stats : MonoBehaviour
     private void Start()
     {
         vc = GetComponent<VitalityController>();
+        inventory = GetComponent<Inventory>();
 
         selectedStat = 1;
         doUpdateUI = true;
@@ -274,6 +291,14 @@ public class Stats : MonoBehaviour
         critHitDamageText = statsTable.transform.Find("CritDamageValueText").GetComponent<Text>();
         baseDamageText = statsTable.transform.Find("BaseDamageValueText").GetComponent<Text>();
         attackSpeedText = statsTable.transform.Find("AttackSpeedValueText").GetComponent<Text>();
+
+        movementSpeedBonusText = statsTable.transform.Find("MovementSpeedBonusText").GetComponent<Text>();
+        maxHealthBonusText = statsTable.transform.Find("MaxHealthBonusText").GetComponent<Text>();
+        critHitChanceBonusText = statsTable.transform.Find("CritChanceBonusText").GetComponent<Text>();
+        critHitDamageBonusText = statsTable.transform.Find("CritDamageBonusText").GetComponent<Text>();
+        baseDamageBonusText = statsTable.transform.Find("BaseDamageBonusText").GetComponent<Text>();
+        attackSpeedBonusText = statsTable.transform.Find("AttackSpeedBonusText").GetComponent<Text>();
+
         statPointsText = statsTable.transform.Find("StatPointsValueText").GetComponent<Text>();
         selectedBorder = statsTable.transform.Find("SelectedBorder").GetComponent<RectTransform>();
     }
