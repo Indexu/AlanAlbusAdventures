@@ -27,7 +27,7 @@ public class ChestAnimationController : MonoBehaviour
                 GameObject.Destroy(button);
             }
 
-            GameManager.instance.DropLoot(2, true);
+            GameManager.instance.DropLoot(Random.Range(1, 4), true);
         }
     }
 

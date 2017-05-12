@@ -68,11 +68,6 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (playerID == 0)
-        {
-            Debug.Log("CHEST IS " + (chest != null));
-        }
-
         if (!vc.isDead)
         {
             CheckInput();
