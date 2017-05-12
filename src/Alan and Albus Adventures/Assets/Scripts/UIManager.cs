@@ -60,6 +60,7 @@ public class UIManager : MonoBehaviour
     private Direction doorButton1Direction;
     private RawImage doorButton2;
     private Direction doorButton2Direction;
+    private RawImage holeButton;
 
 
     private GameObject experienceBar;
@@ -310,6 +311,54 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void ShowHoleButton(Vector3 pos, bool ps4)
+    {
+        if (holeButton != null)
+        {
+            var color = holeButton.color;
+            color.a = 1f;
+
+            holeButton.color = color;
+        }
+        else
+        {
+            var buttonInstance = Instantiate(button, Vector3.zero, Quaternion.identity, UIManager.instance.canvas.transform);
+
+            var rt = buttonInstance.GetComponent<RectTransform>();
+            rt.anchoredPosition = (Vector2)UIManager.instance.PositionToUI(pos);
+
+            holeButton = buttonInstance.GetComponent<RawImage>();
+
+            if (!ps4)
+            {
+                holeButton.texture = XboxConfirm;
+            }
+
+            var color = holeButton.color;
+            color.a = 0.5f;
+
+            holeButton.color = color;
+        }
+    }
+
+    public void HideHoleButton()
+    {
+        if (holeButton != null)
+        {
+            if (holeButton.color.a == 1f)
+            {
+                var color = holeButton.color;
+                color.a = 0.5f;
+
+                holeButton.color = color;
+            }
+            else
+            {
+                GameObject.Destroy(holeButton.gameObject);
+            }
+        }
+    }
+
     public void ClearDoorButtons()
     {
         if (doorButton1 != null)
@@ -319,6 +368,10 @@ public class UIManager : MonoBehaviour
         if (doorButton2 != null)
         {
             GameObject.Destroy(doorButton2.gameObject);
+        }
+        if (holeButton != null)
+        {
+            GameObject.Destroy(holeButton.gameObject);
         }
     }
 

@@ -17,6 +17,14 @@ public class HealthPotion : MonoBehaviour
         GameObject.Destroy(gameObject);
     }
 
+    private void OnDestroy()
+    {
+        if (button != null)
+        {
+            GameObject.Destroy(button);
+        }
+    }
+
     private void OnGUI()
     {
         if (button != null)

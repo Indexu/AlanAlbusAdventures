@@ -95,6 +95,14 @@ public class Item : MonoBehaviour
         }
     }
 
+    private void OnDestroy()
+    {
+        if (tooltip != null)
+        {
+            GameObject.Destroy(tooltip);
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         var tag = collision.gameObject.tag;

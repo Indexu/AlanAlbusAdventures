@@ -25,7 +25,7 @@ public class DoorController : MonoBehaviour
         if (playersAdjacent == requiredPlayers)
         {
             playersAdjacent = 0;
-            GameManager.instance.changeRooms(connectedRoom, connectedDoor, direction, leadsToBoss);
+            GameManager.instance.ChangeRooms(connectedRoom, connectedDoor, direction, leadsToBoss);
             halo.enabled = false;
         }
     }

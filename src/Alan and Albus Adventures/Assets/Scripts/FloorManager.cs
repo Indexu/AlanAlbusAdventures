@@ -58,6 +58,7 @@ public class FloorManager : MonoBehaviour
     public List<GameObject> enemies;
     public List<GameObject> bosses;
 
+    private GameObject floor;
     private GameObject[,] grid;
     private List<Point> roomCoords;
     private List<Point> availableCoords;
@@ -78,7 +79,7 @@ public class FloorManager : MonoBehaviour
         PlacePlayersAndCamera();
     }
 
-    public void Init()
+    private void Init()
     {
         grid = new GameObject[gridLength, gridLength];
         for (int i = 0; i < gridLength; i++)
@@ -92,6 +93,11 @@ public class FloorManager : MonoBehaviour
         roomCoords = new List<Point>();
         availableCoords = new List<Point>();
         bounds = room.GetComponent<Renderer>().bounds;
+
+        if (floor != null)
+        {
+            GameObject.Destroy(floor);
+        }
     }
 
     private void ResetGrid()
@@ -196,7 +202,7 @@ public class FloorManager : MonoBehaviour
     {
         var sizeVector = bounds.size;
 
-        var floor = new GameObject()
+        floor = new GameObject()
         {
             name = "Floor"
         };

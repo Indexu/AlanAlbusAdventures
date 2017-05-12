@@ -51,7 +51,13 @@ public class GameManager : MonoBehaviour
     private int deadPlayers;
     private Stats[] playerStats;
 
-    public void changeRooms(GameObject room, Transform door, Direction dir, bool boss)
+    public void NextFloor()
+    {
+        UIManager.instance.ClearDoorButtons();
+        GameManager.instance.floorManager.GenerateFloor();
+    }
+
+    public void ChangeRooms(GameObject room, Transform door, Direction dir, bool boss)
     {
         GameManager.instance.changingRooms = true;
 

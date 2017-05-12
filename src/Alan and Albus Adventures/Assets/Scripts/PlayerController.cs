@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody2D rb2d;
     private VitalityController vc;
-    public ChestAnimationController chest;
+    private ChestAnimationController chest;
     private ReviveController reviveController;
     private GameManager gameManager;
     private Stats stats;
@@ -35,6 +35,7 @@ public class PlayerController : MonoBehaviour
     private int viewItem;
     private float currentDestroyTime;
     private bool destroyingItem;
+    private GameObject hole;
 
     private void Awake()
     {
@@ -64,6 +65,7 @@ public class PlayerController : MonoBehaviour
         viewItem = -1;
         gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
         inventory = GetComponent<Inventory>();
+        hole = null;
     }
 
     private void Update()
@@ -138,6 +140,10 @@ public class PlayerController : MonoBehaviour
             door.EnterRange();
             UIManager.instance.ShowDoorButton(collider.transform.position, door.direction, playstationController);
         }
+        else if (collider.gameObject.tag == "Hole")
+        {
+            hole = collider.gameObject;
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collider)
@@ -171,6 +177,10 @@ public class PlayerController : MonoBehaviour
                 UIManager.instance.HideDoorButton(door.direction);
                 door = null;
             }
+        }
+        else if (collider.gameObject.tag == "Hole")
+        {
+            hole = null;
         }
     }
 
@@ -299,6 +309,10 @@ public class PlayerController : MonoBehaviour
                 else if (door != null && !gameManager.changingRooms)
                 {
                     door.GoThrough();
+                }
+                else if (hole != null && !gameManager.changingRooms)
+                {
+                    GameManager.instance.NextFloor();
                 }
             }
             else if (player.GetButtonDown("Cross") || currentReviveTime != 0f)
