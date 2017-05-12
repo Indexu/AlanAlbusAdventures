@@ -253,9 +253,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 1663542316}
+    m_SelectOnDown: {fileID: 588857665}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
@@ -387,9 +387,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 0
+    m_Mode: 2
     m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
+    m_SelectOnDown: {fileID: 2060782563}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
@@ -668,12 +668,12 @@ Prefab:
     - target: {fileID: 114909770465445540, guid: 7dcc1ff5548bc4149b297f1708dbd46e,
         type: 2}
       propertyPath: _userData.actions.Array.data[15]._positiveDescriptiveName
-      value: UIVertical
+      value: UIVerticalUp
       objectReference: {fileID: 0}
     - target: {fileID: 114909770465445540, guid: 7dcc1ff5548bc4149b297f1708dbd46e,
         type: 2}
       propertyPath: _userData.actions.Array.data[15]._negativeDescriptiveName
-      value: UIVertical
+      value: UIVerticalDown
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7dcc1ff5548bc4149b297f1708dbd46e, type: 2}
@@ -688,7 +688,6 @@ GameObject:
   - component: {fileID: 1117203694}
   - component: {fileID: 1117203696}
   - component: {fileID: 1117203695}
-  - component: {fileID: 1117203697}
   m_Layer: 5
   m_Name: Panel
   m_TagString: Untagged
@@ -751,20 +750,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1117203693}
---- !u!114 &1117203697
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1117203693}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 20175c7e5f4772642b96684aea14dc59, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  eventSystem: {fileID: 1713193443}
-  selectedObject: {fileID: 1663542314}
-  selectedItem: 0
 --- !u!1 &1256126038
 GameObject:
   m_ObjectHideFlags: 0
@@ -889,9 +874,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 2060782563}
+    m_SelectOnDown: {fileID: 587379950}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
@@ -1132,7 +1117,7 @@ MonoBehaviour:
   m_VerticalAxis: UIVertical
   m_SubmitButton: UIPlay
   m_CancelButton: UICancel
-  m_InputActionsPerSecond: 10
+  m_InputActionsPerSecond: 5
   m_RepeatDelay: 0
   m_allowMouseInput: 1
   m_allowMouseInputIfTouchSupported: 1
@@ -1492,9 +1477,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 0
+    m_Mode: 2
     m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
+    m_SelectOnDown: {fileID: 2060782563}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
