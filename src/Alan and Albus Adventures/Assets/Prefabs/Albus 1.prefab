@@ -234,6 +234,7 @@ MonoBehaviour:
   critProjectileHitSound:
   - {fileID: 0}
   - {fileID: 0}
+  AlanAttackSprites: []
 --- !u!114 &114391854451563084
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -331,8 +332,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -843540687
-  m_SortingLayer: 4
+  m_SortingLayerID: -345702681
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 1d05f4a80ef38e24b8e8dc22eb41a193, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -371,8 +372,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -2142754077
-  m_SortingLayer: 3
+  m_SortingLayerID: -822676547
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: d5acd78cd7f994149b4357d5e3da3918, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

@@ -94,11 +94,11 @@ public class PlayerController : MonoBehaviour
             {
                 if (playerID == 0)
                 {
-                    projectileDirection.Slash(stats, rotationVector);
+                    projectileDirection.Slash(rotationVector);
                 }
                 else
                 {
-                    projectileDirection.Shoot(stats, rotationVector);
+                    projectileDirection.Shoot(rotationVector);
                 }
 
                 doAttack = false;

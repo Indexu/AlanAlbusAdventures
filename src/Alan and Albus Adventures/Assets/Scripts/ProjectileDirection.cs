@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class ProjectileDirection : MonoBehaviour
 {
@@ -11,11 +13,14 @@ public class ProjectileDirection : MonoBehaviour
     public List<AudioClip> projectileSound;
     public List<AudioClip> projectileHitSound;
     public List<AudioClip> critProjectileHitSound;
+    public Sprite[] AlanAttackSprites;
     private float nextFire;
     private int playerID;
     private bool magicalDamage;
     private Vector2 playerPos;
     private List<Collider2D> collidingEnemies;
+    private Stats stats;
+    private SpriteRenderer spriteRenderer;
 
     public void SetCrosshair(Vector2 coords)
     {
@@ -28,7 +33,7 @@ public class ProjectileDirection : MonoBehaviour
         transform.position = playerPos + offset;
     }
 
-    public void Shoot(Stats stats, Vector2 rotationVector)
+    public void Shoot(Vector2 rotationVector)
     {
         if (nextFire < Time.time)
         {
@@ -50,7 +55,7 @@ public class ProjectileDirection : MonoBehaviour
                 isCrit = true;
             }
 
-            if(!collidingEnemies.Any())
+            if (!collidingEnemies.Any())
             {
                 int index = Random.Range(0, projectileSound.Count);
                 SoundManager.instance.PlaySounds(projectileSound.ElementAt(index));
@@ -62,11 +67,13 @@ public class ProjectileDirection : MonoBehaviour
         }
     }
 
-    public void Slash(Stats stats, Vector2 rotationVector)
+    public void Slash(Vector2 rotationVector)
     {
         if (nextFire < Time.time)
         {
             nextFire = Time.time + stats.attackSpeed;
+
+            StartCoroutine(AlanAttackAnimation());
 
             var damage = stats.baseDamage;
             var isCrit = false;
@@ -77,14 +84,14 @@ public class ProjectileDirection : MonoBehaviour
                 isCrit = true;
             }
 
-            if(!collidingEnemies.Any())
+            if (!collidingEnemies.Any())
             {
-                int index = Random.Range(0, projectileSound.Count);        
+                int index = Random.Range(0, projectileSound.Count);
                 SoundManager.instance.PlaySounds(projectileSound.ElementAt(index));
             }
             else
             {
-                int index = Random.Range(0, critProjectileHitSound.Count); 
+                int index = Random.Range(0, critProjectileHitSound.Count);
                 SoundManager.instance.PlaySounds(critProjectileHitSound.ElementAt(index));
             }
 
@@ -109,6 +116,8 @@ public class ProjectileDirection : MonoBehaviour
     private void Start()
     {
         playerID = gameObject.transform.parent.gameObject.GetComponent<PlayerController>().playerID;
+        stats = gameObject.transform.parent.gameObject.GetComponent<Stats>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
         magicalDamage = (playerID == 1);
         SetCrosshair(Vector2.up);
         collidingEnemies = (playerID == 0) ? new List<Collider2D>() : null;
@@ -127,6 +136,16 @@ public class ProjectileDirection : MonoBehaviour
         if (collider.gameObject.tag == "Enemy")
         {
             collidingEnemies.Remove(collider);
+        }
+    }
+
+    private IEnumerator AlanAttackAnimation()
+    {
+        var interval = stats.attackSpeed / AlanAttackSprites.Length;
+        foreach (var sprite in AlanAttackSprites)
+        {
+            yield return new WaitForSeconds(interval);
+            spriteRenderer.sprite = sprite;
         }
     }
 }

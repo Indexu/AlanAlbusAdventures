@@ -309,7 +309,24 @@ public class VitalityController : MonoBehaviour
 
     private IEnumerator InvincibiltyFrame()
     {
-        yield return new WaitForSeconds(invincibilityFrameTime);
+        var num = 3;
+        var interval = (invincibilityFrameTime / num) / 2;
+
+        for (int i = 0; i < num; i++)
+        {
+            var color = spriteRenderer.color;
+            color.a = 0.5f;
+            spriteRenderer.color = color;
+
+            yield return new WaitForSeconds(interval);
+
+            color = spriteRenderer.color;
+            color.a = 1f;
+            spriteRenderer.color = color;
+
+            yield return new WaitForSeconds(interval);
+        }
+
         isInvincibilityFrame = false;
     }
 

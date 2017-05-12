@@ -64,6 +64,12 @@ TagManager:
   - name: Units
     uniqueID: 2152213219
     locked: 0
+  - name: Aimers
+    uniqueID: 3949264615
+    locked: 0
+  - name: Protagonists
+    uniqueID: 3472290749
+    locked: 0
   - name: Foreground
     uniqueID: 3451426609
     locked: 0

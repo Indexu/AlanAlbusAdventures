@@ -428,7 +428,7 @@ public class GameManager : MonoBehaviour
     {
         for (int i = 0; i < rolls; i++)
         {
-            if (DidLootDrop() || chest || true)
+            if (DidLootDrop() || chest)
             {
                 var property = GetPropertyOfItem();
                 GameObject item;
