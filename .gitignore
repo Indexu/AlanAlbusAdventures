@@ -1,6 +1,8 @@
 ### Custom ###
 *.unity
 *.unity.meta
+!Menu.unity
+!Menu.unity.meta
 !Main.unity
 !Main.unity.meta
 
