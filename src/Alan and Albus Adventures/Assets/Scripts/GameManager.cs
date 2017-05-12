@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance = null;
     public float cameraSpeed;
+    public float floorTransitionTime;
     public GameObject bossUI;
     public GameObject pauseScreen;
     public bool isPaused;
@@ -50,11 +51,37 @@ public class GameManager : MonoBehaviour
     private bool bossFight;
     private int deadPlayers;
     private Stats[] playerStats;
+    private float currentFloorTransitionTime;
 
     public void NextFloor()
     {
+        Debug.Log("NEXT FLOOR");
+        Debug.Log("Transition time: " + floorTransitionTime);
+        currentFloorTransitionTime = 0f;
+        UIManager.instance.SetTransitionText("Floor " + floorManager.floorLevel);
+
+        var alpha = currentFloorTransitionTime / floorTransitionTime;
+        while (alpha < 1f)
+        {
+            Debug.Log("FADING IN");
+            currentFloorTransitionTime += Time.deltaTime;
+            alpha = currentFloorTransitionTime / floorTransitionTime;
+            Debug.Log("Alpha: " + alpha + " | currentFloorTransitionTime: " + currentFloorTransitionTime);
+            UIManager.instance.SetTransitionAlpha(alpha);
+        }
+
+        Debug.Log("GENERATING FLOOR");
         UIManager.instance.ClearDoorButtons();
         GameManager.instance.floorManager.GenerateFloor();
+
+        while (0f < alpha)
+        {
+            Debug.Log("FADING OUT");
+            currentFloorTransitionTime -= Time.deltaTime;
+            alpha = currentFloorTransitionTime / floorTransitionTime;
+            Debug.Log("Alpha: " + alpha + " | currentFloorTransitionTime: " + currentFloorTransitionTime);
+            UIManager.instance.SetTransitionAlpha(alpha);
+        }
     }
 
     public void ChangeRooms(GameObject room, Transform door, Direction dir, bool boss)
@@ -220,6 +247,7 @@ public class GameManager : MonoBehaviour
         GameManager.instance.bossUI.SetActive(false);
         GameManager.instance.pauseScreen.SetActive(false);
         GameManager.instance.isPaused = false;
+        currentFloorTransitionTime = 0f;
 
         playerStats = new Stats[GameManager.instance.players.Length];
         for (int i = 0; i < GameManager.instance.players.Length; i++)

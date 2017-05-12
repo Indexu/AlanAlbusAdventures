@@ -75,6 +75,10 @@ public class UIManager : MonoBehaviour
     private RawImage[] playerTooltipsDestroyButton;
     private Slider[] playerTooltipsDestroySlider;
 
+    private GameObject transitionScreen;
+    private RawImage transitionBackground;
+    private Text transitionText;
+
     public Vector3 PositionToUI(Vector3 pos)
     {
         Vector2 viewportPos = UIManager.instance.mainCamera.WorldToViewportPoint(pos);
@@ -671,6 +675,36 @@ public class UIManager : MonoBehaviour
         playerTooltipsDestroySlider[playerID].value = value;
     }
 
+    public void SetTransitionAlpha(float value)
+    {
+        if (value <= 0f)
+        {
+            var color = transitionBackground.color;
+            color.a = 0f;
+            transitionBackground.color = color;
+            transitionScreen.SetActive(false);
+        }
+        else if (1f <= value)
+        {
+            transitionScreen.SetActive(true);
+            var color = transitionBackground.color;
+            color.a = 1f;
+            transitionBackground.color = color;
+        }
+        else
+        {
+            transitionScreen.SetActive(true);
+            var color = transitionBackground.color;
+            color.a = value;
+            transitionBackground.color = color;
+        }
+    }
+
+    public void SetTransitionText(string text)
+    {
+        transitionText.text = text;
+    }
+
     private void Awake()
     {
         if (instance == null)
@@ -707,6 +741,10 @@ public class UIManager : MonoBehaviour
         UIManager.instance.experienceBarSlider = experienceBar.transform.Find("ExperienceSlider").GetComponent<Slider>();
         UIManager.instance.experienceBarText = experienceBarSlider.transform.Find("BarText").GetComponent<Text>();
 
+        UIManager.instance.transitionScreen = UIManager.instance.canvas.transform.Find("TransitionScreen").gameObject;
+        UIManager.instance.transitionBackground = UIManager.instance.transitionScreen.transform.Find("Background").GetComponent<RawImage>();
+        UIManager.instance.transitionText = UIManager.instance.transitionScreen.transform.Find("Text").GetComponent<Text>();
+
         UIManager.instance.AlanButtons = new RawImage[numberOfSlots];
         UIManager.instance.AlbusButtons = new RawImage[numberOfSlots];
         UIManager.instance.AlanItemIcons = new RawImage[numberOfSlots];
@@ -723,6 +761,7 @@ public class UIManager : MonoBehaviour
         UIManager.instance.playerTooltipsDestroyButton = new RawImage[2];
         UIManager.instance.playerTooltipsDestroySlider = new Slider[2];
 
+        UIManager.instance.transitionScreen.SetActive(false);
         UIManager.instance.FindTooltips();
         UIManager.instance.playerTooltips[0].SetActive(false);
         UIManager.instance.playerTooltips[1].SetActive(false);

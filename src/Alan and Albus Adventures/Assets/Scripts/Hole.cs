@@ -19,6 +19,12 @@ public class Hole : MonoBehaviour
         if (collider.tag == "Player")
         {
             playersAdjacent++;
+
+            if (halo == null)
+            {
+                halo = (Behaviour)GetComponent("Halo");
+            }
+
             halo.enabled = true;
 
             var ps4 = collider.GetComponent<PlayerController>().playstationController;
