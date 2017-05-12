@@ -159,12 +159,12 @@ public class Item : MonoBehaviour
     {
         hasPostfix = (bonusBaseStat != 0);
 
-        statsText = "+" + (int)quality + "% to " + Item.PropertyToString(property);
+        statsText = "+" + ((int)quality * baseStat) + "% to " + Item.PropertyToString(property);
 
         if (hasPostfix)
         {
             statsText += "\n";
-            statsText += "+" + (int)bonusQuality + "% to " + Item.PropertyToString(bonusProperty);
+            statsText += "+" + ((int)bonusQuality * bonusBaseStat) + "% to " + Item.PropertyToString(bonusProperty);
         }
     }
 }
