@@ -58,7 +58,7 @@ GameObject:
   - component: {fileID: 58515095861845218}
   - component: {fileID: 114974684369657842}
   - component: {fileID: 122061615015639126}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: Hole
   m_TagString: Hole
   m_Icon: {fileID: 0}

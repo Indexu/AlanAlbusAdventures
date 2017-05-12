@@ -52,36 +52,17 @@ public class GameManager : MonoBehaviour
     private int deadPlayers;
     private Stats[] playerStats;
     private float currentFloorTransitionTime;
+    private bool changingFloors;
 
     public void NextFloor()
     {
-        Debug.Log("NEXT FLOOR");
-        Debug.Log("Transition time: " + floorTransitionTime);
-        currentFloorTransitionTime = 0f;
+        GameManager.instance.changingRooms = true;
+        GameManager.instance.changingFloors = true;
+        UIManager.instance.HideAllTooltips();
+        UIManager.instance.ClearDoorButtons();
         UIManager.instance.SetTransitionText("Floor " + floorManager.floorLevel);
 
-        var alpha = currentFloorTransitionTime / floorTransitionTime;
-        while (alpha < 1f)
-        {
-            Debug.Log("FADING IN");
-            currentFloorTransitionTime += Time.deltaTime;
-            alpha = currentFloorTransitionTime / floorTransitionTime;
-            Debug.Log("Alpha: " + alpha + " | currentFloorTransitionTime: " + currentFloorTransitionTime);
-            UIManager.instance.SetTransitionAlpha(alpha);
-        }
-
-        Debug.Log("GENERATING FLOOR");
-        UIManager.instance.ClearDoorButtons();
-        GameManager.instance.floorManager.GenerateFloor();
-
-        while (0f < alpha)
-        {
-            Debug.Log("FADING OUT");
-            currentFloorTransitionTime -= Time.deltaTime;
-            alpha = currentFloorTransitionTime / floorTransitionTime;
-            Debug.Log("Alpha: " + alpha + " | currentFloorTransitionTime: " + currentFloorTransitionTime);
-            UIManager.instance.SetTransitionAlpha(alpha);
-        }
+        StartCoroutine(FadeTransitionIn());
     }
 
     public void ChangeRooms(GameObject room, Transform door, Direction dir, bool boss)
@@ -209,7 +190,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (changingRooms)
+        if (changingRooms && !changingFloors)
         {
             GameManager.instance.mainCamera.transform.Translate(vector * cameraSpeed * Time.deltaTime);
 
@@ -447,7 +428,7 @@ public class GameManager : MonoBehaviour
     {
         for (int i = 0; i < rolls; i++)
         {
-            if (DidLootDrop() || chest)
+            if (DidLootDrop() || chest || true)
             {
                 var property = GetPropertyOfItem();
                 GameObject item;
@@ -508,5 +489,42 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
+    }
+
+    private IEnumerator FadeTransitionIn()
+    {
+        currentFloorTransitionTime = 0f;
+        var alpha = currentFloorTransitionTime / floorTransitionTime;
+        while (alpha < 1f)
+        {
+            currentFloorTransitionTime += Time.deltaTime;
+            alpha = currentFloorTransitionTime / floorTransitionTime;
+            UIManager.instance.SetTransitionAlpha(alpha);
+
+            yield return null;
+        }
+
+        GameManager.instance.floorManager.GenerateFloor();
+
+        yield return new WaitForSeconds(floorTransitionTime);
+
+        yield return StartCoroutine(FadeTransitionOut());
+    }
+
+    private IEnumerator FadeTransitionOut()
+    {
+        currentFloorTransitionTime = floorTransitionTime;
+        var alpha = currentFloorTransitionTime / floorTransitionTime;
+        while (0f < alpha)
+        {
+            currentFloorTransitionTime -= Time.deltaTime;
+            alpha = currentFloorTransitionTime / floorTransitionTime;
+            UIManager.instance.SetTransitionAlpha(alpha);
+
+            yield return null;
+        }
+
+        GameManager.instance.changingRooms = false;
+        GameManager.instance.changingFloors = false;
     }
 }

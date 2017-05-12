@@ -679,30 +679,62 @@ public class UIManager : MonoBehaviour
     {
         if (value <= 0f)
         {
-            var color = transitionBackground.color;
-            color.a = 0f;
-            transitionBackground.color = color;
+            var backgroundColor = transitionBackground.color;
+            backgroundColor.a = 0f;
+            transitionBackground.color = backgroundColor;
+
+            var textColor = transitionText.color;
+            textColor.a = 0f;
+            transitionText.color = textColor;
+
             transitionScreen.SetActive(false);
         }
         else if (1f <= value)
         {
-            transitionScreen.SetActive(true);
-            var color = transitionBackground.color;
-            color.a = 1f;
-            transitionBackground.color = color;
+            if (!transitionScreen.activeSelf)
+            {
+                transitionScreen.SetActive(true);
+            }
+
+            var backgroundColor = transitionBackground.color;
+            backgroundColor.a = 1f;
+            transitionBackground.color = backgroundColor;
+
+            var textColor = transitionText.color;
+            textColor.a = 1f;
+            transitionText.color = textColor;
         }
         else
         {
-            transitionScreen.SetActive(true);
-            var color = transitionBackground.color;
-            color.a = value;
-            transitionBackground.color = color;
+            if (!transitionScreen.activeSelf)
+            {
+                transitionScreen.SetActive(true);
+            }
+
+            var backgroundColor = transitionBackground.color;
+            backgroundColor.a = value;
+            transitionBackground.color = backgroundColor;
+
+            var textColor = transitionText.color;
+            textColor.a = value;
+            transitionText.color = textColor;
         }
     }
 
     public void SetTransitionText(string text)
     {
         transitionText.text = text;
+    }
+
+    public void HideAllTooltips()
+    {
+        foreach (Transform child in UIManager.instance.canvas.transform)
+        {
+            if (child.name == "Tooltip(Clone)")
+            {
+                child.gameObject.SetActive(false);
+            }
+        }
     }
 
     private void Awake()

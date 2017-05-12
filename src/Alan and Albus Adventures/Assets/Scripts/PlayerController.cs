@@ -70,7 +70,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (!vc.isDead)
+        if (!vc.isDead && !GameManager.instance.changingRooms)
         {
             CheckInput();
         }
@@ -85,7 +85,7 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!vc.isDead && !inStatsScreen)
+        if (!vc.isDead && !inStatsScreen && !GameManager.instance.changingRooms)
         {
             Rotation();
             Movement();
