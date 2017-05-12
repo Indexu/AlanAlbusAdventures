@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     public bool attackButton;
     public bool playstationController;
     public DoorController door;
+    public float destroyTime;
 
     private Rigidbody2D rb2d;
     private VitalityController vc;
@@ -31,6 +32,10 @@ public class PlayerController : MonoBehaviour
     private float joystickStatsDelay = 0.15f;
     private const float joystickDeadzone = 0.4f;
     private bool showingPassives;
+    private int viewItem;
+    private float currentDestroyTime;
+    private bool destroyingItem;
+    private GameObject hole;
 
     private void Awake()
     {
@@ -57,13 +62,15 @@ public class PlayerController : MonoBehaviour
         inStatsScreen = false;
         canNavigateStats = true;
         currentReviveTime = 0f;
+        viewItem = -1;
         gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
         inventory = GetComponent<Inventory>();
+        hole = null;
     }
 
     private void Update()
     {
-        if (!vc.isDead)
+        if (!vc.isDead && !GameManager.instance.changingRooms)
         {
             CheckInput();
         }
@@ -78,7 +85,7 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!vc.isDead && !inStatsScreen)
+        if (!vc.isDead && !inStatsScreen && !GameManager.instance.changingRooms)
         {
             Rotation();
             Movement();
@@ -87,11 +94,11 @@ public class PlayerController : MonoBehaviour
             {
                 if (playerID == 0)
                 {
-                    projectileDirection.Slash(stats, rotationVector);
+                    projectileDirection.Slash(rotationVector);
                 }
                 else
                 {
-                    projectileDirection.Shoot(stats, rotationVector);
+                    projectileDirection.Shoot(rotationVector);
                 }
 
                 doAttack = false;
@@ -118,11 +125,24 @@ public class PlayerController : MonoBehaviour
         {
             healthPotion = collider.gameObject;
         }
+        else if (collider.gameObject.tag == "Chest")
+        {
+            var c = collider.gameObject.GetComponent<ChestAnimationController>();
+
+            if (!c.opened)
+            {
+                chest = c;
+            }
+        }
         else if (collider.gameObject.tag == "Door")
         {
             door = collider.gameObject.GetComponent<DoorController>();
             door.EnterRange();
             UIManager.instance.ShowDoorButton(collider.transform.position, door.direction, playstationController);
+        }
+        else if (collider.gameObject.tag == "Hole")
+        {
+            hole = collider.gameObject;
         }
     }
 
@@ -145,6 +165,10 @@ public class PlayerController : MonoBehaviour
         {
             healthPotion = null;
         }
+        else if (collider.gameObject.tag == "Chest")
+        {
+            chest = null;
+        }
         else if (collider.tag == "Door")
         {
             if (door != null)
@@ -154,13 +178,9 @@ public class PlayerController : MonoBehaviour
                 door = null;
             }
         }
-    }
-
-    private void OnCollisionEnter2D(Collision2D collider)
-    {
-        if (collider.gameObject.tag == "Chest")
+        else if (collider.gameObject.tag == "Hole")
         {
-            chest = collider.gameObject.GetComponent<ChestAnimationController>();
+            hole = null;
         }
     }
 
@@ -211,10 +231,47 @@ public class PlayerController : MonoBehaviour
             {
                 showingPassives = false;
                 UIManager.instance.SetPassiveItemSlots(playerID, false);
+                UIManager.instance.HideInventoryTooltip(playerID);
             }
             if (item != null)
             {
                 AttemptToPickUpItem();
+            }
+            else if (player.GetButtonUp("Square"))
+            {
+                viewItem = 0;
+                ViewItem();
+            }
+            else if (player.GetButtonUp("Cross"))
+            {
+                viewItem = 1;
+                ViewItem();
+            }
+            else if (player.GetButtonUp("Circle"))
+            {
+                viewItem = 2;
+                ViewItem();
+            }
+            else if (player.GetButtonUp("Triangle"))
+            {
+                viewItem = 3;
+                ViewItem();
+            }
+            else if ((player.GetButtonDown("Square") || destroyingItem) && viewItem == 0)
+            {
+                DestroyItem();
+            }
+            else if ((player.GetButtonDown("Cross") || destroyingItem) && viewItem == 1)
+            {
+                DestroyItem();
+            }
+            else if ((player.GetButtonDown("Circle") || destroyingItem) && viewItem == 2)
+            {
+                DestroyItem();
+            }
+            else if ((player.GetButtonDown("Triangle") || destroyingItem) && viewItem == 3)
+            {
+                DestroyItem();
             }
         }
         else
@@ -252,6 +309,10 @@ public class PlayerController : MonoBehaviour
                 else if (door != null && !gameManager.changingRooms)
                 {
                     door.GoThrough();
+                }
+                else if (hole != null && !gameManager.changingRooms)
+                {
+                    GameManager.instance.NextFloor();
                 }
             }
             else if (player.GetButtonDown("Cross") || currentReviveTime != 0f)
@@ -309,30 +370,26 @@ public class PlayerController : MonoBehaviour
     private void AttemptToPickUpItem()
     {
         var itemToAdd = item.GetComponent<Item>();
-        if (player.GetButtonUp("Square"))
+        if (player.GetButtonUp("Square") && inventory.AddItem(itemToAdd, 0))
         {
-            inventory.AddItem(itemToAdd, 0);
             UIManager.instance.SetPassiveItemLeft(playerID, (Texture)item.GetComponent<SpriteRenderer>().sprite.texture);
             itemToAdd.PickedUp();
             item = null;
         }
-        else if (player.GetButtonUp("Cross"))
+        else if (player.GetButtonUp("Cross") && inventory.AddItem(itemToAdd, 1))
         {
-            inventory.AddItem(itemToAdd, 1);
             UIManager.instance.SetPassiveItemDown(playerID, (Texture)item.GetComponent<SpriteRenderer>().sprite.texture);
             itemToAdd.PickedUp();
             item = null;
         }
-        else if (player.GetButtonUp("Circle"))
+        else if (player.GetButtonUp("Circle") && inventory.AddItem(itemToAdd, 2))
         {
-            inventory.AddItem(itemToAdd, 2);
             UIManager.instance.SetPassiveItemRight(playerID, (Texture)item.GetComponent<SpriteRenderer>().sprite.texture);
             itemToAdd.PickedUp();
             item = null;
         }
-        else if (player.GetButtonUp("Triangle"))
+        else if (player.GetButtonUp("Triangle") && inventory.AddItem(itemToAdd, 3))
         {
-            inventory.AddItem(itemToAdd, 3);
             UIManager.instance.SetPassiveItemUp(playerID, (Texture)item.GetComponent<SpriteRenderer>().sprite.texture);
             itemToAdd.PickedUp();
             item = null;
@@ -345,6 +402,27 @@ public class PlayerController : MonoBehaviour
         inventory.AddHealthPotion(hp.charges);
         hp.PickedUp();
         healthPotion = null;
+    }
+
+    private void ViewItem()
+    {
+        inventory.ViewItem(viewItem);
+        destroyingItem = false;
+        currentDestroyTime = 0f;
+    }
+
+    private void DestroyItem()
+    {
+        destroyingItem = true;
+        currentDestroyTime += Time.deltaTime;
+        inventory.DestroyItem(viewItem, currentDestroyTime / destroyTime);
+
+        if (destroyTime <= currentDestroyTime)
+        {
+            destroyingItem = false;
+            currentDestroyTime = 0f;
+            viewItem = -1;
+        }
     }
 
     public IEnumerator DelayJoystick()

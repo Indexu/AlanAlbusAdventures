@@ -121,7 +121,9 @@ MonoBehaviour:
   bonusQuality: 0
   bonusProperty: 0
   bonusBaseStat: 0
-  name: Feather
+  itemName: Feather
+  hasPostfix: 0
+  statsText: 
 --- !u!212 &212736661409505472
 SpriteRenderer:
   m_ObjectHideFlags: 1

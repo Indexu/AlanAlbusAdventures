@@ -54,13 +54,16 @@ public class FloorManager : MonoBehaviour
     public GameObject doorwayLeft;
     public GameObject doorwayRight;
     public GameObject enemyHealthBar;
+    public GameObject chest;
     public List<GameObject> enemies;
     public List<GameObject> bosses;
 
+    private GameObject floor;
     private GameObject[,] grid;
     private List<Point> roomCoords;
     private List<Point> availableCoords;
     private Point startCoords;
+    private Point chestCoords;
     private Point bossCoords;
     private Bounds bounds;
 
@@ -72,10 +75,13 @@ public class FloorManager : MonoBehaviour
         ConnectRooms();
         SpawnEnemies();
         SpawnBoss();
+        SpawnChest();
         PlacePlayersAndCamera();
+
+        floorLevel++;
     }
 
-    public void Init()
+    private void Init()
     {
         grid = new GameObject[gridLength, gridLength];
         for (int i = 0; i < gridLength; i++)
@@ -89,6 +95,11 @@ public class FloorManager : MonoBehaviour
         roomCoords = new List<Point>();
         availableCoords = new List<Point>();
         bounds = room.GetComponent<Renderer>().bounds;
+
+        if (floor != null)
+        {
+            GameObject.Destroy(floor);
+        }
     }
 
     private void ResetGrid()
@@ -130,6 +141,7 @@ public class FloorManager : MonoBehaviour
             AddAdjacentCoords(selectedRoomCoords);
         }
 
+        chestCoords = roomCoords[roomCoords.Count - 2];
         bossCoords = roomCoords[roomCoords.Count - 1];
     }
 
@@ -192,7 +204,7 @@ public class FloorManager : MonoBehaviour
     {
         var sizeVector = bounds.size;
 
-        var floor = new GameObject()
+        floor = new GameObject()
         {
             name = "Floor"
         };
@@ -328,7 +340,7 @@ public class FloorManager : MonoBehaviour
         {
             for (int j = 0; j < gridLength; j++)
             {
-                if (grid[i, j] != null && (startCoords.X != i || startCoords.Y != j) && (bossCoords.X != i || bossCoords.Y != j))
+                if (grid[i, j] != null && (startCoords.X != i || startCoords.Y != j) && (bossCoords.X != i || bossCoords.Y != j) && (chestCoords.X != i || chestCoords.Y != j))
                 {
                     var maxRangeVector = grid[i, j].transform.position + (bounds.extents * enemySpawnRadius);
                     var minRangeVector = grid[i, j].transform.position - (bounds.extents * enemySpawnRadius);
@@ -388,6 +400,11 @@ public class FloorManager : MonoBehaviour
         bc.nameText = bossText;
         vc.healthText = bossHealthText;
         vc.healthSlider = bossHealthSlider;
+    }
+
+    private void SpawnChest()
+    {
+        Instantiate(chest, grid[chestCoords.X, chestCoords.Y].transform.position, Quaternion.identity, grid[chestCoords.X, chestCoords.Y].transform);
     }
 
     private void PlacePlayersAndCamera()

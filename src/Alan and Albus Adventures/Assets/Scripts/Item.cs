@@ -40,14 +40,14 @@ public class Item : MonoBehaviour
     public Property bonusProperty;
     public int bonusBaseStat;
 
-    public string name;
+    public string itemName;
+    public bool hasPostfix;
+    public string statsText;
 
     private bool player1Enter;
     private bool player2Enter;
     private GameObject tooltip;
     private const float yOffset = 150f;
-    private string statsText;
-    private bool hasPostfix;
 
     public static string PropertyToString(Property prop)
     {
@@ -87,24 +87,19 @@ public class Item : MonoBehaviour
         GameObject.Destroy(gameObject);
     }
 
-    private void Start()
-    {
-        hasPostfix = (bonusBaseStat != 0);
-
-        statsText = "+" + (int)quality + "% to " + Item.PropertyToString(property);
-
-        if (hasPostfix)
-        {
-            statsText += "\n";
-            statsText += "+" + (int)bonusQuality + "% to " + Item.PropertyToString(bonusProperty);
-        }
-    }
-
     private void OnGUI()
     {
         if (tooltip != null)
         {
             UIManager.instance.MoveUIElement(tooltip, transform.position, yOffset);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (tooltip != null)
+        {
+            GameObject.Destroy(tooltip);
         }
     }
 
@@ -129,7 +124,12 @@ public class Item : MonoBehaviour
                 GameObject.Destroy(tooltip);
             }
 
-            tooltip = UIManager.instance.CreateAndShowTooltip(transform.position, yOffset, quality, bonusQuality, bonusProperty, hasPostfix, name, statsText);
+            if (string.IsNullOrEmpty(statsText))
+            {
+                CreateStatText();
+            }
+
+            tooltip = UIManager.instance.CreateAndShowTooltip(transform.position, yOffset, quality, bonusQuality, bonusProperty, hasPostfix, itemName, statsText);
         }
     }
 
@@ -152,6 +152,19 @@ public class Item : MonoBehaviour
             {
                 GameObject.Destroy(tooltip);
             }
+        }
+    }
+
+    private void CreateStatText()
+    {
+        hasPostfix = (bonusBaseStat != 0);
+
+        statsText = "+" + (int)quality + "% to " + Item.PropertyToString(property);
+
+        if (hasPostfix)
+        {
+            statsText += "\n";
+            statsText += "+" + (int)bonusQuality + "% to " + Item.PropertyToString(bonusProperty);
         }
     }
 }

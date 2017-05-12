@@ -121,7 +121,9 @@ MonoBehaviour:
   bonusQuality: 0
   bonusProperty: 0
   bonusBaseStat: 0
-  name: Shield
+  itemName: Shield
+  hasPostfix: 0
+  statsText: 
 --- !u!212 &212583817510656742
 SpriteRenderer:
   m_ObjectHideFlags: 1

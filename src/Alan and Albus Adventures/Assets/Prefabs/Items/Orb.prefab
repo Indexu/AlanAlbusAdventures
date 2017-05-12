@@ -121,7 +121,9 @@ MonoBehaviour:
   bonusQuality: 0
   bonusProperty: 0
   bonusBaseStat: 0
-  name: Orb
+  itemName: Orb
+  hasPostfix: 0
+  statsText: 
 --- !u!212 &212134631765004612
 SpriteRenderer:
   m_ObjectHideFlags: 1

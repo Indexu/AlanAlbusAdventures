@@ -121,7 +121,9 @@ MonoBehaviour:
   bonusQuality: 0
   bonusProperty: 0
   bonusBaseStat: 0
-  name: Armor
+  itemName: Armor
+  hasPostfix: 0
+  statsText: 
 --- !u!212 &212065178465298006
 SpriteRenderer:
   m_ObjectHideFlags: 1
