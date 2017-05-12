@@ -89,7 +89,7 @@ public class GameManager : MonoBehaviour
             inCombat = false;
             UnlockDoors();
 
-            DropLoot();
+            DropLoot(GameManager.instance.killed, false);
 
             if (GameManager.instance.bossFight)
             {
@@ -409,11 +409,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void DropLoot()
+    public void DropLoot(int rolls, bool chest)
     {
-        for (int i = 0; i < GameManager.instance.killed; i++)
+        for (int i = 0; i < rolls; i++)
         {
-            if (DidLootDrop() || true)
+            if (DidLootDrop() || chest)
             {
                 var property = GetPropertyOfItem();
                 GameObject item;

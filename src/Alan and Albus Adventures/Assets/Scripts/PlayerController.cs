@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody2D rb2d;
     private VitalityController vc;
-    private ChestAnimationController chest;
+    public ChestAnimationController chest;
     private ReviveController reviveController;
     private GameManager gameManager;
     private Stats stats;
@@ -68,6 +68,11 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        if (playerID == 0)
+        {
+            Debug.Log("CHEST IS " + (chest != null));
+        }
+
         if (!vc.isDead)
         {
             CheckInput();
@@ -123,6 +128,15 @@ public class PlayerController : MonoBehaviour
         {
             healthPotion = collider.gameObject;
         }
+        else if (collider.gameObject.tag == "Chest")
+        {
+            var c = collider.gameObject.GetComponent<ChestAnimationController>();
+
+            if (!c.opened)
+            {
+                chest = c;
+            }
+        }
         else if (collider.gameObject.tag == "Door")
         {
             door = collider.gameObject.GetComponent<DoorController>();
@@ -150,6 +164,10 @@ public class PlayerController : MonoBehaviour
         {
             healthPotion = null;
         }
+        else if (collider.gameObject.tag == "Chest")
+        {
+            chest = null;
+        }
         else if (collider.tag == "Door")
         {
             if (door != null)
@@ -158,14 +176,6 @@ public class PlayerController : MonoBehaviour
                 UIManager.instance.HideDoorButton(door.direction);
                 door = null;
             }
-        }
-    }
-
-    private void OnCollisionEnter2D(Collision2D collider)
-    {
-        if (collider.gameObject.tag == "Chest")
-        {
-            chest = collider.gameObject.GetComponent<ChestAnimationController>();
         }
     }
 

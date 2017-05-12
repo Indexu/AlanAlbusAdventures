@@ -214,7 +214,7 @@ public class VitalityController : MonoBehaviour
                 spriteRenderer.color = Color.gray;
                 int index = Random.Range(0, playerDeathSound.Count);
                 SoundManager.instance.PlaySounds(playerDeathSound.ElementAt(index));
-                GameManager.instance.PlayerKilled();         
+                GameManager.instance.PlayerKilled();
             }
             else
             {
@@ -223,7 +223,9 @@ public class VitalityController : MonoBehaviour
                 int index = Random.Range(0, blobDeathSound.Count);
                 SoundManager.instance.PlaySounds(blobDeathSound.ElementAt(index));
                 healthSlider.gameObject.SetActive(false);
+                Debug.Log("health Slider set to false");
                 gameObject.SetActive(false);
+                Debug.Log("After deactivation");
             }
 
             Instantiate(deathParticle, transform.position, Quaternion.identity);
@@ -231,13 +233,13 @@ public class VitalityController : MonoBehaviour
         else
         {
             Instantiate(selectedParticle, transform.position, Quaternion.identity);
-            if(tag == "enemy")
+            if (tag == "enemy")
             {
                 int index = Random.Range(0, blobDamageSound.Count);
                 bool critHit = (selectedParticle == critParticle);
                 SoundManager.instance.PlayDamageSounds(blobDamageSound.ElementAt(index), critHit);
             }
-            else if(tag == "player")
+            else if (tag == "player")
             {
                 int index = Random.Range(0, playerDamageSound.Count);
                 SoundManager.instance.PlaySounds(playerDamageSound.ElementAt(index));

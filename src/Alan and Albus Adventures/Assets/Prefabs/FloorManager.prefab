@@ -64,6 +64,7 @@ MonoBehaviour:
     type: 2}
   enemyHealthBar: {fileID: 1938549340746658, guid: 97ac5fa2bdc20406ea1cb2c04cb78fb7,
     type: 2}
+  chest: {fileID: 1732760198072338, guid: 1d106a8592943e94d9c11668c6eb5ed4, type: 2}
   enemies:
   - {fileID: 1043773221181346, guid: 4d36385a988da40dda62e3cbc431b7fa, type: 2}
   - {fileID: 1043773221181346, guid: 4c139c8b3d16142ca8dc0042a48f869c, type: 2}
