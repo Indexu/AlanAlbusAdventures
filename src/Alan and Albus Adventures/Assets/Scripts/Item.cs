@@ -40,14 +40,14 @@ public class Item : MonoBehaviour
     public Property bonusProperty;
     public int bonusBaseStat;
 
-    public string name;
+    public string itemName;
+    public bool hasPostfix;
+    public string statsText;
 
     private bool player1Enter;
     private bool player2Enter;
     private GameObject tooltip;
     private const float yOffset = 150f;
-    private string statsText;
-    private bool hasPostfix;
 
     public static string PropertyToString(Property prop)
     {
@@ -129,7 +129,7 @@ public class Item : MonoBehaviour
                 GameObject.Destroy(tooltip);
             }
 
-            tooltip = UIManager.instance.CreateAndShowTooltip(transform.position, yOffset, quality, bonusQuality, bonusProperty, hasPostfix, name, statsText);
+            tooltip = UIManager.instance.CreateAndShowTooltip(transform.position, yOffset, quality, bonusQuality, bonusProperty, hasPostfix, itemName, statsText);
         }
     }
 

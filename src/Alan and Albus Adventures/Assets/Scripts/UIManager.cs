@@ -66,6 +66,12 @@ public class UIManager : MonoBehaviour
     private Slider experienceBarSlider;
     private Text experienceBarText;
 
+    private GameObject[] playerTooltips;
+    private Text[] playerTooltipsQualityText;
+    private Text[] playerTooltipsItemNameText;
+    private Text[] playerTooltipsPostfixText;
+    private Text[] playerTooltipsStatsText;
+
     public Vector3 PositionToUI(Vector3 pos)
     {
         Vector2 viewportPos = UIManager.instance.mainCamera.WorldToViewportPoint(pos);
@@ -480,6 +486,107 @@ public class UIManager : MonoBehaviour
         return tooltipInstance;
     }
 
+    public void ShowInventoryTooltip(int playerID, Quality quality, Postfix postfix, Property postFixProperty, bool hasPostfix, string itemName, string statsText)
+    {
+        /* 
+        var tooltipInstance = Instantiate(tooltip, playerTooltips[playerID].transform.position, Quaternion.identity, UIManager.instance.canvas.transform);
+
+        var rt = tooltipInstance.GetComponent<RectTransform>();
+
+        var rtt = playerTooltips[playerID].GetComponent<RectTransform>();
+
+        rt.anchoredPosition = rtt.anchoredPosition;
+
+        var nameContainer = tooltipInstance.transform.Find("Name").transform;
+        var statsTextObject = tooltipInstance.transform.Find("Stats").Find("Text").GetComponent<Text>();
+        var qualityText = nameContainer.Find("QualityText").GetComponent<Text>();
+        var nameText = nameContainer.Find("ItemText").GetComponent<Text>();
+        var postfixText = nameContainer.Find("PostfixText").GetComponent<Text>();
+
+        */
+
+        playerTooltips[playerID].SetActive(true);
+
+        // playerTooltipsItemNameText[playerID].text = " " + itemName.Replace("(Clone)", string.Empty) + " ";
+        playerTooltipsItemNameText[playerID].text = itemName.Replace("(Clone)", string.Empty);
+
+        switch (quality)
+        {
+            case Quality.RARE:
+                {
+                    playerTooltipsQualityText[playerID].gameObject.SetActive(true);
+                    playerTooltipsQualityText[playerID].color = rareItemColor;
+                    playerTooltipsQualityText[playerID].text = "Rare";
+                    break;
+                }
+            case Quality.EPIC:
+                {
+                    playerTooltipsQualityText[playerID].gameObject.SetActive(true);
+                    playerTooltipsQualityText[playerID].color = epicItemColor;
+                    playerTooltipsQualityText[playerID].text = "Epic";
+                    break;
+                }
+            case Quality.LEGENDARY:
+                {
+                    playerTooltipsQualityText[playerID].gameObject.SetActive(true);
+                    playerTooltipsQualityText[playerID].color = legendaryItemColor;
+                    playerTooltipsQualityText[playerID].text = "Legendary";
+                    break;
+                }
+            default:
+                {
+                    playerTooltipsQualityText[playerID].gameObject.SetActive(false);
+                    break;
+                }
+        }
+
+        if (hasPostfix)
+        {
+            playerTooltipsPostfixText[playerID].gameObject.SetActive(true);
+            playerTooltipsPostfixText[playerID].text = "of " + Item.PropertyToString(postFixProperty);
+
+            switch (postfix)
+            {
+                case Postfix.MINOR:
+                    {
+                        playerTooltipsPostfixText[playerID].color = minorItemColor;
+                        break;
+                    }
+                case Postfix.LESSER:
+                    {
+                        playerTooltipsPostfixText[playerID].color = lesserItemColor;
+                        break;
+                    }
+                case Postfix.SUPERIOR:
+                    {
+                        playerTooltipsPostfixText[playerID].color = superiorItemColor;
+                        break;
+                    }
+                case Postfix.MAJOR:
+                    {
+                        playerTooltipsPostfixText[playerID].color = majorItemColor;
+                        break;
+                    }
+                default:
+                    {
+                        playerTooltipsPostfixText[playerID].text = string.Empty;
+                        break;
+                    }
+            }
+        }
+        else
+        {
+            playerTooltipsPostfixText[playerID].gameObject.SetActive(false);
+        }
+
+        StartCoroutine(StatsAndSpacing(playerID, statsText));
+    }
+
+    public void HideInventoryTooltip(int playerID)
+    {
+        playerTooltips[playerID].SetActive(false);
+    }
+
     private void Awake()
     {
         if (instance == null)
@@ -524,6 +631,15 @@ public class UIManager : MonoBehaviour
         UIManager.instance.doorButton1 = null;
         UIManager.instance.doorButton2 = null;
 
+        UIManager.instance.playerTooltips = new GameObject[2];
+        UIManager.instance.playerTooltipsItemNameText = new Text[2];
+        UIManager.instance.playerTooltipsPostfixText = new Text[2];
+        UIManager.instance.playerTooltipsQualityText = new Text[2];
+        UIManager.instance.playerTooltipsStatsText = new Text[2];
+
+        UIManager.instance.FindTooltips();
+        UIManager.instance.playerTooltips[0].SetActive(false);
+        UIManager.instance.playerTooltips[1].SetActive(false);
         UIManager.instance.GetItemSlotButtons();
         UIManager.instance.SetPassiveItemSlots(0, false);
         UIManager.instance.SetPassiveItemSlots(1, false);
@@ -571,6 +687,20 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    private void FindTooltips()
+    {
+        playerTooltips[0] = UIManager.instance.canvas.transform.Find("AlanTooltip").gameObject;
+        playerTooltips[1] = UIManager.instance.canvas.transform.Find("AlbusTooltip").gameObject;
+
+        for (int i = 0; i < playerTooltips.Length; i++)
+        {
+            UIManager.instance.playerTooltipsStatsText[i] = playerTooltips[i].transform.Find("Stats").Find("Text").GetComponent<Text>();
+            UIManager.instance.playerTooltipsItemNameText[i] = playerTooltips[i].transform.Find("Name").Find("ItemText").GetComponent<Text>();
+            UIManager.instance.playerTooltipsPostfixText[i] = playerTooltips[i].transform.Find("Name").Find("PostfixText").GetComponent<Text>();
+            UIManager.instance.playerTooltipsQualityText[i] = playerTooltips[i].transform.Find("Name").Find("QualityText").GetComponent<Text>();
+        }
+    }
+
     private IEnumerator AnimateDamageText(RectTransform rt)
     {
         var seconds = 0f;
@@ -588,5 +718,22 @@ public class UIManager : MonoBehaviour
         }
 
         GameObject.Destroy(rt.gameObject);
+    }
+
+    private IEnumerator StatsAndSpacing(int playerID, string statsText)
+    {
+        var lines = statsText.Split('\n');
+        yield return null;
+        playerTooltipsItemNameText[playerID].text = " " + playerTooltipsItemNameText[playerID].text;
+        yield return null;
+        playerTooltipsItemNameText[playerID].text += " ";
+
+        playerTooltipsStatsText[playerID].text = string.Empty;
+
+        foreach (var line in lines)
+        {
+            yield return null;
+            playerTooltipsStatsText[playerID].text += line + "\n";
+        }
     }
 }

@@ -121,7 +121,9 @@ MonoBehaviour:
   bonusQuality: 0
   bonusProperty: 0
   bonusBaseStat: 0
-  name: Boots
+  itemName: Boots
+  hasPostfix: 0
+  statsText: 
 --- !u!212 &212662139455967952
 SpriteRenderer:
   m_ObjectHideFlags: 1

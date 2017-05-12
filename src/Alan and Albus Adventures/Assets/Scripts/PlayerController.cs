@@ -216,6 +216,22 @@ public class PlayerController : MonoBehaviour
             {
                 AttemptToPickUpItem();
             }
+            else if (player.GetButtonUp("Square"))
+            {
+                inventory.ViewItem(0);
+            }
+            else if (player.GetButtonUp("Cross"))
+            {
+                inventory.ViewItem(1);
+            }
+            else if (player.GetButtonUp("Circle"))
+            {
+                inventory.ViewItem(2);
+            }
+            else if (player.GetButtonUp("Triangle"))
+            {
+                inventory.ViewItem(3);
+            }
         }
         else
         {

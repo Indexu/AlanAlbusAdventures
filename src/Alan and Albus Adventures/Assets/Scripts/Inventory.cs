@@ -14,6 +14,9 @@ public class InventoryItem
     public Postfix bonusQuality;
     public Property bonusProperty;
     public int bonusBaseStat;
+
+    public string itemName;
+    public string statsText;
 }
 
 public class Inventory : MonoBehaviour
@@ -33,7 +36,10 @@ public class Inventory : MonoBehaviour
     private InventoryItem[] passives = new InventoryItem[passiveItemCount];
 
     private VitalityController vc;
+    private PlayerController pc;
     private Text healthPotionCounterText;
+    private bool updateUI = false;
+    private int updatePos;
 
     public void AddItem(Item item, int pos)
     {
@@ -48,7 +54,9 @@ public class Inventory : MonoBehaviour
                     baseStat = item.baseStat,
                     bonusQuality = item.bonusQuality,
                     bonusProperty = item.bonusProperty,
-                    bonusBaseStat = item.bonusBaseStat
+                    bonusBaseStat = item.bonusBaseStat,
+                    statsText = item.statsText,
+                    itemName = item.itemName
                 };
                 bonusStats[(int)item.property] += ((int)item.quality * item.baseStat);
                 if (item.bonusQuality != 0 && item.bonusBaseStat != 0)
@@ -94,15 +102,41 @@ public class Inventory : MonoBehaviour
         return ((float)bonusStats[(int)property] / 100f);
     }
 
+    public void ViewItem(int pos)
+    {
+        updateUI = true;
+        updatePos = pos;
+    }
+
     private void Start()
     {
         vc = GetComponent<VitalityController>();
+        pc = GetComponent<PlayerController>();
 
         var playerID = GetComponent<PlayerController>().playerID;
         var searchString = (playerID == 0 ? "AlanItemSlots" : "AlbusItemSlots");
         healthPotionCounterText = UIManager.instance.canvas.transform.Find(searchString).Find("UseItemSlot").Find("UsesFrame").Find("Text").GetComponent<Text>();
 
         SetCharges();
+    }
+
+    private void OnGUI()
+    {
+        if (updateUI)
+        {
+            updateUI = false;
+            if (passives[updatePos] != null)
+            {
+                var quality = passives[updatePos].quality;
+                var postfix = passives[updatePos].bonusQuality;
+                var postfixProperty = passives[updatePos].bonusProperty;
+                var hasPostfix = passives[updatePos].bonusBaseStat != 0;
+                var itemName = passives[updatePos].itemName;
+                var statsText = passives[updatePos].statsText;
+
+                UIManager.instance.ShowInventoryTooltip(pc.playerID, quality, postfix, postfixProperty, hasPostfix, itemName, statsText);
+            }
+        }
     }
 
     private void SetCharges()

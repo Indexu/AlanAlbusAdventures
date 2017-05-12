@@ -121,7 +121,9 @@ MonoBehaviour:
   bonusQuality: 0
   bonusProperty: 0
   bonusBaseStat: 0
-  name: Rabbit's Foot
+  itemName: Rabbit's Foot
+  hasPostfix: 0
+  statsText: 
 --- !u!212 &212926087244426238
 SpriteRenderer:
   m_ObjectHideFlags: 1
