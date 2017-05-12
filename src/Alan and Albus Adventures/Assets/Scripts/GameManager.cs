@@ -53,6 +53,7 @@ public class GameManager : MonoBehaviour
     private Stats[] playerStats;
     private float currentFloorTransitionTime;
     private bool changingFloors;
+    private const float statPointUpOffset = 150f;
 
     public void NextFloor()
     {
@@ -159,6 +160,8 @@ public class GameManager : MonoBehaviour
             foreach (var player in playerStats)
             {
                 player.statPoints++;
+
+                UIManager.instance.DisplayStatUpText(player.transform.position, 150f);
             }
 
             currentExperience = currentExperience % maxExperience;
@@ -343,6 +346,7 @@ public class GameManager : MonoBehaviour
         foreach (var player in playerStats)
         {
             player.statPoints++;
+            UIManager.instance.DisplayStatUpText(player.transform.position, 150f);
         }
 
         currentRoom.transform.Find("Hole").gameObject.SetActive(true);

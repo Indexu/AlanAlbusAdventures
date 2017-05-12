@@ -19,6 +19,7 @@ public class DoorController : MonoBehaviour
     private int playersAdjacent;
     private GameManager gameManager;
     private Behaviour halo;
+    private Light light;
 
     public void GoThrough()
     {
@@ -27,6 +28,7 @@ public class DoorController : MonoBehaviour
             playersAdjacent = 0;
             GameManager.instance.ChangeRooms(connectedRoom, connectedDoor, direction, leadsToBoss);
             halo.enabled = false;
+            light.enabled = false;
         }
     }
 
@@ -46,6 +48,11 @@ public class DoorController : MonoBehaviour
     {
         playersAdjacent++;
         halo.enabled = true;
+
+        if (leadsToBoss)
+        {
+            light.enabled = true;
+        }
     }
 
     public void ExitRange()
@@ -54,6 +61,7 @@ public class DoorController : MonoBehaviour
         if (playersAdjacent == 0)
         {
             halo.enabled = false;
+            light.enabled = false;
         }
     }
 
@@ -61,6 +69,8 @@ public class DoorController : MonoBehaviour
     {
         playersAdjacent = 0;
         gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+        light = GetComponent<Light>();
+        light.enabled = false;
         halo = (Behaviour)GetComponent("Halo");
         halo.enabled = false;
     }

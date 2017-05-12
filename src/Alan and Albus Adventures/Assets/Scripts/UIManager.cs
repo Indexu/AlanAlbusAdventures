@@ -107,6 +107,23 @@ public class UIManager : MonoBehaviour
         StartCoroutine(AnimateDamageText(rt));
     }
 
+    public void DisplayStatUpText(Vector3 pos, float offset)
+    {
+        var damageTextInstance = Instantiate(damageText, Vector3.zero, Quaternion.identity, UIManager.instance.canvas.transform);
+
+        Vector2 screenPos = UIManager.instance.PositionToUI(pos);
+        screenPos.y += offset;
+
+        var rt = damageTextInstance.GetComponent<RectTransform>();
+        rt.GetComponent<RectTransform>().anchoredPosition = screenPos;
+
+        var txt = damageTextInstance.GetComponent<Text>();
+        txt.text = "Stat Point!";
+        txt.fontSize = 55;
+
+        StartCoroutine(AnimateStatUpText(rt));
+    }
+
     public void ApplySpritesToButtons(int playerID, bool ps4)
     {
         var arr = (playerID == 0 ? AlanButtons : AlbusButtons);
@@ -872,6 +889,25 @@ public class UIManager : MonoBehaviour
             seconds += Time.deltaTime;
             rt.anchoredPosition += vector;
             color.a -= Time.deltaTime / damageTextDuration;
+            text.color = color;
+            yield return new WaitForSeconds(Time.deltaTime);
+        }
+
+        GameObject.Destroy(rt.gameObject);
+    }
+
+    private IEnumerator AnimateStatUpText(RectTransform rt)
+    {
+        var seconds = 0f;
+        var vector = new Vector2(0f, damageTextSpeed);
+        var text = rt.gameObject.GetComponent<Text>();
+        var color = text.color;
+
+        while (seconds < (damageTextDuration * 2))
+        {
+            seconds += Time.deltaTime;
+            rt.anchoredPosition += vector;
+            color.a -= Time.deltaTime / (damageTextDuration * 2);
             text.color = color;
             yield return new WaitForSeconds(Time.deltaTime);
         }
