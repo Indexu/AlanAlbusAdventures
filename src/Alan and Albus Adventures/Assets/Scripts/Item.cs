@@ -43,6 +43,7 @@ public class Item : MonoBehaviour
     public string itemName;
     public bool hasPostfix;
     public string statsText;
+    public GameObject particle;
 
     private bool player1Enter;
     private bool player2Enter;
@@ -85,6 +86,39 @@ public class Item : MonoBehaviour
     public void PickedUp()
     {
         GameObject.Destroy(gameObject);
+    }
+
+    private void Start()
+    {
+        if (quality != Quality.COMMON)
+        {
+            var particleInstance = Instantiate(particle, transform.position, Quaternion.identity, transform);
+            var ps = particleInstance.GetComponent<ParticleSystem>();
+            var main = ps.main;
+
+            switch (quality)
+            {
+                case Quality.RARE:
+                    {
+                        main.startColor = new ParticleSystem.MinMaxGradient(UIManager.instance.rareItemColor);
+                        break;
+                    }
+                case Quality.EPIC:
+                    {
+                        main.startColor = new ParticleSystem.MinMaxGradient(UIManager.instance.epicItemColor);
+                        break;
+                    }
+                case Quality.LEGENDARY:
+                    {
+                        main.startColor = new ParticleSystem.MinMaxGradient(UIManager.instance.legendaryItemColor);
+                        break;
+                    }
+                default:
+                    {
+                        break;
+                    }
+            }
+        }
     }
 
     private void OnGUI()
