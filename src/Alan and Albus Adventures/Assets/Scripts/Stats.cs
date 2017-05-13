@@ -52,6 +52,7 @@ public class Stats : MonoBehaviour
     private const int maxSelectedStat = baseDamageIndex;
     private bool doUpdateUI;
     private bool doSetSelectedBorder;
+    private bool showUnmodified;
 
     public void UpgradeMovementSpeed()
     {
@@ -66,12 +67,12 @@ public class Stats : MonoBehaviour
 
     public void UpgradeCritHitChance()
     {
-        critHitChance += 5f;
+        critHitChance += 2f;
     }
 
     public void UpgradeCritHitDamage()
     {
-        critHitDamage += 0.2f;
+        critHitDamage += 5f;
     }
 
     public void UpgradeBaseDamage()
@@ -162,16 +163,49 @@ public class Stats : MonoBehaviour
         doSetSelectedBorder = true;
     }
 
-    public void UpdateUI()
+    private void UpdateUI()
     {
         statPointsText.text = statPoints.ToString();
 
-        movementSpeedText.text = movementSpeed.ToString();
-        maxHealthText.text = maxHealth.ToString();
-        critHitChanceText.text = critHitChance + "%";
-        critHitDamageText.text = critHitDamage + "x";
-        baseDamageText.text = baseDamage.ToString();
-        attackSpeedText.text = attackSpeed.ToString("0.00") + "s";
+        var ms = movementSpeed;
+        var mh = (float)maxHealth;
+        var cc = critHitChance;
+        var cd = critHitDamage;
+        var bd = baseDamage;
+        var atk = attackSpeed;
+
+        if (!showUnmodified)
+        {
+            ms *= inventory.GetStatBonus(Property.MOVEMENTSPEED);
+            mh *= inventory.GetStatBonus(Property.MAXHEALTH);
+            cc *= inventory.GetStatBonus(Property.CRITCHANCE);
+            cd *= inventory.GetStatBonus(Property.CRITDAMAGE);
+            bd *= inventory.GetStatBonus(Property.BASEDAMAGE);
+            atk *= inventory.GetStatBonus(Property.ATTACKSPEED);
+
+            movementSpeedBonusText.color = Color.white;
+            maxHealthBonusText.color = Color.white;
+            critHitChanceBonusText.color = Color.white;
+            critHitDamageBonusText.color = Color.white;
+            baseDamageBonusText.color = Color.white;
+            attackSpeedBonusText.color = Color.white;
+        }
+        else
+        {
+            movementSpeedBonusText.color = Color.gray;
+            maxHealthBonusText.color = Color.gray;
+            critHitChanceBonusText.color = Color.gray;
+            critHitDamageBonusText.color = Color.gray;
+            baseDamageBonusText.color = Color.gray;
+            attackSpeedBonusText.color = Color.gray;
+        }
+
+        movementSpeedText.text = ms.ToString("0");
+        maxHealthText.text = mh.ToString("0");
+        critHitChanceText.text = cc.ToString("0") + "%";
+        critHitDamageText.text = cd.ToString("0") + "x";
+        baseDamageText.text = bd.ToString("0");
+        attackSpeedText.text = atk.ToString("0.00") + "s";
 
         movementSpeedBonusText.text = "(x" + inventory.GetStatBonus(Property.MOVEMENTSPEED).ToString("0.00") + ")";
         maxHealthBonusText.text = "(x" + inventory.GetStatBonus(Property.MAXHEALTH).ToString("0.00") + ")";
@@ -180,12 +214,67 @@ public class Stats : MonoBehaviour
         baseDamageBonusText.text = "(x" + inventory.GetStatBonus(Property.BASEDAMAGE).ToString("0.00") + ")";
         attackSpeedBonusText.text = "(x" + inventory.GetStatBonus(Property.ATTACKSPEED).ToString("0.00") + ")";
 
+        if (inventory.GetStatBonus(Property.MOVEMENTSPEED) != 1f && !showUnmodified)
+        {
+            movementSpeedText.color = Color.green;
+        }
+        else
+        {
+            movementSpeedText.color = Color.white;
+        }
+
+        if (inventory.GetStatBonus(Property.MAXHEALTH) != 1f && !showUnmodified)
+        {
+            maxHealthText.color = Color.green;
+        }
+        else
+        {
+            maxHealthText.color = Color.white;
+        }
+
+        if (inventory.GetStatBonus(Property.CRITCHANCE) != 1f && !showUnmodified)
+        {
+            critHitChanceText.color = Color.green;
+        }
+        else
+        {
+            critHitChanceText.color = Color.white;
+        }
+
+        if (inventory.GetStatBonus(Property.CRITDAMAGE) != 1f && !showUnmodified)
+        {
+            critHitDamageText.color = Color.green;
+        }
+        else
+        {
+            critHitDamageText.color = Color.white;
+        }
+
+        if (inventory.GetStatBonus(Property.BASEDAMAGE) != 1f && !showUnmodified)
+        {
+            baseDamageText.color = Color.green;
+        }
+        else
+        {
+            baseDamageText.color = Color.white;
+        }
+
+        if (inventory.GetStatBonus(Property.ATTACKSPEED) != 1f && !showUnmodified)
+        {
+            attackSpeedText.color = Color.green;
+        }
+        else
+        {
+            attackSpeedText.color = Color.white;
+        }
+
         vc.doUpdateUI = true;
     }
 
     public void ShowStats()
     {
         doUpdateUI = true;
+        showUnmodified = false;
         statsTable.SetActive(true);
         UIManager.instance.ShowExperienceBar();
         viewing++;
@@ -193,6 +282,7 @@ public class Stats : MonoBehaviour
 
     public void HideStats()
     {
+        showUnmodified = false;
         statsTable.SetActive(false);
         viewing--;
 
@@ -200,6 +290,12 @@ public class Stats : MonoBehaviour
         {
             UIManager.instance.HideExperienceBar();
         }
+    }
+
+    public void UnmodifiedStats(bool show)
+    {
+        showUnmodified = show;
+        doUpdateUI = true;
     }
 
     private void Start()

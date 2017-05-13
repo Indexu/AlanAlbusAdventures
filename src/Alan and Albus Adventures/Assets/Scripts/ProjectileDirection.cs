@@ -122,7 +122,7 @@ public class ProjectileDirection : MonoBehaviour
         inventory = gameObject.transform.parent.gameObject.GetComponent<Inventory>();
         magicalDamage = (playerID == 1);
         SetCrosshair(Vector2.up);
-        collidingEnemies = (playerID == 0) ? new List<Collider2D>() : null;
+        collidingEnemies = new List<Collider2D>();
     }
 
     private void OnTriggerEnter2D(Collider2D collider)
