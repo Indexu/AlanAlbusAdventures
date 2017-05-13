@@ -8,12 +8,15 @@ public class SoundManager : MonoBehaviour
 {
     public static SoundManager instance = null;
 	public AudioClip projectileHittingWallSounds;
+	public List<AudioClip> themes;
 	private const int audioSourceAmount = 20;
 	private int counterCurrAudioSource = 0;
 	private int counterCurrDamageAudioSource = 0;
 	private List<AudioSource> audioSources;
 	private List<AudioSource> damageAudioSources;
+	private AudioSource theme;
 	private AudioSource projectileHittingWallAudioSource;
+	private int previousPlayed;
 
 	private void Awake() {
 		if (instance == null)
@@ -30,6 +33,10 @@ public class SoundManager : MonoBehaviour
 	
 	private void Start()
 	{
+		theme = gameObject.AddComponent<AudioSource>();
+		previousPlayed = Random.Range(0,themes.Count);
+		theme.clip = themes[previousPlayed];
+		theme.Play();
 		audioSources = new List<AudioSource>();
 		damageAudioSources = new List<AudioSource>();
 		for(int i = 0; i < audioSourceAmount; i++)
@@ -39,6 +46,22 @@ public class SoundManager : MonoBehaviour
 		}
 		projectileHittingWallAudioSource = gameObject.AddComponent<AudioSource>();
 	}
+	void Update ()
+     {
+         if (!theme.isPlaying)
+         {
+			int curr = Random.Range(0, themes.Count);
+			if(previousPlayed != curr)
+			{
+				theme.clip = themes[curr];
+			}
+			else 
+			{
+				curr = (curr == 4 ? 0 : curr++);
+			}
+			theme.Play();
+         }
+     }
 	public void PlaySounds(AudioClip sound)
 	{
 		if(counterCurrAudioSource >= 20)
