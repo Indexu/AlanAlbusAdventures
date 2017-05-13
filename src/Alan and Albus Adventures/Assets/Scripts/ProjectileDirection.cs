@@ -14,6 +14,9 @@ public class ProjectileDirection : MonoBehaviour
     public List<AudioClip> projectileHitSound;
     public List<AudioClip> critProjectileHitSound;
     public Sprite[] AlanAttackSprites;
+    public Sprite[] AlbusAttackSprites;
+
+
     private float nextFire;
     private int playerID;
     private bool magicalDamage;
@@ -39,6 +42,8 @@ public class ProjectileDirection : MonoBehaviour
         if (nextFire < Time.time)
         {
             nextFire = Time.time + (stats.attackSpeed / inventory.GetStatBonus(Property.ATTACKSPEED));
+
+            StartCoroutine(AlbusAttackAnimation());
 
             var projectileInstance = Instantiate(projectile, transform.position, transform.rotation) as GameObject;
 
@@ -145,6 +150,16 @@ public class ProjectileDirection : MonoBehaviour
     {
         var interval = (stats.attackSpeed / inventory.GetStatBonus(Property.ATTACKSPEED)) / AlanAttackSprites.Length;
         foreach (var sprite in AlanAttackSprites)
+        {
+            yield return new WaitForSeconds(interval);
+            spriteRenderer.sprite = sprite;
+        }
+    }
+
+    private IEnumerator AlbusAttackAnimation()
+    {
+        var interval = (stats.attackSpeed / inventory.GetStatBonus(Property.ATTACKSPEED)) / AlbusAttackSprites.Length;
+        foreach (var sprite in AlbusAttackSprites)
         {
             yield return new WaitForSeconds(interval);
             spriteRenderer.sprite = sprite;
