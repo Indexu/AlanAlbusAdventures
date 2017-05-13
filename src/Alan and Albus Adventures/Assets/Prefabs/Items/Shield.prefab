@@ -124,6 +124,7 @@ MonoBehaviour:
   itemName: Shield
   hasPostfix: 0
   statsText: 
+  particle: {fileID: 1411838653269770, guid: 8727f26979eb7471a90dd53267d81bd5, type: 2}
 --- !u!212 &212583817510656742
 SpriteRenderer:
   m_ObjectHideFlags: 1

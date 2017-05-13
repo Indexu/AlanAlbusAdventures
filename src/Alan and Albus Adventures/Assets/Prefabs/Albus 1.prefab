@@ -220,7 +220,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   radius: 2
   attackForce: 15
-  projectile: {fileID: 1035552101150598, guid: 5d1950b306e9f47ad8dd2362e5f321ba, type: 2}
+  projectile: {fileID: 1158575290130484, guid: 8a9525ab72dc2421bb9417486ff5301f, type: 2}
   projectileSound:
   - {fileID: 0}
   - {fileID: 0}
@@ -261,7 +261,8 @@ MonoBehaviour:
     type: 2}
   deathParticle: {fileID: 1259393622160624, guid: 9306520cd1dca49df905233b3fee4740,
     type: 2}
-  reviveParticle: {fileID: 0}
+  reviveParticle: {fileID: 1913297041956092, guid: 4a6f544d71bc245ee836746135189f69,
+    type: 2}
   boss: 0
   player: 0
   blobDeathSound: []
@@ -333,7 +334,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -345702681
-  m_SortingLayer: 5
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 1d05f4a80ef38e24b8e8dc22eb41a193, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -373,7 +374,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -822676547
-  m_SortingLayer: 4
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: d5acd78cd7f994149b4357d5e3da3918, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
