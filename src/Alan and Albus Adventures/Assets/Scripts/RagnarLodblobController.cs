@@ -52,7 +52,6 @@ public class RagnarLodblobController : Boss
 
     private void OnDestroy()
     {
-        Debug.Log("DESTROY");
         spriteRenderer.color = originalColor;
         hitParticleMain.startColor = originalParticleColor;
         critParticleMain.startColor = originalParticleColor;

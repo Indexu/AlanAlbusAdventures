@@ -55,6 +55,7 @@ public class FloorManager : MonoBehaviour
     public GameObject doorwayRight;
     public GameObject enemyHealthBar;
     public GameObject chest;
+    public GameObject startFloorTutorial;
     public List<GameObject> enemies;
     public List<GameObject> bosses;
 
@@ -76,6 +77,7 @@ public class FloorManager : MonoBehaviour
         SpawnEnemies();
         SpawnBoss();
         SpawnChest();
+        SpawnStartTutorial();
         PlacePlayersAndCamera();
 
         floorLevel++;
@@ -405,6 +407,14 @@ public class FloorManager : MonoBehaviour
     private void SpawnChest()
     {
         Instantiate(chest, grid[chestCoords.X, chestCoords.Y].transform.position, Quaternion.identity, grid[chestCoords.X, chestCoords.Y].transform);
+    }
+
+    private void SpawnStartTutorial()
+    {
+        if (floorLevel == 1)
+        {
+            Instantiate(startFloorTutorial, grid[startCoords.X, startCoords.Y].transform.position, Quaternion.identity, grid[startCoords.X, startCoords.Y].transform);
+        }
     }
 
     private void PlacePlayersAndCamera()
