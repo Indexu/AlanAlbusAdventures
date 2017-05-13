@@ -47,7 +47,7 @@ AudioSource:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1863192600275818}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 408ffade74e110c46a169d3d1206a406, type: 3}
@@ -134,5 +134,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectileHittingWallSounds: {fileID: 8300000, guid: b65ef0c68a64e6c4a807d089e07774c2,
     type: 3}
-  blobShootingProjectilesSounds:
-  - {fileID: 8300000, guid: 5d56d7cb09404d1469036addc52ce562, type: 3}
+  themes:
+  - {fileID: 8300000, guid: 408ffade74e110c46a169d3d1206a406, type: 3}
+  - {fileID: 8300000, guid: 34a01a587a329f442b4002d92b4b6864, type: 3}
+  - {fileID: 8300000, guid: ad648a1d92abe93418be7111bac354c1, type: 3}
+  - {fileID: 8300000, guid: a22da493421163a479278108398ff763, type: 3}
