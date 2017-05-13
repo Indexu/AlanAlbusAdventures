@@ -1,31 +1,31 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BlobertController : Boss
 {
-    public float projectileForce;
-    public float fireRate;
-    public GameObject projectile;
+    public float spawnInterval;
+    public GameObject enemyHealthBar;
+    public GameObject[] blobs;
 
-    private float nextFire;
-    private Vector2 moveVector;
-    private float nextVector;
+    private const float firstWait = 5f;
+    private bool startRoutine;
 
     protected override void Start()
     {
         base.Start();
-
-        nextFire = 0;
+        startRoutine = true;
     }
 
     protected override void FixedUpdate()
     {
-        if (Attacking)
-        {
-            base.FixedUpdate();
+        base.FixedUpdate();
 
-            Shoot();
+        if (startRoutine && Attacking)
+        {
+            startRoutine = false;
+            StartCoroutine(SpawnBlobs());
         }
     }
 
@@ -37,20 +37,23 @@ public class BlobertController : Boss
         rb2d.AddForce(targetVector.normalized * speed, ForceMode2D.Impulse);
     }
 
-    private void Shoot()
+    private IEnumerator SpawnBlobs()
     {
-        if (nextFire < Time.time)
+        yield return new WaitForSeconds(firstWait);
+
+        while (true)
         {
-            nextFire = Time.time + fireRate;
+            var blob = blobs[Random.Range(0, blobs.Length)];
 
-            var projectileInstance = (GameObject)Instantiate(projectile, transform.position, transform.rotation);
-            projectileInstance.GetComponent<Rigidbody2D>().AddForce(targetVector.normalized * projectileForce, ForceMode2D.Impulse);
+            var blobInstance = Instantiate(blob, transform.position, Quaternion.identity, transform.parent);
+            var healthBar = Instantiate(enemyHealthBar, Vector3.zero, Quaternion.identity, GameManager.instance.canvas.transform);
 
-            var projectileComponent = projectileInstance.GetComponent<Projectile>();
-            projectileComponent.damage = damage;
-            projectileComponent.isMagical = magicalDamage;
-            projectileComponent.playerFired = false;
-            projectileComponent.Init();
+            blobInstance.GetComponent<VitalityController>().healthSlider = healthBar.GetComponent<Slider>();
+            blobInstance.GetComponent<Enemy>().Attacking = true;
+
+            GameManager.instance.EnemySpawned();
+
+            yield return new WaitForSeconds(spawnInterval);
         }
     }
 }

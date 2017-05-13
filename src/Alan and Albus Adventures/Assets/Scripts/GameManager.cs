@@ -97,6 +97,8 @@ public class GameManager : MonoBehaviour
         GameManager.instance.enemies--;
         GameManager.instance.killed++;
 
+        Debug.Log("EnemyKilled | ENEMIES: " + GameManager.instance.enemies);
+
         GameManager.instance.AddExperience(xp);
 
         if (GameManager.instance.enemies == 0)
@@ -111,6 +113,14 @@ public class GameManager : MonoBehaviour
                 EndBossFight();
             }
         }
+    }
+
+    public void EnemySpawned()
+    {
+        GameManager.instance.enemies++;
+        GameManager.instance.killed--;
+
+        Debug.Log("EnemySpawned | ENEMIES: " + GameManager.instance.enemies);
     }
 
     public void PlayerKilled()

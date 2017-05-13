@@ -4,29 +4,28 @@ using UnityEngine;
 
 public class BossTheBlobController : Boss
 {
-    public float enrageDuration;
-    public float enrageSpeedIncrease;
-    public Color enrageColor;
+    public float projectileForce;
+    public float fireRate;
+    public GameObject projectile;
 
-    private const float firstWait = 5f;
-    private bool startRoutine;
-    private VitalityController vc;
+    private float nextFire;
+    private Vector2 moveVector;
+    private float nextVector;
 
     protected override void Start()
     {
         base.Start();
-        startRoutine = true;
-        vc = GetComponent<VitalityController>();
+
+        nextFire = 0;
     }
 
     protected override void FixedUpdate()
     {
-        base.FixedUpdate();
-
-        if (startRoutine && Attacking)
+        if (Attacking)
         {
-            startRoutine = false;
-            StartCoroutine(DiceRolls());
+            base.FixedUpdate();
+
+            Shoot();
         }
     }
 
@@ -38,37 +37,20 @@ public class BossTheBlobController : Boss
         rb2d.AddForce(targetVector.normalized * speed, ForceMode2D.Impulse);
     }
 
-    private IEnumerator DiceRolls()
+    private void Shoot()
     {
-        var originalColor = spriteRenderer.color;
-
-        var hitParticleMain = vc.hitParticle.GetComponent<ParticleSystem>().main;
-        var critParticleMain = vc.critParticle.GetComponent<ParticleSystem>().main;
-        var deathParticleMain = vc.deathParticle.GetComponent<ParticleSystem>().main;
-
-        var originalParticleColor = hitParticleMain.startColor;
-
-        var psEnrageColor = new ParticleSystem.MinMaxGradient(enrageColor);
-
-        yield return new WaitForSeconds(firstWait);
-
-        while (true)
+        if (nextFire < Time.time)
         {
-            yield return new WaitForSeconds(enrageDuration);
+            nextFire = Time.time + fireRate;
 
-            spriteRenderer.color = enrageColor;
-            hitParticleMain.startColor = psEnrageColor;
-            critParticleMain.startColor = psEnrageColor;
-            deathParticleMain.startColor = psEnrageColor;
-            speed += enrageSpeedIncrease;
+            var projectileInstance = (GameObject)Instantiate(projectile, transform.position, transform.rotation);
+            projectileInstance.GetComponent<Rigidbody2D>().AddForce(targetVector.normalized * projectileForce, ForceMode2D.Impulse);
 
-            yield return new WaitForSeconds(enrageDuration);
-
-            spriteRenderer.color = originalColor;
-            hitParticleMain.startColor = originalParticleColor;
-            critParticleMain.startColor = originalParticleColor;
-            deathParticleMain.startColor = originalParticleColor;
-            speed -= enrageSpeedIncrease;
+            var projectileComponent = projectileInstance.GetComponent<Projectile>();
+            projectileComponent.damage = damage;
+            projectileComponent.isMagical = magicalDamage;
+            projectileComponent.playerFired = false;
+            projectileComponent.Init();
         }
     }
 }
