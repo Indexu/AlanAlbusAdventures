@@ -56,23 +56,23 @@ public class Stats : MonoBehaviour
 
     public void UpgradeMovementSpeed()
     {
-        movementSpeed += 15;
+        movementSpeed += 1;
     }
 
     public void UpgradeMaxHealth()
     {
-        maxHealth += 2;
-        vc.currentHealth += 2;
+        maxHealth += 5;
+        vc.currentHealth += 5;
     }
 
     public void UpgradeCritHitChance()
     {
-        critHitChance += 2f;
+        critHitChance += 5f;
     }
 
     public void UpgradeCritHitDamage()
     {
-        critHitDamage += 5f;
+        critHitDamage += 2f;
     }
 
     public void UpgradeBaseDamage()
@@ -82,7 +82,7 @@ public class Stats : MonoBehaviour
 
     public void UpgradeAttackSpeed()
     {
-        attackSpeed -= 0.1f;
+        attackSpeed -= 0.05f;
     }
 
     public void UpgradeStat()
@@ -286,8 +286,9 @@ public class Stats : MonoBehaviour
         statsTable.SetActive(false);
         viewing--;
 
-        if (viewing == 0)
+        if (viewing <= 0)
         {
+            viewing = 0;
             UIManager.instance.HideExperienceBar();
         }
     }

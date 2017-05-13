@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     public bool playstationController;
     public DoorController door;
     public float destroyTime;
+    public bool inStatsScreen;
 
     private Rigidbody2D rb2d;
     private VitalityController vc;
@@ -20,12 +21,10 @@ public class PlayerController : MonoBehaviour
     private Stats stats;
     private Player player;
     private Inventory inventory;
-    private List<GameObject> items;
     private GameObject healthPotion;
     private Vector2 moveVector;
     private Vector2 rotationVector;
     private bool doAttack;
-    private bool inStatsScreen;
     private float currentReviveTime;
     private const float reviveTime = 2.5f;
     private bool canNavigateStats;
@@ -66,7 +65,6 @@ public class PlayerController : MonoBehaviour
         gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
         inventory = GetComponent<Inventory>();
         hole = null;
-        items = new List<GameObject>();
     }
 
     private void Update()
@@ -120,7 +118,14 @@ public class PlayerController : MonoBehaviour
         }
         else if (collider.gameObject.tag == "Item")
         {
-            items.Add(collider.gameObject);
+            if (playerID == 0)
+            {
+                GameManager.instance.AlanItemList.Add(collider.gameObject);
+            }
+            else
+            {
+                GameManager.instance.AlbusItemList.Add(collider.gameObject);
+            }
         }
         else if (collider.gameObject.tag == "HealthPotion")
         {
@@ -160,7 +165,7 @@ public class PlayerController : MonoBehaviour
         }
         else if (collider.gameObject.tag == "Item")
         {
-            items.Remove(collider.gameObject);
+            GameManager.instance.RemoveFromItemLists(collider.gameObject);
         }
         else if (collider.gameObject.tag == "HealthPotion")
         {
@@ -243,7 +248,7 @@ public class PlayerController : MonoBehaviour
                 UIManager.instance.SetPassiveItemSlots(playerID, false);
                 UIManager.instance.HideInventoryTooltip(playerID);
             }
-            if (items.Count != 0)
+            if ((playerID == 0 && GameManager.instance.AlanItemList.Count != 0) || (playerID == 1 && GameManager.instance.AlbusItemList.Count != 0))
             {
                 AttemptToPickUpItem();
             }
@@ -379,29 +384,39 @@ public class PlayerController : MonoBehaviour
 
     private void AttemptToPickUpItem()
     {
-        var itemToAdd = items[items.Count - 1].GetComponent<Item>();
+        var list = (playerID == 0 ? GameManager.instance.AlanItemList : GameManager.instance.AlbusItemList);
+        var item = list[list.Count - 1];
+
+        if (item == null)
+        {
+            list.RemoveAt(list.Count - 1);
+            return;
+        }
+
+        var itemToAdd = item.GetComponent<Item>();
+
         if (player.GetButtonUp("Square") && inventory.AddItem(itemToAdd, 0))
         {
             UIManager.instance.SetPassiveItemLeft(playerID, (Texture)itemToAdd.GetComponent<SpriteRenderer>().sprite.texture);
-            items.RemoveAt(items.Count - 1);
+            GameManager.instance.RemoveFromItemLists(itemToAdd.gameObject);
             itemToAdd.PickedUp();
         }
         else if (player.GetButtonUp("Cross") && inventory.AddItem(itemToAdd, 1))
         {
             UIManager.instance.SetPassiveItemDown(playerID, (Texture)itemToAdd.GetComponent<SpriteRenderer>().sprite.texture);
-            items.RemoveAt(items.Count - 1);
+            GameManager.instance.RemoveFromItemLists(itemToAdd.gameObject);
             itemToAdd.PickedUp();
         }
         else if (player.GetButtonUp("Circle") && inventory.AddItem(itemToAdd, 2))
         {
             UIManager.instance.SetPassiveItemRight(playerID, (Texture)itemToAdd.GetComponent<SpriteRenderer>().sprite.texture);
-            items.RemoveAt(items.Count - 1);
+            GameManager.instance.RemoveFromItemLists(itemToAdd.gameObject);
             itemToAdd.PickedUp();
         }
         else if (player.GetButtonUp("Triangle") && inventory.AddItem(itemToAdd, 3))
         {
             UIManager.instance.SetPassiveItemUp(playerID, (Texture)itemToAdd.GetComponent<SpriteRenderer>().sprite.texture);
-            items.RemoveAt(items.Count - 1);
+            GameManager.instance.RemoveFromItemLists(itemToAdd.gameObject);
             itemToAdd.PickedUp();
         }
     }

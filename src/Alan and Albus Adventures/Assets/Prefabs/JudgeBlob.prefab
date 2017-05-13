@@ -330,11 +330,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 3
-  damage: 1
+  damage: 3
   magicalDamage: 0
   Attacking: 0
   knockbackForceOnTouch: 100
-  experienceValue: 0
+  experienceValue: 25
   leftSprite: {fileID: 21300000, guid: 58b8ba17575946a4391d2d62eaf4adec, type: 3}
   rightSprite: {fileID: 21300000, guid: 8a001c908c7de7543a9ee9b97a790d81, type: 3}
   BossName: Honorary Judge Blob

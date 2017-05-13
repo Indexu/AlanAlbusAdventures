@@ -11,12 +11,24 @@ public class RagnarLodblobController : Boss
     private const float firstWait = 5f;
     private bool startRoutine;
     private VitalityController vc;
+    private ParticleSystem.MinMaxGradient originalParticleColor;
+    private ParticleSystem.MinMaxGradient psEnrageColor;
+    private ParticleSystem.MainModule hitParticleMain;
+    private ParticleSystem.MainModule critParticleMain;
+    private ParticleSystem.MainModule deathParticleMain;
+    private Color originalColor;
 
     protected override void Start()
     {
         base.Start();
         startRoutine = true;
         vc = GetComponent<VitalityController>();
+        originalParticleColor = vc.hitParticle.GetComponent<ParticleSystem>().main.startColor;
+        hitParticleMain = vc.hitParticle.GetComponent<ParticleSystem>().main;
+        critParticleMain = vc.critParticle.GetComponent<ParticleSystem>().main;
+        deathParticleMain = vc.deathParticle.GetComponent<ParticleSystem>().main;
+        psEnrageColor = new ParticleSystem.MinMaxGradient(enrageColor);
+        originalColor = spriteRenderer.color;
     }
 
     protected override void FixedUpdate()
@@ -38,18 +50,17 @@ public class RagnarLodblobController : Boss
         rb2d.AddForce(targetVector.normalized * speed, ForceMode2D.Impulse);
     }
 
+    private void OnDestroy()
+    {
+        Debug.Log("DESTROY");
+        spriteRenderer.color = originalColor;
+        hitParticleMain.startColor = originalParticleColor;
+        critParticleMain.startColor = originalParticleColor;
+        deathParticleMain.startColor = originalParticleColor;
+    }
+
     private IEnumerator Enrage()
     {
-        var originalColor = spriteRenderer.color;
-
-        var hitParticleMain = vc.hitParticle.GetComponent<ParticleSystem>().main;
-        var critParticleMain = vc.critParticle.GetComponent<ParticleSystem>().main;
-        var deathParticleMain = vc.deathParticle.GetComponent<ParticleSystem>().main;
-
-        var originalParticleColor = hitParticleMain.startColor;
-
-        var psEnrageColor = new ParticleSystem.MinMaxGradient(enrageColor);
-
         yield return new WaitForSeconds(firstWait);
 
         while (true)

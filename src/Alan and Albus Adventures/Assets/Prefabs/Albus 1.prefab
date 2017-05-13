@@ -200,13 +200,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c86a1a51cee1e43049d830f30337b866, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 11
-  maxHealth: 30
+  movementSpeed: 9
+  maxHealth: 20
   critHitChance: 10
   critHitDamage: 2
-  baseDamage: 1
-  attackSpeed: 1
-  statPoints: 6
+  baseDamage: 2
+  attackSpeed: 0.8
+  statPoints: 2
 --- !u!114 &114140529522161248
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -288,7 +288,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d86cfd3d2857a4ec496620be2e0e5e1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentHealth: 30
+  currentHealth: 20
   magicResistance: 1
   physicalResistance: 1
   isDead: 0

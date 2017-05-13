@@ -93,16 +93,13 @@ public abstract class Enemy : MonoBehaviour
 
     protected void CheckFlip()
     {
-        if (targetVector != null)
+        if (targetVector.x < 0 && spriteRenderer.sprite != leftSprite)
         {
-            if (targetVector.x < 0 && spriteRenderer.sprite != leftSprite)
-            {
-                spriteRenderer.sprite = leftSprite;
-            }
-            else if (0 < targetVector.x && spriteRenderer.sprite != rightSprite)
-            {
-                spriteRenderer.sprite = rightSprite;
-            }
+            spriteRenderer.sprite = leftSprite;
+        }
+        else if (0 < targetVector.x && spriteRenderer.sprite != rightSprite)
+        {
+            spriteRenderer.sprite = rightSprite;
         }
     }
 
