@@ -10,16 +10,20 @@ public abstract class Enemy : MonoBehaviour
     public bool Attacking;
     public float knockbackForceOnTouch;
     public float experienceValue;
+    public Sprite leftSprite;
+    public Sprite rightSprite;
 
     protected Rigidbody2D rb2d;
     protected GameObject target;
     protected Vector2 targetVector;
     protected const float targetSwitchThreshold = 0.6f;
+    protected SpriteRenderer spriteRenderer;
 
     protected virtual void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
         target = null;
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     protected virtual void FixedUpdate()
@@ -83,6 +87,23 @@ public abstract class Enemy : MonoBehaviour
         }
 
         targetVector = target.transform.position - transform.position;
+
+        CheckFlip();
+    }
+
+    protected void CheckFlip()
+    {
+        if (targetVector != null)
+        {
+            if (targetVector.x < 0 && spriteRenderer.sprite != leftSprite)
+            {
+                spriteRenderer.sprite = leftSprite;
+            }
+            else if (0 < targetVector.x && spriteRenderer.sprite != rightSprite)
+            {
+                spriteRenderer.sprite = rightSprite;
+            }
+        }
     }
 
     protected abstract void Move();
