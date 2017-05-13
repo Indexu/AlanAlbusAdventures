@@ -99,6 +99,7 @@ public class GameManager : MonoBehaviour
         GameManager.instance.enemies--;
         GameManager.instance.killed++;
 
+        Debug.Log("EnemyKilled | ENEMIES: " + GameManager.instance.enemies);
         DropHealthPotion(pos);
 
         GameManager.instance.AddExperience(xp);
@@ -115,6 +116,14 @@ public class GameManager : MonoBehaviour
                 EndBossFight();
             }
         }
+    }
+
+    public void EnemySpawned()
+    {
+        GameManager.instance.enemies++;
+        GameManager.instance.killed--;
+
+        Debug.Log("EnemySpawned | ENEMIES: " + GameManager.instance.enemies);
     }
 
     public void PlayerKilled()

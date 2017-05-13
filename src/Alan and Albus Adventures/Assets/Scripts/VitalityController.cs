@@ -106,6 +106,11 @@ public class VitalityController : MonoBehaviour
         knockback = true;
         knockbackForce = force;
         knockbackVector = direction.normalized;
+
+        if (boss)
+        {
+            knockbackForce /= 10;
+        }
     }
 
     private void Start()

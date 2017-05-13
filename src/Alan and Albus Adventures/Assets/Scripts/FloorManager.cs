@@ -365,7 +365,7 @@ public class FloorManager : MonoBehaviour
 
     private void SpawnBoss()
     {
-        GameObject boss = bosses[Random.Range(0, bosses.Count - 1)];
+        GameObject boss = bosses[Random.Range(0, bosses.Count)];
         boss = Instantiate(boss, grid[bossCoords.X, bossCoords.Y].transform.position, Quaternion.identity, grid[bossCoords.X, bossCoords.Y].transform);
 
         var bc = boss.GetComponent<Boss>();

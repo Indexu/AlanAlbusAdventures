@@ -9,49 +9,49 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1713241975153652}
+  m_RootGameObject: {fileID: 1719098274129240}
   m_IsPrefabParent: 1
---- !u!1 &1713241975153652
+--- !u!1 &1719098274129240
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4484576134368038}
-  - component: {fileID: 212407990224719220}
-  - component: {fileID: 50838541679354560}
-  - component: {fileID: 114538596077188904}
-  - component: {fileID: 114035776998461638}
-  - component: {fileID: 60000358342632704}
-  - component: {fileID: 114306245789160284}
+  - component: {fileID: 4176534051450946}
+  - component: {fileID: 212250856944018922}
+  - component: {fileID: 50093676059040146}
+  - component: {fileID: 114743542429070738}
+  - component: {fileID: 114236202798766144}
+  - component: {fileID: 114240971407483774}
+  - component: {fileID: 60072406801034162}
   m_Layer: 9
-  m_Name: Blobert
+  m_Name: NotABossBlob
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4484576134368038
+--- !u!4 &4176534051450946
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1713241975153652}
+  m_GameObject: {fileID: 1719098274129240}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.37, y: -2.46, z: 0}
-  m_LocalScale: {x: 0.38958767, y: 0.38958767, z: 0.38958767}
+  m_LocalPosition: {x: -0.24, y: -2.74, z: 0}
+  m_LocalScale: {x: 0.3702902, y: 0.3702902, z: 0.3702902}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!50 &50838541679354560
+--- !u!50 &50093676059040146
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1713241975153652}
+  m_GameObject: {fileID: 1719098274129240}
   m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
@@ -65,12 +65,12 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!60 &60000358342632704
+--- !u!60 &60072406801034162
 PolygonCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1713241975153652}
+  m_GameObject: {fileID: 1719098274129240}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
@@ -252,80 +252,18 @@ PolygonCollider2D:
       - {x: 0.16, y: -4.12}
       - {x: 0.52, y: -4.12}
       - {x: 0.71999997, y: -4.11}
---- !u!114 &114035776998461638
+--- !u!114 &114236202798766144
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1713241975153652}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c4c64b56897b0499db2d45d61657288b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hitAnim:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 2
-      time: 0
-      value: 0
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 0
-    - serializedVersion: 2
-      time: 0.098456055
-      value: 0.49155664
-      inSlope: 0.03798126
-      outSlope: 0.03798126
-      tangentMode: 0
-    - serializedVersion: 2
-      time: 0.2486639
-      value: -0.003022952
-      inSlope: -0.000020775842
-      outSlope: -0.000020775842
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
---- !u!114 &114306245789160284
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1713241975153652}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ccba88126f592455482715298a2a2058, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 3
-  damage: 2
-  magicalDamage: 0
-  Attacking: 0
-  knockbackForceOnTouch: 100
-  experienceValue: 0
-  leftSprite: {fileID: 21300000, guid: 4cfd40c19d0c0e34d840064fbdeec178, type: 3}
-  rightSprite: {fileID: 21300000, guid: 09bd875d967e22a43b3ec4e1c8b07514, type: 3}
-  BossName: Daddy Blobert
-  nameText: {fileID: 0}
-  spawnInterval: 5
-  enemyHealthBar: {fileID: 1938549340746658, guid: 97ac5fa2bdc20406ea1cb2c04cb78fb7,
-    type: 2}
-  blobs:
-  - {fileID: 1043773221181346, guid: 4d36385a988da40dda62e3cbc431b7fa, type: 2}
-  - {fileID: 1043773221181346, guid: 4c139c8b3d16142ca8dc0042a48f869c, type: 2}
---- !u!114 &114538596077188904
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1713241975153652}
+  m_GameObject: {fileID: 1719098274129240}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d86cfd3d2857a4ec496620be2e0e5e1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentHealth: 200
+  currentHealth: 15
   magicResistance: 1
   physicalResistance: 1
   isDead: 0
@@ -341,7 +279,7 @@ MonoBehaviour:
   deathParticle: {fileID: 1806162901150684, guid: b596b851183844c80ac2bb74db5d5cb3,
     type: 2}
   reviveParticle: {fileID: 0}
-  boss: 1
+  boss: 0
   player: 0
   blobDeathSound:
   - {fileID: 8300000, guid: 5d023783706a1f44dbc5d4400a403edb, type: 3}
@@ -351,12 +289,66 @@ MonoBehaviour:
   playerDeathSound: []
   playerReviveSound: {fileID: 0}
   doUpdateUI: 0
---- !u!212 &212407990224719220
+--- !u!114 &114240971407483774
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1719098274129240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4c64b56897b0499db2d45d61657288b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitAnim:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.08804193
+      value: 0.99306726
+      inSlope: 0.03798126
+      outSlope: 0.03798126
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.2486639
+      value: -0.003022952
+      inSlope: -0.000020775842
+      outSlope: -0.000020775842
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+--- !u!114 &114743542429070738
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1719098274129240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd2dd1d6ed5f5441a95b04b7e1979eb2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 3
+  damage: 1
+  magicalDamage: 0
+  Attacking: 0
+  knockbackForceOnTouch: 100
+  experienceValue: 0
+  leftSprite: {fileID: 21300000, guid: 8d7f4cb42bcedb548833fad3dd6adad1, type: 3}
+  rightSprite: {fileID: 21300000, guid: f27a4ed445f0c4d40982738a0e9046bf, type: 3}
+--- !u!212 &212250856944018922
 SpriteRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1713241975153652}
+  m_GameObject: {fileID: 1719098274129240}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -383,7 +375,7 @@ SpriteRenderer:
   m_SortingLayerID: -2142754077
   m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 09bd875d967e22a43b3ec4e1c8b07514, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f27a4ed445f0c4d40982738a0e9046bf, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

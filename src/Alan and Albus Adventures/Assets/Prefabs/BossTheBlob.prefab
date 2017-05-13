@@ -23,10 +23,10 @@ GameObject:
   - component: {fileID: 50838541679354560}
   - component: {fileID: 114538596077188904}
   - component: {fileID: 114035776998461638}
+  - component: {fileID: 114490296790673868}
   - component: {fileID: 60000358342632704}
-  - component: {fileID: 114306245789160284}
   m_Layer: 9
-  m_Name: Blobert
+  m_Name: BossTheBlob
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -287,7 +287,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
---- !u!114 &114306245789160284
+--- !u!114 &114490296790673868
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -295,7 +295,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1713241975153652}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ccba88126f592455482715298a2a2058, type: 3}
+  m_Script: {fileID: 11500000, guid: 2a3937f53b65f47ca923631ece3f072d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 3
@@ -304,16 +304,13 @@ MonoBehaviour:
   Attacking: 0
   knockbackForceOnTouch: 100
   experienceValue: 0
-  leftSprite: {fileID: 21300000, guid: 4cfd40c19d0c0e34d840064fbdeec178, type: 3}
-  rightSprite: {fileID: 21300000, guid: 09bd875d967e22a43b3ec4e1c8b07514, type: 3}
-  BossName: Daddy Blobert
+  leftSprite: {fileID: 21300000, guid: 9404a775c9a96fa49baca7d19952b587, type: 3}
+  rightSprite: {fileID: 21300000, guid: a192df8d3a090c44293ea89bd6b3d89a, type: 3}
+  BossName: Boss The Blob
   nameText: {fileID: 0}
-  spawnInterval: 5
-  enemyHealthBar: {fileID: 1938549340746658, guid: 97ac5fa2bdc20406ea1cb2c04cb78fb7,
-    type: 2}
-  blobs:
-  - {fileID: 1043773221181346, guid: 4d36385a988da40dda62e3cbc431b7fa, type: 2}
-  - {fileID: 1043773221181346, guid: 4c139c8b3d16142ca8dc0042a48f869c, type: 2}
+  projectileForce: 10
+  fireRate: 0.5
+  projectile: {fileID: 1905940428374980, guid: 07fa7630f630c45c8bf2249a8da4a83a, type: 2}
 --- !u!114 &114538596077188904
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -383,7 +380,7 @@ SpriteRenderer:
   m_SortingLayerID: -2142754077
   m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 09bd875d967e22a43b3ec4e1c8b07514, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a192df8d3a090c44293ea89bd6b3d89a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
