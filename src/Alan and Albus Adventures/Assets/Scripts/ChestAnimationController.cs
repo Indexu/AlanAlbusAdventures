@@ -33,9 +33,9 @@ public class ChestAnimationController : MonoBehaviour
 
     private void Start()
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer = transform.parent.GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = closedChest;
-        halo = (Behaviour)GetComponent("Halo");
+        halo = (Behaviour)transform.parent.GetComponent("Halo");
         halo.enabled = false;
     }
 

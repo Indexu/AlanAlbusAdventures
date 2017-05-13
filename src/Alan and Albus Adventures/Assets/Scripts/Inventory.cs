@@ -66,6 +66,11 @@ public class Inventory : MonoBehaviour
                     bonusStats[(int)item.bonusProperty] += ((int)item.bonusQuality * item.bonusBaseStat);
                 }
 
+                if (item.property == Property.MAXHEALTH || (item.bonusProperty == Property.MAXHEALTH && item.bonusBaseStat != 0))
+                {
+                    vc.doUpdateUI = true;
+                }
+
                 return true;
             }
         }

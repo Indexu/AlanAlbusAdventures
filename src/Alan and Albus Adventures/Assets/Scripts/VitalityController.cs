@@ -50,6 +50,7 @@ public class VitalityController : MonoBehaviour
     private const float maxColor = 255f / 255f;
     private const float colorSpeed = 200f / 255f;
     private bool colorUp;
+    private Inventory inventory;
 
     public void Damage(float amount, bool isMagical, bool isCrit)
     {
@@ -79,9 +80,9 @@ public class VitalityController : MonoBehaviour
     public void Heal(float amount)
     {
         currentHealth += amount;
-        if (currentHealth > stats.maxHealth)
+        if ((stats.maxHealth * inventory.GetStatBonus(Property.MAXHEALTH)) < currentHealth)
         {
-            currentHealth = stats.maxHealth;
+            currentHealth = (stats.maxHealth * inventory.GetStatBonus(Property.MAXHEALTH));
         }
         doUpdateUI = true;
     }
@@ -115,6 +116,7 @@ public class VitalityController : MonoBehaviour
         acc = GetComponent<AnimationCurveController>();
         damageTextOffset = bounds.extents.y * healthBarOffset;
         spriteRenderer = GetComponent<SpriteRenderer>();
+        inventory = GetComponent<Inventory>();
 
         if (gameObject.tag == "Player")
         {
@@ -223,9 +225,7 @@ public class VitalityController : MonoBehaviour
                 int index = Random.Range(0, blobDeathSound.Count);
                 SoundManager.instance.PlaySounds(blobDeathSound.ElementAt(index));
                 healthSlider.gameObject.SetActive(false);
-                Debug.Log("health Slider set to false");
                 gameObject.SetActive(false);
-                Debug.Log("After deactivation");
             }
 
             Instantiate(deathParticle, transform.position, Quaternion.identity);
@@ -263,8 +263,8 @@ public class VitalityController : MonoBehaviour
         }
         else if (player)
         {
-            healthText.text = currentHealth.ToString("0") + "/" + stats.maxHealth;
-            healthSlider.value = currentHealth / stats.maxHealth;
+            healthText.text = currentHealth.ToString("0") + "/" + (stats.maxHealth * inventory.GetStatBonus(Property.MAXHEALTH)).ToString("0");
+            healthSlider.value = currentHealth / (stats.maxHealth * inventory.GetStatBonus(Property.MAXHEALTH));
         }
         else
         {

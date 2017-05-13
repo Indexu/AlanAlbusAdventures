@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
     private Stats stats;
     private Player player;
     private Inventory inventory;
-    private GameObject item;
+    private List<GameObject> items;
     private GameObject healthPotion;
     private Vector2 moveVector;
     private Vector2 rotationVector;
@@ -66,6 +66,7 @@ public class PlayerController : MonoBehaviour
         gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
         inventory = GetComponent<Inventory>();
         hole = null;
+        items = new List<GameObject>();
     }
 
     private void Update()
@@ -119,7 +120,7 @@ public class PlayerController : MonoBehaviour
         }
         else if (collider.gameObject.tag == "Item")
         {
-            item = collider.gameObject;
+            items.Add(collider.gameObject);
         }
         else if (collider.gameObject.tag == "HealthPotion")
         {
@@ -127,7 +128,7 @@ public class PlayerController : MonoBehaviour
         }
         else if (collider.gameObject.tag == "Chest")
         {
-            var c = collider.gameObject.GetComponent<ChestAnimationController>();
+            var c = collider.GetComponent<ChestAnimationController>();
 
             if (!c.opened)
             {
@@ -159,7 +160,7 @@ public class PlayerController : MonoBehaviour
         }
         else if (collider.gameObject.tag == "Item")
         {
-            item = null;
+            items.Remove(collider.gameObject);
         }
         else if (collider.gameObject.tag == "HealthPotion")
         {
@@ -201,7 +202,7 @@ public class PlayerController : MonoBehaviour
         {
             var analogStick = player.GetAxis("Move Vertical");
 
-            if (player.GetButtonUp("Triangle"))
+            if (player.GetButtonUp("Triangle") || player.GetButtonUp("Circle"))
             {
                 inStatsScreen = false;
                 stats.HideStats();
@@ -219,6 +220,15 @@ public class PlayerController : MonoBehaviour
                 stats.UpgradeStat();
             }
 
+            if (player.GetButtonDown("Square"))
+            {
+                stats.UnmodifiedStats(true);
+            }
+            if (player.GetButtonUp("Square"))
+            {
+                stats.UnmodifiedStats(false);
+            }
+
             if (analogStick != 0 && canNavigateStats)
             {
                 canNavigateStats = false;
@@ -233,7 +243,7 @@ public class PlayerController : MonoBehaviour
                 UIManager.instance.SetPassiveItemSlots(playerID, false);
                 UIManager.instance.HideInventoryTooltip(playerID);
             }
-            if (item != null)
+            if (items.Count != 0)
             {
                 AttemptToPickUpItem();
             }
@@ -369,30 +379,30 @@ public class PlayerController : MonoBehaviour
 
     private void AttemptToPickUpItem()
     {
-        var itemToAdd = item.GetComponent<Item>();
+        var itemToAdd = items[items.Count - 1].GetComponent<Item>();
         if (player.GetButtonUp("Square") && inventory.AddItem(itemToAdd, 0))
         {
-            UIManager.instance.SetPassiveItemLeft(playerID, (Texture)item.GetComponent<SpriteRenderer>().sprite.texture);
+            UIManager.instance.SetPassiveItemLeft(playerID, (Texture)itemToAdd.GetComponent<SpriteRenderer>().sprite.texture);
+            items.RemoveAt(items.Count - 1);
             itemToAdd.PickedUp();
-            item = null;
         }
         else if (player.GetButtonUp("Cross") && inventory.AddItem(itemToAdd, 1))
         {
-            UIManager.instance.SetPassiveItemDown(playerID, (Texture)item.GetComponent<SpriteRenderer>().sprite.texture);
+            UIManager.instance.SetPassiveItemDown(playerID, (Texture)itemToAdd.GetComponent<SpriteRenderer>().sprite.texture);
+            items.RemoveAt(items.Count - 1);
             itemToAdd.PickedUp();
-            item = null;
         }
         else if (player.GetButtonUp("Circle") && inventory.AddItem(itemToAdd, 2))
         {
-            UIManager.instance.SetPassiveItemRight(playerID, (Texture)item.GetComponent<SpriteRenderer>().sprite.texture);
+            UIManager.instance.SetPassiveItemRight(playerID, (Texture)itemToAdd.GetComponent<SpriteRenderer>().sprite.texture);
+            items.RemoveAt(items.Count - 1);
             itemToAdd.PickedUp();
-            item = null;
         }
         else if (player.GetButtonUp("Triangle") && inventory.AddItem(itemToAdd, 3))
         {
-            UIManager.instance.SetPassiveItemUp(playerID, (Texture)item.GetComponent<SpriteRenderer>().sprite.texture);
+            UIManager.instance.SetPassiveItemUp(playerID, (Texture)itemToAdd.GetComponent<SpriteRenderer>().sprite.texture);
+            items.RemoveAt(items.Count - 1);
             itemToAdd.PickedUp();
-            item = null;
         }
     }
 
