@@ -88,6 +88,12 @@ public class Inventory : MonoBehaviour
             {
                 bonusStats[(int)discardItem.bonusProperty] -= ((int)discardItem.bonusQuality * discardItem.bonusBaseStat);
             }
+
+            if (discardItem.property == Property.MAXHEALTH || (discardItem.bonusProperty == Property.MAXHEALTH && discardItem.bonusBaseStat != 0))
+            {
+                vc.doUpdateUI = true;
+            }
+
             passives[pos] = null;
         }
     }

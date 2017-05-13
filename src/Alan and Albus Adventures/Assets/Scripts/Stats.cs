@@ -181,7 +181,7 @@ public class Stats : MonoBehaviour
             cc *= inventory.GetStatBonus(Property.CRITCHANCE);
             cd *= inventory.GetStatBonus(Property.CRITDAMAGE);
             bd *= inventory.GetStatBonus(Property.BASEDAMAGE);
-            atk *= inventory.GetStatBonus(Property.ATTACKSPEED);
+            atk /= inventory.GetStatBonus(Property.ATTACKSPEED);
 
             movementSpeedBonusText.color = Color.white;
             maxHealthBonusText.color = Color.white;
