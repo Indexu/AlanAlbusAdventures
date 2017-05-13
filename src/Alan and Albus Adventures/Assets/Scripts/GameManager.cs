@@ -140,6 +140,8 @@ public class GameManager : MonoBehaviour
     public void Reset()
     {
         Unpause();
+        //SoundManager.instance.Destroy();
+        //1UIManager.instance.Destroy();     
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
@@ -172,6 +174,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        Time.timeScale = 1f;
         if (instance == null)
         {
             instance = this;
@@ -182,8 +185,6 @@ public class GameManager : MonoBehaviour
             GameManager.instance.Init();
             Destroy(gameObject);
         }
-
-        DontDestroyOnLoad(gameObject);
     }
 
     private void Start()

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
 public class SoundManager : MonoBehaviour
@@ -27,8 +28,6 @@ public class SoundManager : MonoBehaviour
 		{
 			Destroy(gameObject);
 		}
-
-		DontDestroyOnLoad(gameObject);
 	}
 	
 	private void Start()
@@ -57,7 +56,8 @@ public class SoundManager : MonoBehaviour
 			}
 			else 
 			{
-				curr = (curr == 4 ? 0 : curr++);
+				curr = (curr == 3 ? 0 : curr++);
+				theme.clip = themes[curr];
 			}
 			theme.Play();
          }

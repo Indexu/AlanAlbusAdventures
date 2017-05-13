@@ -643,7 +643,7 @@ Prefab:
     - target: {fileID: 114909770465445540, guid: 7dcc1ff5548bc4149b297f1708dbd46e,
         type: 2}
       propertyPath: _userData.joystickMaps.Array.data[0].actionElementMaps.Array.data[26]._actionId
-      value: 18
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 114909770465445540, guid: 7dcc1ff5548bc4149b297f1708dbd46e,
         type: 2}
@@ -1115,7 +1115,7 @@ MonoBehaviour:
   moveOneElementPerAxisPress: 0
   m_HorizontalAxis: UIHorizontal
   m_VerticalAxis: UIVertical
-  m_SubmitButton: UIPlay
+  m_SubmitButton: UISubmit
   m_CancelButton: UICancel
   m_InputActionsPerSecond: 5
   m_RepeatDelay: 0

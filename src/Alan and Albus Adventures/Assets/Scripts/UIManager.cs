@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
@@ -766,10 +767,7 @@ public class UIManager : MonoBehaviour
             Init();
             Destroy(gameObject);
         }
-
-        DontDestroyOnLoad(gameObject);
     }
-
     private void OnGUI()
     {
         if (reviveUIInstance != null)
