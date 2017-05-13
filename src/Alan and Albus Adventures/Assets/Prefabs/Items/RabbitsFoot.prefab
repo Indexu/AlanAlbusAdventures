@@ -117,7 +117,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   quality: 0
   property: 3
-  baseStat: 12
+  baseStat: 8
   bonusQuality: 0
   bonusProperty: 0
   bonusBaseStat: 0

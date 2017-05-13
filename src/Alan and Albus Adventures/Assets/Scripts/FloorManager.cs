@@ -132,7 +132,7 @@ public class FloorManager : MonoBehaviour
         roomCoords.Add(startCoords);
         AddAdjacentCoords(startCoords);
 
-        for (int i = 0; (i < numberOfRooms && availableCoords.Count != 0); i++)
+        for (int i = 0; (i <= numberOfRooms && availableCoords.Count != 0); i++)
         {
             var selectedRoomIndex = Random.Range(0, availableCoords.Count);
             var selectedRoomCoords = availableCoords[selectedRoomIndex];
