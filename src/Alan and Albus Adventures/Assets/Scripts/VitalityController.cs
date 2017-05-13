@@ -106,6 +106,11 @@ public class VitalityController : MonoBehaviour
         knockback = true;
         knockbackForce = force;
         knockbackVector = direction.normalized;
+
+        if (boss)
+        {
+            knockbackForce /= 10;
+        }
     }
 
     private void Start()
@@ -221,7 +226,7 @@ public class VitalityController : MonoBehaviour
             else
             {
                 var xp = GetComponent<Enemy>().experienceValue;
-                GameManager.instance.EnemyKilled(xp);
+                GameManager.instance.EnemyKilled(xp, transform.position);
                 int index = Random.Range(0, blobDeathSound.Count);
                 SoundManager.instance.PlaySounds(blobDeathSound.ElementAt(index));
                 healthSlider.gameObject.SetActive(false);

@@ -21,6 +21,7 @@ public class UIManager : MonoBehaviour
     public Color lesserItemColor;
     public Color superiorItemColor;
     public Color majorItemColor;
+    public Color statPointUpColor;
     public Texture PS4Confirm;
     public Texture XboxConfirm;
     public Texture PS4Stats;
@@ -121,6 +122,7 @@ public class UIManager : MonoBehaviour
         var txt = damageTextInstance.GetComponent<Text>();
         txt.text = "Stat Point!";
         txt.fontSize = 55;
+        txt.color = statPointUpColor;
 
         StartCoroutine(AnimateStatUpText(rt));
     }

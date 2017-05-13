@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 199128761731463542}
   - component: {fileID: 114885737468605782}
   m_Layer: 0
-  m_Name: ProjectileHitParticle
+  m_Name: AlbusProjectileHitParticle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -252,10 +252,10 @@ ParticleSystem:
         m_NumColorKeys: 2
         m_NumAlphaKeys: 2
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 0, b: 0, a: 1}
+      maxColor: {r: 0.4, g: 0.1764706, b: 0.5686275, a: 1}
     startSize:
       minMaxState: 0
-      scalar: 0.24
+      scalar: 0.1
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -3094,7 +3094,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -843540687
-  m_SortingLayer: 4
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_RenderMode: 1
   m_SortMode: 0
