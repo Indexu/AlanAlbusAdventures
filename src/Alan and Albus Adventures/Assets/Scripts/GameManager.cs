@@ -25,12 +25,14 @@ public class GameManager : MonoBehaviour
 
     // Loot
     public float dropChance;
+    public float healthPotionChance;
     // Please make these \/ add up to 1
     public float commonChance;
     public float rareChance;
     public float epicChance;
     public float legendaryChance;
     // End ----------------------------
+    public GameObject healthPotion;
     public GameObject[] maxHealthItems;
     public GameObject[] movementSpeedItems;
     public GameObject[] attackSpeedItems;
@@ -92,12 +94,13 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void EnemyKilled(float xp)
+    public void EnemyKilled(float xp, Vector3 pos)
     {
         GameManager.instance.enemies--;
         GameManager.instance.killed++;
 
         Debug.Log("EnemyKilled | ENEMIES: " + GameManager.instance.enemies);
+        DropHealthPotion(pos);
 
         GameManager.instance.AddExperience(xp);
 
@@ -178,6 +181,82 @@ public class GameManager : MonoBehaviour
         }
 
         UIManager.instance.SetExperienceBar(currentExperience, maxExperience);
+    }
+
+    public void DropLoot(int rolls, bool chest)
+    {
+        for (int i = 0; i < rolls; i++)
+        {
+            if (DidLootDrop() || chest || true)
+            {
+                var property = GetPropertyOfItem();
+                GameObject item;
+                GameObject[] arr = null;
+                switch (property)
+                {
+                    case Property.MAXHEALTH:
+                        arr = maxHealthItems;
+                        break;
+                    case Property.MOVEMENTSPEED:
+                        arr = movementSpeedItems;
+                        break;
+                    case Property.ATTACKSPEED:
+                        arr = attackSpeedItems;
+                        break;
+                    case Property.CRITCHANCE:
+                        arr = criticalChanceItems;
+                        break;
+                    case Property.CRITDAMAGE:
+                        arr = criticalDamageItems;
+                        break;
+                    case Property.BASEDAMAGE:
+                        arr = baseDamageItems;
+                        break;
+                };
+                item = Instantiate(arr[(Random.Range(0, arr.Length))], GameManager.instance.currentRoom.transform.position, Quaternion.identity, GameManager.instance.currentRoom.transform);
+                var itemComponent = item.GetComponent<Item>();
+                itemComponent.quality = GetQualityOfItem();
+                for (int j = 0; j < (int)itemComponent.quality; j++)
+                {
+                    if (DidLootDrop())
+                    {
+                        itemComponent.bonusProperty = GetPropertyOfItem();
+                        switch (itemComponent.bonusProperty)
+                        {
+                            case Property.MAXHEALTH:
+                                itemComponent.bonusBaseStat = 10;
+                                break;
+                            case Property.MOVEMENTSPEED:
+                                itemComponent.bonusBaseStat = 15;
+                                break;
+                            case Property.ATTACKSPEED:
+                                itemComponent.bonusBaseStat = 10;
+                                break;
+                            case Property.CRITCHANCE:
+                                itemComponent.bonusBaseStat = 5;
+                                break;
+                            case Property.CRITDAMAGE:
+                                itemComponent.bonusBaseStat = 10;
+                                break;
+                            case Property.BASEDAMAGE:
+                                itemComponent.bonusBaseStat = 15;
+                                break;
+                        };
+                        itemComponent.bonusQuality = GetPostfixOfItem();
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    public void DropHealthPotion(Vector3 pos)
+    {
+        bool drop = (Random.Range(0f, 1f) <= healthPotionChance);
+        if (drop)
+        {
+            Instantiate(healthPotion, pos, Quaternion.identity, GameManager.instance.currentRoom.transform);
+        }
     }
 
     private void Awake()
@@ -435,73 +514,6 @@ public class GameManager : MonoBehaviour
         else
         {
             return Property.BASEDAMAGE;
-        }
-    }
-
-    public void DropLoot(int rolls, bool chest)
-    {
-        for (int i = 0; i < rolls; i++)
-        {
-            if (DidLootDrop() || chest || true)
-            {
-                var property = GetPropertyOfItem();
-                GameObject item;
-                GameObject[] arr = null;
-                switch (property)
-                {
-                    case Property.MAXHEALTH:
-                        arr = maxHealthItems;
-                        break;
-                    case Property.MOVEMENTSPEED:
-                        arr = movementSpeedItems;
-                        break;
-                    case Property.ATTACKSPEED:
-                        arr = attackSpeedItems;
-                        break;
-                    case Property.CRITCHANCE:
-                        arr = criticalChanceItems;
-                        break;
-                    case Property.CRITDAMAGE:
-                        arr = criticalDamageItems;
-                        break;
-                    case Property.BASEDAMAGE:
-                        arr = baseDamageItems;
-                        break;
-                };
-                item = Instantiate(arr[(Random.Range(0, arr.Length))], GameManager.instance.currentRoom.transform.position, Quaternion.identity, GameManager.instance.currentRoom.transform);
-                var itemComponent = item.GetComponent<Item>();
-                itemComponent.quality = GetQualityOfItem();
-                for (int j = 0; j < (int)itemComponent.quality; j++)
-                {
-                    if (DidLootDrop())
-                    {
-                        itemComponent.bonusProperty = GetPropertyOfItem();
-                        switch (itemComponent.bonusProperty)
-                        {
-                            case Property.MAXHEALTH:
-                                itemComponent.bonusBaseStat = 10;
-                                break;
-                            case Property.MOVEMENTSPEED:
-                                itemComponent.bonusBaseStat = 15;
-                                break;
-                            case Property.ATTACKSPEED:
-                                itemComponent.bonusBaseStat = 10;
-                                break;
-                            case Property.CRITCHANCE:
-                                itemComponent.bonusBaseStat = 5;
-                                break;
-                            case Property.CRITDAMAGE:
-                                itemComponent.bonusBaseStat = 10;
-                                break;
-                            case Property.BASEDAMAGE:
-                                itemComponent.bonusBaseStat = 15;
-                                break;
-                        };
-                        itemComponent.bonusQuality = GetPostfixOfItem();
-                        break;
-                    }
-                }
-            }
         }
     }
 
