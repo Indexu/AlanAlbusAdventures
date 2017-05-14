@@ -83,13 +83,6 @@ public class PlayerController : MonoBehaviour
         {
             CheckInput();
         }
-        else
-        {
-            if (player.GetButtonUp("Cross"))
-            {
-                gameManager.DeadReset();
-            }
-        }
     }
 
     private void FixedUpdate()
@@ -200,10 +193,6 @@ public class PlayerController : MonoBehaviour
             if (player.GetButtonUp("Start"))
             {
                 gameManager.Unpause();
-            }
-            if (player.GetButtonUp("Cross"))
-            {
-                gameManager.Reset();
             }
         }
         else if (inStatsScreen)
