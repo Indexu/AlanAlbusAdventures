@@ -109,7 +109,6 @@ public class GameManager : MonoBehaviour
     {
         GameManager.instance.enemies--;
 
-        Debug.Log("EnemyKilled | ENEMIES: " + GameManager.instance.enemies);
         DropHealthPotion(pos);
 
         GameManager.instance.AddExperience(xp);
@@ -136,8 +135,6 @@ public class GameManager : MonoBehaviour
     public void EnemySpawned()
     {
         GameManager.instance.enemies++;
-
-        Debug.Log("EnemySpawned | ENEMIES: " + GameManager.instance.enemies);
     }
 
     public void PlayerKilled()

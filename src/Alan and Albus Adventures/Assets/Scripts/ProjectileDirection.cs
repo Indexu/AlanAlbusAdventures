@@ -109,16 +109,15 @@ public class ProjectileDirection : MonoBehaviour
             for (int i = collidingEnemies.Count - 1; i >= 0; i--)
             {
                 var enemy = collidingEnemies[i].gameObject;
-                var vc = enemy.GetComponent<VitalityController>();
 
-                Vector2 knockbackVector = (enemy.transform.position - gameObject.transform.position).normalized;
-
-                vc.Knockback(knockbackVector, attackForce);
-                vc.Damage(damage, magicalDamage, isCrit);
-
-                if (enemy == null)
+                if (enemy != null && enemy.activeSelf)
                 {
-                    collidingEnemies.RemoveAt(i);
+                    var vc = enemy.GetComponent<VitalityController>();
+
+                    Vector2 knockbackVector = (enemy.transform.position - gameObject.transform.position).normalized;
+
+                    vc.Knockback(knockbackVector, attackForce);
+                    vc.Damage(damage, magicalDamage, isCrit);
                 }
             }
         }
