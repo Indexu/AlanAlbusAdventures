@@ -1,5 +1,9 @@
 # The Alan and Albus Adventures
 Pure entertainment in the form of a 2D top-down dungeon crawler game!
+
+[Trello board](https://trello.com/b/auDt1yRT/alan-albus-adventures)
+
+[Coding rules](https://github.com/Indexu/AlanAlbusAdventures/blob/master/docs/coding_rules.md)
 ### Starting the game
 Double click the AlanAlbusAdventures.exe
 ### Attributions
