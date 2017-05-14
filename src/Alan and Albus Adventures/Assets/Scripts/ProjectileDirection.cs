@@ -66,12 +66,6 @@ public class ProjectileDirection : MonoBehaviour
                 isCrit = true;
             }
 
-            if (!collidingEnemies.Any())
-            {
-                int index = Random.Range(0, projectileSound.Count);
-                SoundManager.instance.PlaySounds(projectileSound.ElementAt(index));
-            }
-
             projectileComponent.isCrit = isCrit;
 
             projectileComponent.Init();
@@ -93,17 +87,6 @@ public class ProjectileDirection : MonoBehaviour
             {
                 damage *= (stats.critHitDamage * inventory.GetStatBonus(Property.CRITDAMAGE));
                 isCrit = true;
-            }
-
-            if (!collidingEnemies.Any())
-            {
-                int index = Random.Range(0, projectileSound.Count);
-                SoundManager.instance.PlaySounds(projectileSound.ElementAt(index));
-            }
-            else
-            {
-                int index = Random.Range(0, critProjectileHitSound.Count);
-                SoundManager.instance.PlaySounds(critProjectileHitSound.ElementAt(index));
             }
 
             for (int i = collidingEnemies.Count - 1; (i >= 0 && collidingEnemies.Any()); i--)
@@ -158,6 +141,16 @@ public class ProjectileDirection : MonoBehaviour
             yield return new WaitForSeconds(interval);
             spriteRenderer.sprite = sprite;
         }
+        if (!collidingEnemies.Any())
+        {
+            int index = Random.Range(0, projectileSound.Count);
+            SoundManager.instance.PlaySounds(projectileSound.ElementAt(index));
+        }
+        else
+        {
+            int index = Random.Range(0, critProjectileHitSound.Count);
+            SoundManager.instance.PlaySounds(critProjectileHitSound.ElementAt(index));
+        }
     }
 
     private IEnumerator AlbusAttackAnimation()
@@ -167,6 +160,11 @@ public class ProjectileDirection : MonoBehaviour
         {
             yield return new WaitForSeconds(interval);
             spriteRenderer.sprite = sprite;
+        }
+        if (!collidingEnemies.Any())
+        {
+            int index = Random.Range(0, projectileSound.Count);
+            SoundManager.instance.PlaySounds(projectileSound.ElementAt(index));
         }
     }
 }
