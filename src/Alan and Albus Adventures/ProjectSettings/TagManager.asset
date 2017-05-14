@@ -18,6 +18,7 @@ TagManager:
   - Item
   - HealthPotion
   - Hole
+  - Alex
   layers:
   - Default
   - TransparentFX

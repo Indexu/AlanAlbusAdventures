@@ -8,6 +8,7 @@ using UnityEngine.EventSystems;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance = null;
+    public bool storyMode;
     public float cameraSpeed;
     public float floorTransitionTime;
     public GameObject bossUI;
@@ -61,6 +62,7 @@ public class GameManager : MonoBehaviour
     private float currentFloorTransitionTime;
     private bool changingFloors;
     private const float statPointUpOffset = 150f;
+    private string dialogText;
 
     public void NextFloor()
     {
@@ -78,6 +80,19 @@ public class GameManager : MonoBehaviour
         }
 
         StartCoroutine(FadeTransitionIn());
+    }
+
+    public void StoryModeWin()
+    {
+        if (GameManager.instance.storyMode)
+        {
+            GameManager.instance.changingRooms = true;
+            GameManager.instance.changingFloors = true;
+            dialogText = "YAY!!! I'm saved!\nThank you Alan and Albus!\nYou are my bestest friends!\nHow do we get out...";
+            UIManager.instance.HideAllTooltips();
+            UIManager.instance.ClearDoorButtons();
+            StartCoroutine(StoryModeFadeToBlack());
+        }
     }
 
     public void ChangeRooms(GameObject room, Transform door, Direction dir, bool boss)
@@ -173,7 +188,7 @@ public class GameManager : MonoBehaviour
 
     public void Reset()
     {
-        Unpause();    
+        Unpause();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
     public void GameOverMenu()
@@ -361,6 +376,12 @@ public class GameManager : MonoBehaviour
         }
 
         GameManager.instance.floorManager.GenerateFloor();
+
+        if (GameManager.instance.storyMode)
+        {
+            dialogText = "Alan, Albus, HELP ME!!!\nThey are dragging me down some hole!\n-Yours truly, Alex the Red Panda";
+            StartCoroutine(StoryModeNewFloor());
+        }
     }
 
     private void endTransition()
@@ -471,7 +492,14 @@ public class GameManager : MonoBehaviour
             UIManager.instance.DisplayStatUpText(player.transform.position, 150f);
         }
 
-        currentRoom.transform.Find("Hole").gameObject.SetActive(true);
+        if (GameManager.instance.storyMode && floorManager.floorLevel == 5)
+        {
+            currentRoom.transform.Find("Alex").gameObject.SetActive(true);
+        }
+        else
+        {
+            currentRoom.transform.Find("Hole").gameObject.SetActive(true);
+        }
     }
 
     private bool DidLootDrop()
@@ -550,6 +578,19 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private IEnumerator StoryModeNewFloor()
+    {
+        GameManager.instance.changingRooms = true;
+        GameManager.instance.changingFloors = true;
+
+        yield return new WaitForSeconds(0.2f);
+
+        yield return StartCoroutine(UIManager.instance.DisplayDialog(dialogText));
+
+        GameManager.instance.changingRooms = false;
+        GameManager.instance.changingFloors = false;
+    }
+
     private IEnumerator FadeTransitionIn()
     {
         currentFloorTransitionTime = 0f;
@@ -561,6 +602,28 @@ public class GameManager : MonoBehaviour
             UIManager.instance.SetTransitionAlpha(alpha);
 
             yield return null;
+        }
+
+        if (GameManager.instance.storyMode)
+        {
+            switch (floorManager.floorLevel)
+            {
+                case 2:
+                    {
+                        dialogText = "My God... They are so... green!\nSome big blob here sentenced me to go down\n the hole... Like I had a choice?\n-Best regards, Alex the Puzzled Red Panda";
+                        break;
+                    }
+                case 3:
+                    {
+                        dialogText = "What... what is THAT?!?!?\nHoly sh*t.\nAlan, Albus, I totally understand if you bail.\n-Sincerely, Alex the Red Panda";
+                        break;
+                    }
+                case 4:
+                    {
+                        dialogText = "You actually defeated that thing? Wow.\nThey aren't dragging me down another hole...\nAhhhh... They're eating him, then\nthey're gonna eat me... OH MY GOD!\n-Best wishes, Alex the Red Panda";
+                        break;
+                    }
+            }
         }
 
         GameManager.instance.floorManager.GenerateFloor();
@@ -585,5 +648,32 @@ public class GameManager : MonoBehaviour
 
         GameManager.instance.changingRooms = false;
         GameManager.instance.changingFloors = false;
+
+        if (GameManager.instance.storyMode)
+        {
+            StartCoroutine(StoryModeNewFloor());
+        }
+    }
+
+    private IEnumerator StoryModeFadeToBlack()
+    {
+        yield return StartCoroutine(UIManager.instance.DisplayDialog(dialogText));
+
+        UIManager.instance.SetTransitionText("Fin");
+        currentFloorTransitionTime = 0f;
+        var alpha = currentFloorTransitionTime / floorTransitionTime;
+        while (alpha < 1f)
+        {
+            currentFloorTransitionTime += Time.deltaTime;
+            alpha = currentFloorTransitionTime / floorTransitionTime;
+            UIManager.instance.SetTransitionAlpha(alpha);
+
+            yield return null;
+        }
+
+        yield return new WaitForSeconds(2f);
+
+        UIManager.instance.SetTransitionText(string.Empty);
+        GameOverMenu();
     }
 }

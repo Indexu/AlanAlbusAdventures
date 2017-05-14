@@ -14,6 +14,7 @@ public class UIManager : MonoBehaviour
     public GameObject reviveUI;
     public GameObject button;
     public GameObject tooltip;
+    public GameObject dialog;
     public Color rareItemColor;
     public Color epicItemColor;
     public Color legendaryItemColor;
@@ -104,7 +105,7 @@ public class UIManager : MonoBehaviour
 
         var rt = damageTextInstance.GetComponent<RectTransform>();
         rt.GetComponent<RectTransform>().anchoredPosition = screenPos;
-        damageTextInstance.GetComponent<Text>().text = amount.ToString();
+        damageTextInstance.GetComponent<Text>().text = amount.ToString("0.0");
 
         StartCoroutine(AnimateDamageText(rt));
     }
@@ -755,6 +756,26 @@ public class UIManager : MonoBehaviour
                 child.gameObject.SetActive(false);
             }
         }
+    }
+
+    public IEnumerator DisplayDialog(string text)
+    {
+        var dialogInstance = Instantiate(dialog, dialog.transform.position, Quaternion.identity, UIManager.instance.canvas.transform);
+        var textComponent = dialogInstance.transform.Find("Text").GetComponent<Text>();
+
+        var rt = dialogInstance.GetComponent<RectTransform>();
+        rt.anchoredPosition = new Vector2(0f, -450f);
+
+        textComponent.text = string.Empty;
+        foreach (var c in text)
+        {
+            yield return new WaitForSeconds(0.075f);
+            textComponent.text += c;
+        }
+
+        yield return new WaitForSeconds(1.5f);
+
+        GameObject.Destroy(dialogInstance);
     }
 
     private void Awake()

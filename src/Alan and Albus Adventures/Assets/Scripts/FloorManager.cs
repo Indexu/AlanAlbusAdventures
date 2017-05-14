@@ -342,8 +342,6 @@ public class FloorManager : MonoBehaviour
 
     private void SpawnEnemies()
     {
-        enemyScalar += 0.25f;
-
         var spawnVector = new Vector3();
         int numberOfEnemies;
         GameObject enemy;
@@ -379,15 +377,30 @@ public class FloorManager : MonoBehaviour
                 }
             }
         }
+
+        enemyScalar += 0.25f;
     }
 
     private void SpawnBoss()
     {
-        GameObject boss = bosses[Random.Range(0, bosses.Count)];
+        GameObject boss;
+
+        if (GameManager.instance.storyMode)
+        {
+            boss = bosses[floorLevel - 1];
+        }
+        else
+        {
+            boss = bosses[Random.Range(0, bosses.Count)];
+        }
+
         boss = Instantiate(boss, grid[bossCoords.X, bossCoords.Y].transform.position, Quaternion.identity, grid[bossCoords.X, bossCoords.Y].transform);
 
         var bc = boss.GetComponent<Boss>();
         var vc = boss.GetComponent<VitalityController>();
+
+        bc.damage *= enemyScalar;
+        vc.currentHealth *= enemyScalar;
 
         Text bossText = null;
         Text bossHealthText = null;

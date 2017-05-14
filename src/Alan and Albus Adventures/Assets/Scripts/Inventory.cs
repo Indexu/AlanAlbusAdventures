@@ -37,6 +37,7 @@ public class Inventory : MonoBehaviour
 
     private VitalityController vc;
     private PlayerController pc;
+    private Stats stats;
     private Text healthPotionCounterText;
     private bool updateUI = false;
     private int updatePos;
@@ -109,7 +110,7 @@ public class Inventory : MonoBehaviour
         if (healthPotions > 0)
         {
             healthPotions--;
-            vc.Heal(healAmount);
+            vc.Heal(stats.maxHealth * healAmount);
             SetCharges();
         }
     }
@@ -146,6 +147,7 @@ public class Inventory : MonoBehaviour
     {
         vc = GetComponent<VitalityController>();
         pc = GetComponent<PlayerController>();
+        stats = GetComponent<Stats>();
 
         var playerID = GetComponent<PlayerController>().playerID;
         var searchString = (playerID == 0 ? "AlanItemSlots" : "AlbusItemSlots");

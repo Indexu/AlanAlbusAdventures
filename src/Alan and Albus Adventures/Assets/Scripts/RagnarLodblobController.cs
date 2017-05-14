@@ -8,7 +8,7 @@ public class RagnarLodblobController : Boss
     public float enrageSpeedIncrease;
     public Color enrageColor;
 
-    private const float firstWait = 5f;
+    private const float firstWait = 3.5f;
     private bool startRoutine;
     private VitalityController vc;
     private ParticleSystem.MinMaxGradient originalParticleColor;

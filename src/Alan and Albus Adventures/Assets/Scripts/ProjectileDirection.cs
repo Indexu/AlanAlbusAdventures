@@ -89,7 +89,7 @@ public class ProjectileDirection : MonoBehaviour
                 isCrit = true;
             }
 
-            for (int i = collidingEnemies.Count - 1; i >= 0; i--)
+            for (int i = collidingEnemies.Count - 1; (i >= 0 && collidingEnemies.Any()); i--)
             {
                 var enemy = collidingEnemies[i].gameObject;
 
