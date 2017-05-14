@@ -82,7 +82,11 @@ public class GameManager : MonoBehaviour
     {
         if (GameManager.instance.storyMode)
         {
+            GameManager.instance.changingRooms = true;
+            GameManager.instance.changingFloors = true;
             dialogText = "YAY!!! I'm saved!\nThank you Alan and Albus!\nYou are my bestest friends!\nHow do we get out...";
+            UIManager.instance.HideAllTooltips();
+            UIManager.instance.ClearDoorButtons();
             StartCoroutine(StoryModeFadeToBlack());
         }
     }
@@ -475,7 +479,7 @@ public class GameManager : MonoBehaviour
             UIManager.instance.DisplayStatUpText(player.transform.position, 150f);
         }
 
-        if (GameManager.instance.storyMode && floorManager.floorLevel == 4)
+        if (GameManager.instance.storyMode && floorManager.floorLevel == 5)
         {
             currentRoom.transform.Find("Alex").gameObject.SetActive(true);
         }
@@ -640,6 +644,8 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator StoryModeFadeToBlack()
     {
+        yield return StartCoroutine(UIManager.instance.DisplayDialog(dialogText));
+
         UIManager.instance.SetTransitionText("Fin");
         currentFloorTransitionTime = 0f;
         var alpha = currentFloorTransitionTime / floorTransitionTime;
