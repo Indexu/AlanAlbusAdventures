@@ -78,6 +78,15 @@ public class GameManager : MonoBehaviour
         StartCoroutine(FadeTransitionIn());
     }
 
+    public void StoryModeWin()
+    {
+        if (GameManager.instance.storyMode)
+        {
+            dialogText = "YAY!!! I'm saved!\nThank you Alan and Albus!\nYou are my bestest friends!\nHow do we get out...";
+            StartCoroutine(StoryModeFadeToBlack());
+        }
+    }
+
     public void ChangeRooms(GameObject room, Transform door, Direction dir, bool boss)
     {
         GameManager.instance.changingRooms = true;
@@ -353,7 +362,7 @@ public class GameManager : MonoBehaviour
 
         if (GameManager.instance.storyMode)
         {
-            dialogText = "Alan, Albus, HELP ME!!!\n-Yours Truly, Alex the Red Panda";
+            dialogText = "Alan, Albus, HELP ME!!!\nThey are dragging me down some hole!\n-Yours truly, Alex the Red Panda";
             StartCoroutine(StoryModeNewFloor());
         }
     }
@@ -466,7 +475,14 @@ public class GameManager : MonoBehaviour
             UIManager.instance.DisplayStatUpText(player.transform.position, 150f);
         }
 
-        currentRoom.transform.Find("Hole").gameObject.SetActive(true);
+        if (GameManager.instance.storyMode && floorManager.floorLevel == 4)
+        {
+            currentRoom.transform.Find("Alex").gameObject.SetActive(true);
+        }
+        else
+        {
+            currentRoom.transform.Find("Hole").gameObject.SetActive(true);
+        }
     }
 
     private bool DidLootDrop()
@@ -577,7 +593,7 @@ public class GameManager : MonoBehaviour
             {
                 case 2:
                     {
-                        dialogText = "My God... They are so... green!\nSome big blob here sentanced me to go down the hole... Like I had a choice?\n-Best regards, Alex the Puzzled Red Panda";
+                        dialogText = "My God... They are so... green!\nSome big blob here sentenced me to go down\n the hole... Like I had a choice?\n-Best regards, Alex the Puzzled Red Panda";
                         break;
                     }
                 case 3:
@@ -619,6 +635,21 @@ public class GameManager : MonoBehaviour
         if (GameManager.instance.storyMode)
         {
             StartCoroutine(StoryModeNewFloor());
+        }
+    }
+
+    private IEnumerator StoryModeFadeToBlack()
+    {
+        UIManager.instance.SetTransitionText("Fin");
+        currentFloorTransitionTime = 0f;
+        var alpha = currentFloorTransitionTime / floorTransitionTime;
+        while (alpha < 1f)
+        {
+            currentFloorTransitionTime += Time.deltaTime;
+            alpha = currentFloorTransitionTime / floorTransitionTime;
+            UIManager.instance.SetTransitionAlpha(alpha);
+
+            yield return null;
         }
     }
 }

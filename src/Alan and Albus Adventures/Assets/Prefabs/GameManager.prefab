@@ -51,8 +51,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3704c31917180432a8499e8409dcd558, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  storyMode: 0
   cameraSpeed: 2.5
-  floorTransitionTime: 2.5
+  floorTransitionTime: 2
   bossUI: {fileID: 0}
   pauseScreen: {fileID: 0}
   isPaused: 0
