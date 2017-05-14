@@ -9,7 +9,8 @@ Double click the AlanAlbusAdventures.exe
 ### Attributions
 #### Art
 
-https://pixabay.com/en/blob-goo-animal-green-eyes-161097/
+Controller Art: https://opengameart.org/content/free-keyboard-and-controllers-prompts-pack
+Blob: https://pixabay.com/en/blob-goo-animal-green-eyes-161097/
 
 #### Sounds
 Special thanks to Kevin MacLeod and freesounds.org !
