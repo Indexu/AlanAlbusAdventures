@@ -386,7 +386,7 @@ MonoBehaviour:
   playerDamageSound:
   - {fileID: 8300000, guid: 858f7a75734a92247a5b9afa18aba11f, type: 3}
   playerDeathSound:
-  - {fileID: 8300000, guid: 4aa6dec80a1c61247980b51aef1194dc, type: 3}
+  - {fileID: 8300000, guid: b91a6bc0828f040ef8b31ab360ca6d49, type: 3}
   playerReviveSound: {fileID: 8300000, guid: c51b01899cc31cb49806da27676b7da7, type: 3}
   doUpdateUI: 0
 --- !u!114 &114403823282788978
@@ -418,6 +418,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0103f02b3899d0f43a248a1d3054d1ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pickupSound: {fileID: 8300000, guid: 7a7a765d371c04f1a94de43d99d463f1, type: 3}
+  destroySound: {fileID: 8300000, guid: 45cd3d4c18fa34cbbbdc181f16d0f42d, type: 3}
+  drinkSound: {fileID: 8300000, guid: 7b0c6115f44fb48d5bb33afb899ee530, type: 3}
   healAmount: 0.4
   healthPotions: 2
   bonusStats: 640000006400000064000000640000006400000064000000

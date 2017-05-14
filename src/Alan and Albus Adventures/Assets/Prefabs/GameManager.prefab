@@ -54,6 +54,7 @@ MonoBehaviour:
   storyMode: 0
   cameraSpeed: 2.5
   floorTransitionTime: 2
+  statpointSound: {fileID: 8300000, guid: 9d8a8888b809846d9bec220c482ae10a, type: 3}
   bossUI: {fileID: 0}
   pauseScreen: {fileID: 0}
   gameOverScreen: {fileID: 0}

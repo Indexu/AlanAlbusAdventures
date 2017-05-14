@@ -7,6 +7,7 @@ public class ChestAnimationController : MonoBehaviour
     public Sprite openedChest;
     public Sprite closedChest;
     public bool opened;
+    public AudioClip openSound;
 
     private SpriteRenderer spriteRenderer;
     private Behaviour halo;
@@ -29,6 +30,7 @@ public class ChestAnimationController : MonoBehaviour
 
             GameManager.instance.DropLoot(Random.Range(1, 4), true);
             GameManager.instance.DropHealthPotion(transform.position, true);
+            SoundManager.instance.PlaySounds(openSound);
         }
     }
 

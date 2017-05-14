@@ -21,8 +21,10 @@ public class InventoryItem
 
 public class Inventory : MonoBehaviour
 {
+    public AudioClip pickupSound;
+    public AudioClip destroySound;
+    public AudioClip drinkSound;
     public float healAmount;
-
     public int healthPotions = 0;
 
     public int[] bonusStats = new int[statsCount]
@@ -50,6 +52,7 @@ public class Inventory : MonoBehaviour
         {
             if (0 <= pos && pos < passiveItemCount && passives[pos] == null)
             {
+                SoundManager.instance.PlaySounds(pickupSound);
                 passives[pos] = new InventoryItem
                 {
                     quality = item.quality,
@@ -83,6 +86,7 @@ public class Inventory : MonoBehaviour
     {
         if (0 <= pos && pos < passiveItemCount && passives[pos] != null)
         {
+            SoundManager.instance.PlaySounds(destroySound);
             InventoryItem discardItem = passives[pos];
             bonusStats[(int)discardItem.property] -= ((int)discardItem.quality * discardItem.baseStat);
             if (discardItem.bonusQuality != 0 && discardItem.bonusBaseStat != 0)
@@ -109,6 +113,7 @@ public class Inventory : MonoBehaviour
     {
         if (healthPotions > 0)
         {
+            SoundManager.instance.PlaySounds(drinkSound);
             healthPotions--;
             vc.Heal(stats.maxHealth * healAmount);
             SetCharges();

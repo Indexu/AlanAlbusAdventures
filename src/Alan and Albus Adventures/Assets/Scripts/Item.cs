@@ -30,6 +30,7 @@ public enum Postfix
 
 public class Item : MonoBehaviour
 {
+    public AudioClip dropSound;
     // Standard stats
     public Quality quality;
     public Property property;
@@ -115,6 +116,7 @@ public class Item : MonoBehaviour
 
     private void Start()
     {
+        SoundManager.instance.PlaySounds(dropSound);
         if (quality != Quality.COMMON)
         {
             var particleInstance = Instantiate(particle, transform.position, Quaternion.identity, transform);

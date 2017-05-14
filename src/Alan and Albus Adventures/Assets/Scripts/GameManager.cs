@@ -11,6 +11,9 @@ public class GameManager : MonoBehaviour
     public bool storyMode;
     public float cameraSpeed;
     public float floorTransitionTime;
+    public AudioClip statpointSound;
+    public AudioClip gameOverSound;
+    public AudioClip winSound;
     public GameObject bossUI;
     public GameObject pauseScreen;
     public GameObject gameOverScreen;
@@ -63,6 +66,7 @@ public class GameManager : MonoBehaviour
     private bool changingFloors;
     private const float statPointUpOffset = 150f;
     private string dialogText;
+    private bool won;
 
     public void NextFloor()
     {
@@ -86,11 +90,13 @@ public class GameManager : MonoBehaviour
     {
         if (GameManager.instance.storyMode)
         {
+            GameManager.instance.won = true;
             GameManager.instance.changingRooms = true;
             GameManager.instance.changingFloors = true;
             dialogText = "YAY!!! I'm saved!\nThank you Alan and Albus!\nYou are my bestest friends!\nHow do we get out...";
             UIManager.instance.HideAllTooltips();
             UIManager.instance.ClearDoorButtons();
+            SoundManager.instance.PlaySounds(winSound);
             StartCoroutine(StoryModeFadeToBlack());
         }
     }
@@ -194,6 +200,11 @@ public class GameManager : MonoBehaviour
     }
     public void GameOverMenu()
     {
+        if (!GameManager.instance.won)
+        {
+            SoundManager.instance.PlaySounds(gameOverSound);
+        }
+
         Time.timeScale = 0f;
         eventSystem.firstSelectedGameObject = firstSelectedGameOverScreen;
         eventSystem.SetSelectedGameObject(eventSystem.firstSelectedGameObject);
@@ -209,7 +220,7 @@ public class GameManager : MonoBehaviour
             foreach (var player in playerStats)
             {
                 player.statPoints++;
-
+                SoundManager.instance.PlaySounds(statpointSound);
                 UIManager.instance.DisplayStatUpText(player.transform.position, 150f);
             }
 
@@ -369,6 +380,7 @@ public class GameManager : MonoBehaviour
         GameManager.instance.gameOverScreen.SetActive(false);
         GameManager.instance.isPaused = false;
         currentFloorTransitionTime = 0f;
+        GameManager.instance.won = false;
 
         playerStats = new Stats[GameManager.instance.players.Length];
         for (int i = 0; i < GameManager.instance.players.Length; i++)
@@ -490,6 +502,7 @@ public class GameManager : MonoBehaviour
         foreach (var player in playerStats)
         {
             player.statPoints++;
+            SoundManager.instance.PlaySounds(statpointSound);
             UIManager.instance.DisplayStatUpText(player.transform.position, 150f);
         }
 

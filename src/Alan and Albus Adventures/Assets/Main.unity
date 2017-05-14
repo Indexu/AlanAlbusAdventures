@@ -672,6 +672,16 @@ Prefab:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 114419086237275724, guid: db3da6a9f0fe740e19a79602176b85bb,
+        type: 2}
+      propertyPath: gameOverSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 72f45d9814dc94703b54d0d8118ed3ce, type: 3}
+    - target: {fileID: 114419086237275724, guid: db3da6a9f0fe740e19a79602176b85bb,
+        type: 2}
+      propertyPath: winSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 7334655fea09e49ae93efcaf399d49ba, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: db3da6a9f0fe740e19a79602176b85bb, type: 2}
   m_IsPrefabParent: 0

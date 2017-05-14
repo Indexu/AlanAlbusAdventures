@@ -115,6 +115,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3deb69bf60773644bddc58846e980f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dropSound: {fileID: 8300000, guid: b2b42d7290fd74bc2829495d2110391e, type: 3}
   quality: 0
   property: 0
   baseStat: 15
