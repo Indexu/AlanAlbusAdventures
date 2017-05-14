@@ -72,6 +72,7 @@ public class FloorManager : MonoBehaviour
     private Point chestCoords;
     private Point bossCoords;
     private Bounds bounds;
+    private float enemyScalar = 1f;
 
     public void GenerateFloor()
     {
@@ -341,6 +342,8 @@ public class FloorManager : MonoBehaviour
 
     private void SpawnEnemies()
     {
+        enemyScalar += 0.25f;
+
         var spawnVector = new Vector3();
         int numberOfEnemies;
         GameObject enemy;
@@ -364,7 +367,13 @@ public class FloorManager : MonoBehaviour
                         var enemyInstance = Instantiate(enemy, spawnVector, Quaternion.identity, grid[i, j].transform);
                         var healthBar = Instantiate(enemyHealthBar, Vector3.zero, Quaternion.identity, GameManager.instance.canvas.transform);
 
-                        enemyInstance.GetComponent<VitalityController>().healthSlider = healthBar.GetComponent<Slider>();
+                        var enemyController = enemyInstance.GetComponent<Enemy>();
+                        var vc = enemyInstance.GetComponent<VitalityController>();
+
+                        enemyController.damage *= enemyScalar;
+                        vc.currentHealth *= enemyScalar;
+
+                        vc.healthSlider = healthBar.GetComponent<Slider>();
                         healthBar.SetActive(false);
                     }
                 }

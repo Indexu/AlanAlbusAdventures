@@ -35,6 +35,7 @@ public class PlayerController : MonoBehaviour
     private float currentDestroyTime;
     private bool destroyingItem;
     private GameObject hole;
+    private List<GameObject> itemList;
 
     private void Awake()
     {
@@ -65,6 +66,15 @@ public class PlayerController : MonoBehaviour
         gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
         inventory = GetComponent<Inventory>();
         hole = null;
+
+        if (playerID == 0)
+        {
+            itemList = GameManager.instance.AlanItemList;
+        }
+        else
+        {
+            itemList = GameManager.instance.AlbusItemList;
+        }
     }
 
     private void Update()
@@ -118,14 +128,7 @@ public class PlayerController : MonoBehaviour
         }
         else if (collider.gameObject.tag == "Item")
         {
-            if (playerID == 0)
-            {
-                GameManager.instance.AlanItemList.Add(collider.gameObject);
-            }
-            else
-            {
-                GameManager.instance.AlbusItemList.Add(collider.gameObject);
-            }
+            itemList.Add(collider.gameObject);
         }
         else if (collider.gameObject.tag == "HealthPotion")
         {
@@ -165,7 +168,7 @@ public class PlayerController : MonoBehaviour
         }
         else if (collider.gameObject.tag == "Item")
         {
-            GameManager.instance.RemoveFromItemLists(collider.gameObject);
+            itemList.Remove(collider.gameObject);
         }
         else if (collider.gameObject.tag == "HealthPotion")
         {
@@ -384,12 +387,11 @@ public class PlayerController : MonoBehaviour
 
     private void AttemptToPickUpItem()
     {
-        var list = (playerID == 0 ? GameManager.instance.AlanItemList : GameManager.instance.AlbusItemList);
-        var item = list[list.Count - 1];
+        var item = itemList[itemList.Count - 1];
 
         if (item == null)
         {
-            list.RemoveAt(list.Count - 1);
+            itemList.RemoveAt(itemList.Count - 1);
             return;
         }
 

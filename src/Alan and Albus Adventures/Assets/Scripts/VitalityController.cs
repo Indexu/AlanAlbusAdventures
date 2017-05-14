@@ -83,6 +83,7 @@ public class VitalityController : MonoBehaviour
             currentHealth = (stats.maxHealth * inventory.GetStatBonus(Property.MAXHEALTH));
         }
         doUpdateUI = true;
+        lowHealth = player && ((float)currentHealth / (float)stats.maxHealth < lowHealthThreshold);
     }
 
     public void Revive()
