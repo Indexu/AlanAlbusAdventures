@@ -419,7 +419,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0103f02b3899d0f43a248a1d3054d1ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healAmount: 10
+  healAmount: 0.4
   healthPotions: 2
   bonusStats: 640000006400000064000000640000006400000064000000
 --- !u!212 &212554700095030402

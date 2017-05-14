@@ -35,6 +35,7 @@ public class PlayerController : MonoBehaviour
     private float currentDestroyTime;
     private bool destroyingItem;
     private GameObject hole;
+    private GameObject alex;
     private List<GameObject> itemList;
 
     private void Awake()
@@ -66,6 +67,7 @@ public class PlayerController : MonoBehaviour
         gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
         inventory = GetComponent<Inventory>();
         hole = null;
+        alex = null;
 
         if (playerID == 0)
         {
@@ -119,15 +121,15 @@ public class PlayerController : MonoBehaviour
                 UIManager.instance.ShowReviveUI(collider.transform.parent, playstationController);
             }
         }
-        else if (collider.gameObject.tag == "Item")
+        else if (collider.tag == "Item")
         {
             itemList.Add(collider.gameObject);
         }
-        else if (collider.gameObject.tag == "HealthPotion")
+        else if (collider.tag == "HealthPotion")
         {
             healthPotion = collider.gameObject;
         }
-        else if (collider.gameObject.tag == "Chest")
+        else if (collider.tag == "Chest")
         {
             var c = collider.GetComponent<ChestAnimationController>();
 
@@ -136,15 +138,19 @@ public class PlayerController : MonoBehaviour
                 chest = c;
             }
         }
-        else if (collider.gameObject.tag == "Door")
+        else if (collider.tag == "Door")
         {
             door = collider.gameObject.GetComponent<DoorController>();
             door.EnterRange();
             UIManager.instance.ShowDoorButton(collider.transform.position, door.direction, playstationController);
         }
-        else if (collider.gameObject.tag == "Hole")
+        else if (collider.tag == "Hole")
         {
             hole = collider.gameObject;
+        }
+        else if (collider.tag == "Alex")
+        {
+            alex = collider.gameObject;
         }
     }
 
@@ -159,15 +165,15 @@ public class PlayerController : MonoBehaviour
 
             reviveController = null;
         }
-        else if (collider.gameObject.tag == "Item")
+        else if (collider.tag == "Item")
         {
             itemList.Remove(collider.gameObject);
         }
-        else if (collider.gameObject.tag == "HealthPotion")
+        else if (collider.tag == "HealthPotion")
         {
             healthPotion = null;
         }
-        else if (collider.gameObject.tag == "Chest")
+        else if (collider.tag == "Chest")
         {
             chest = null;
         }
@@ -180,9 +186,13 @@ public class PlayerController : MonoBehaviour
                 door = null;
             }
         }
-        else if (collider.gameObject.tag == "Hole")
+        else if (collider.tag == "Hole")
         {
             hole = null;
+        }
+        else if (collider.tag == "Alex")
+        {
+            alex = null;
         }
     }
 
@@ -320,6 +330,10 @@ public class PlayerController : MonoBehaviour
                 else if (hole != null && !gameManager.changingRooms)
                 {
                     GameManager.instance.NextFloor();
+                }
+                else if (alex != null && !gameManager.changingRooms)
+                {
+                    GameManager.instance.StoryModeWin();
                 }
             }
             else if (player.GetButtonDown("Cross") || currentReviveTime != 0f)

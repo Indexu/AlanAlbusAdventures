@@ -9,7 +9,7 @@ public class BlobertController : Boss
     public GameObject enemyHealthBar;
     public GameObject[] blobs;
 
-    private const float firstWait = 5f;
+    private const float firstWait = 3.5f;
     private bool startRoutine;
 
     protected override void Start()
