@@ -13,6 +13,7 @@ public class SoundManager : MonoBehaviour
 	private const int audioSourceAmount = 20;
 	private int counterCurrAudioSource = 0;
 	private int counterCurrDamageAudioSource = 0;
+	private int counterWallAudioSource = 0;
 	private List<AudioSource> audioSources;
 	private List<AudioSource> damageAudioSources;
 	private AudioSource theme;
@@ -86,6 +87,6 @@ public class SoundManager : MonoBehaviour
 
 	public void PlayWallSound()
 	{
-		projectileHittingWallAudioSource.PlayOneShot(projectileHittingWallSounds, 0.4f);
+		projectileHittingWallAudioSource.PlayOneShot(projectileHittingWallSounds, 0.1f);
 	}
 }
