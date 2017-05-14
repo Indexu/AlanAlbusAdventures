@@ -35,7 +35,7 @@ public class SoundManager : MonoBehaviour
 		theme = gameObject.AddComponent<AudioSource>();
 		previousPlayed = Random.Range(0,themes.Count);
 		theme.clip = themes[previousPlayed];
-		theme.volume = 0.2f;
+		theme.volume = 0.1f;
 		theme.Play();
 		audioSources = new List<AudioSource>();
 		damageAudioSources = new List<AudioSource>();
@@ -69,7 +69,7 @@ public class SoundManager : MonoBehaviour
 		{
 			counterCurrAudioSource = 0;
 		}
-		audioSources.ElementAt(counterCurrAudioSource).PlayOneShot(sound, 0.2f);
+		audioSources.ElementAt(counterCurrAudioSource).PlayOneShot(sound, 0.4f);
 		counterCurrAudioSource++;
 
 	}
@@ -79,13 +79,13 @@ public class SoundManager : MonoBehaviour
 		{
 			counterCurrDamageAudioSource = 0;
 		}
-		float freq = (critHit ? 0.4f : 0.2f);
+		float freq = (critHit ? 0.6f : 0.4f);
 		audioSources.ElementAt(counterCurrDamageAudioSource).PlayOneShot(sound, freq);
 		counterCurrDamageAudioSource++;
 	}
 
 	public void PlayWallSound()
 	{
-		projectileHittingWallAudioSource.PlayOneShot(projectileHittingWallSounds, 0.1f);
+		projectileHittingWallAudioSource.PlayOneShot(projectileHittingWallSounds, 0.4f);
 	}
 }
