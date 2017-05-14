@@ -361,7 +361,7 @@ MonoBehaviour:
   maxTime: 1.5
   projectile: {fileID: 1905940428374980, guid: 07fa7630f630c45c8bf2249a8da4a83a, type: 2}
   blobFireSounds:
-  - {fileID: 8300000, guid: 5d56d7cb09404d1469036addc52ce562, type: 3}
+  - {fileID: 8300000, guid: cac49a0bcc8d1ac4a9b0afcc305797dc, type: 3}
 --- !u!114 &114402262844147464
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -427,7 +427,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -2142754077
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 8bba5253d7f9a91489dd9ffa8b96666c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
