@@ -96,6 +96,7 @@ public class VitalityController : MonoBehaviour
         doUpdateUI = true;
         isInvincibilityFrame = true;
         SoundManager.instance.PlaySounds(playerReviveSound);
+        GameManager.instance.ReviveCounter();
         StartCoroutine(InvincibiltyFrame());
 
         Instantiate(reviveParticle, transform.position, Quaternion.identity);

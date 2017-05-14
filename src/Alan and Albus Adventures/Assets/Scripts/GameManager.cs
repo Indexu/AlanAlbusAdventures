@@ -148,6 +148,10 @@ public class GameManager : MonoBehaviour
         eventSystem.SetSelectedGameObject(eventSystem.firstSelectedGameObject);
         GameManager.instance.pauseScreen.SetActive(true);
     }
+    public void ReviveCounter()
+    {
+        GameManager.instance.deadPlayers--;
+    }
 
     public void Unpause()
     {
@@ -168,14 +172,6 @@ public class GameManager : MonoBehaviour
         eventSystem.SetSelectedGameObject(eventSystem.firstSelectedGameObject);
         GameManager.instance.gameOverScreen.SetActive(true);
     }
-
-   /* public void DeadReset()
-    {
-        if (deadPlayers == 2)
-        {
-            Reset();
-        }
-    }*/
 
     public void AddExperience(float amount)
     {
