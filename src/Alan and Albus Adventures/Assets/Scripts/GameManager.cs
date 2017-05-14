@@ -128,7 +128,7 @@ public class GameManager : MonoBehaviour
     {
         GameManager.instance.enemies--;
 
-        DropHealthPotion(pos);
+        DropHealthPotion(pos, false);
 
         GameManager.instance.AddExperience(xp);
 
@@ -147,6 +147,7 @@ public class GameManager : MonoBehaviour
             if (GameManager.instance.bossFight)
             {
                 EndBossFight();
+                DropHealthPotion(pos, false);
             }
         }
     }
@@ -285,10 +286,10 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void DropHealthPotion(Vector3 pos)
+    public void DropHealthPotion(Vector3 pos, bool guarantee)
     {
         bool drop = (Random.Range(0f, 1f) <= healthPotionChance);
-        if (drop)
+        if (drop || guarantee)
         {
             Instantiate(healthPotion, pos, Quaternion.identity, GameManager.instance.currentRoom.transform);
         }

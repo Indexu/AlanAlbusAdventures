@@ -362,7 +362,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d86cfd3d2857a4ec496620be2e0e5e1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentHealth: 8.846157
+  currentHealth: 30
   magicResistance: 1.3
   physicalResistance: 1.3
   isDead: 0

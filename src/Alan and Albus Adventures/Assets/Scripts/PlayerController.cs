@@ -48,6 +48,7 @@ public class PlayerController : MonoBehaviour
     {
         if (playerID == args.controllerId)
         {
+            Debug.Log(playerID + ": " + args.name);
             playstationController = args.name.Contains("Sony");
 
             UIManager.instance.ApplySpritesToButtons(playerID, playstationController);

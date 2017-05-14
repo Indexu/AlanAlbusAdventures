@@ -28,6 +28,7 @@ public class ChestAnimationController : MonoBehaviour
             }
 
             GameManager.instance.DropLoot(Random.Range(1, 4), true);
+            GameManager.instance.DropHealthPotion(transform.position, true);
         }
     }
 
