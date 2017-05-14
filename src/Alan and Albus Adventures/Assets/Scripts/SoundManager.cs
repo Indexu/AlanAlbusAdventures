@@ -69,9 +69,9 @@ public class SoundManager : MonoBehaviour
 		{
 			counterCurrAudioSource = 0;
 		}
-		audioSources.ElementAt(counterCurrAudioSource).PlayOneShot(sound, 0.4f);
-		counterCurrAudioSource++;
+		audioSources.ElementAt(counterCurrAudioSource).PlayOneShot(sound, 0.3f);
 
+		counterCurrAudioSource++;
 	}
 	public void PlayDamageSounds(AudioClip sound, bool critHit)
 	{
@@ -79,7 +79,7 @@ public class SoundManager : MonoBehaviour
 		{
 			counterCurrDamageAudioSource = 0;
 		}
-		float freq = (critHit ? 0.6f : 0.4f);
+		float freq = (critHit ? 0.5f : 0.3f);
 		audioSources.ElementAt(counterCurrDamageAudioSource).PlayOneShot(sound, freq);
 		counterCurrDamageAudioSource++;
 	}

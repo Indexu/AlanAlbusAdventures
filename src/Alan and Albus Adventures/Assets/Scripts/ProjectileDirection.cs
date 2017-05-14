@@ -135,12 +135,6 @@ public class ProjectileDirection : MonoBehaviour
 
     private IEnumerator AlanAttackAnimation()
     {
-        var interval = (stats.attackSpeed / inventory.GetStatBonus(Property.ATTACKSPEED)) / AlanAttackSprites.Length;
-        foreach (var sprite in AlanAttackSprites)
-        {
-            yield return new WaitForSeconds(interval);
-            spriteRenderer.sprite = sprite;
-        }
         if (!collidingEnemies.Any())
         {
             int index = Random.Range(0, projectileSound.Count);
@@ -151,20 +145,26 @@ public class ProjectileDirection : MonoBehaviour
             int index = Random.Range(0, critProjectileHitSound.Count);
             SoundManager.instance.PlaySounds(critProjectileHitSound.ElementAt(index));
         }
+        var interval = (stats.attackSpeed / inventory.GetStatBonus(Property.ATTACKSPEED)) / AlanAttackSprites.Length;
+        foreach (var sprite in AlanAttackSprites)
+        {
+            yield return new WaitForSeconds(interval);
+            spriteRenderer.sprite = sprite;
+        }
     }
 
     private IEnumerator AlbusAttackAnimation()
     {
+        if (!collidingEnemies.Any())
+        {
+            int index = Random.Range(0, projectileSound.Count);
+            SoundManager.instance.PlaySounds(projectileSound.ElementAt(index));
+        }
         var interval = (stats.attackSpeed / inventory.GetStatBonus(Property.ATTACKSPEED)) / AlbusAttackSprites.Length;
         foreach (var sprite in AlbusAttackSprites)
         {
             yield return new WaitForSeconds(interval);
             spriteRenderer.sprite = sprite;
-        }
-        if (!collidingEnemies.Any())
-        {
-            int index = Random.Range(0, projectileSound.Count);
-            SoundManager.instance.PlaySounds(projectileSound.ElementAt(index));
         }
     }
 }
