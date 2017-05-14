@@ -242,6 +242,10 @@ Prefab:
       propertyPath: m_AnchorMax.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1330503767307524, guid: d0f86b9f1447945f5b4104416edcc93c, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d0f86b9f1447945f5b4104416edcc93c, type: 2}
   m_IsPrefabParent: 0
@@ -726,64 +730,14 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 114391854451563084, guid: 96369c3655f8dc84584c4e2e5d7911b5,
         type: 2}
-      propertyPath: healthSlider
-      value: 
-      objectReference: {fileID: 438906035}
-    - target: {fileID: 114391854451563084, guid: 96369c3655f8dc84584c4e2e5d7911b5,
-        type: 2}
       propertyPath: healthText
       value: 
       objectReference: {fileID: 1527034194}
-    - target: {fileID: 114009495269605658, guid: 96369c3655f8dc84584c4e2e5d7911b5,
+    - target: {fileID: 114391854451563084, guid: 96369c3655f8dc84584c4e2e5d7911b5,
         type: 2}
-      propertyPath: statPointsText
+      propertyPath: healthSlider
       value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 114009495269605658, guid: 96369c3655f8dc84584c4e2e5d7911b5,
-        type: 2}
-      propertyPath: baseDamageText
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 114009495269605658, guid: 96369c3655f8dc84584c4e2e5d7911b5,
-        type: 2}
-      propertyPath: critHitDamageText
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 114009495269605658, guid: 96369c3655f8dc84584c4e2e5d7911b5,
-        type: 2}
-      propertyPath: critHitChanceText
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 114009495269605658, guid: 96369c3655f8dc84584c4e2e5d7911b5,
-        type: 2}
-      propertyPath: attackSpeedText
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 114009495269605658, guid: 96369c3655f8dc84584c4e2e5d7911b5,
-        type: 2}
-      propertyPath: maxHealthText
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 114009495269605658, guid: 96369c3655f8dc84584c4e2e5d7911b5,
-        type: 2}
-      propertyPath: movementSpeedText
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 114009495269605658, guid: 96369c3655f8dc84584c4e2e5d7911b5,
-        type: 2}
-      propertyPath: selectedBorder
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 114009495269605658, guid: 96369c3655f8dc84584c4e2e5d7911b5,
-        type: 2}
-      propertyPath: statsTable
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 114247891959450244, guid: 96369c3655f8dc84584c4e2e5d7911b5,
-        type: 2}
-      propertyPath: soundManager
-      value: 
-      objectReference: {fileID: 1036716543}
+      objectReference: {fileID: 438906035}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 96369c3655f8dc84584c4e2e5d7911b5, type: 2}
   m_IsPrefabParent: 0
