@@ -75,13 +75,13 @@ public class PlayerController : MonoBehaviour
         {
             CheckInput();
         }
-        else
+        /*else
         {
             if (player.GetButtonUp("Cross"))
             {
                 gameManager.DeadReset();
             }
-        }
+        }*/
     }
 
     private void FixedUpdate()
