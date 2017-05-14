@@ -327,7 +327,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c86a1a51cee1e43049d830f30337b866, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 7
+  movementSpeed: 8
   maxHealth: 30
   critHitChance: 8
   critHitDamage: 2
@@ -420,7 +420,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healAmount: 0.4
   healthPotions: 2
-  bonusStats: 6400000064000000640000007c0000006400000064000000
+  bonusStats: 640000006400000064000000640000006400000064000000
 --- !u!212 &212554700095030402
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -1047,6 +1047,22 @@ MonoBehaviour:
   m_allowMouseInput: 1
   m_allowMouseInputIfTouchSupported: 1
   m_ForceModuleActive: 0
+--- !u!1 &1842465685 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1324605498903918, guid: 7dcc1ff5548bc4149b297f1708dbd46e,
+    type: 2}
+  m_PrefabInternal: {fileID: 1088400844}
+--- !u!114 &1842465688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1842465685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 604f7c2b6aad841cdb31fa27f3bfcad2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1850810776
 GameObject:
   m_ObjectHideFlags: 0

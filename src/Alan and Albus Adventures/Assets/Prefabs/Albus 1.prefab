@@ -202,9 +202,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSpeed: 9
   maxHealth: 20
-  critHitChance: 8
+  critHitChance: 10
   critHitDamage: 2
-  baseDamage: 2
+  baseDamage: 3
   attackSpeed: 0.8
   statPoints: 2
 --- !u!114 &114140529522161248

@@ -41,17 +41,14 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         player = ReInput.players.GetPlayer(playerID);
-        ReInput.ControllerConnectedEvent += OnControllerConnected;
-    }
 
-    private void OnControllerConnected(ControllerStatusChangedEventArgs args)
-    {
-        if (playerID == args.controllerId)
+        if (playerID == 0)
         {
-            Debug.Log(playerID + ": " + args.name);
-            playstationController = args.name.Contains("Sony");
-
-            UIManager.instance.ApplySpritesToButtons(playerID, playstationController);
+            playstationController = ControllerSubscriber.AlanPS4;
+        }
+        else
+        {
+            playstationController = ControllerSubscriber.AlbusPS4;
         }
     }
 
@@ -69,6 +66,8 @@ public class PlayerController : MonoBehaviour
         inventory = GetComponent<Inventory>();
         hole = null;
         alex = null;
+
+        UIManager.instance.ApplySpritesToButtons(playerID, playstationController);
 
         if (playerID == 0)
         {
