@@ -9,6 +9,10 @@ public class ButtonController : MonoBehaviour {
 	{
 		SceneManager.LoadScene("Main");
 	}
+	public void LoadMenu()
+	{
+		SceneManager.LoadScene("Menu");
+	}
 	public void Quit()
 	{
 #if UNITY_EDITOR

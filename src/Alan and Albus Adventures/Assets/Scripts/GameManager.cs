@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Rewired;
-
+using UnityEngine.EventSystems;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance = null;
@@ -13,6 +13,9 @@ public class GameManager : MonoBehaviour
     public float floorTransitionTime;
     public GameObject bossUI;
     public GameObject pauseScreen;
+    public GameObject gameOverScreen;
+    public GameObject firstSelectedPauseScreen;
+    public GameObject firstSelectedGameOverScreen;
     public bool isPaused;
     public bool changingRooms;
     public GameObject[] players;
@@ -42,6 +45,7 @@ public class GameManager : MonoBehaviour
     public GameObject[] criticalChanceItems;
     public GameObject[] criticalDamageItems;
     public GameObject[] baseDamageItems;
+    public EventSystem eventSystem;
 
     private FloorManager floorManager;
     private Vector3 newRoom;
@@ -158,7 +162,7 @@ public class GameManager : MonoBehaviour
 
         if (GameManager.instance.deadPlayers == 2)
         {
-            Pause();
+            GameOverMenu();
         }
     }
 
@@ -166,7 +170,13 @@ public class GameManager : MonoBehaviour
     {
         GameManager.instance.isPaused = true;
         Time.timeScale = 0f;
+        eventSystem.firstSelectedGameObject = firstSelectedPauseScreen;
+        eventSystem.SetSelectedGameObject(eventSystem.firstSelectedGameObject);
         GameManager.instance.pauseScreen.SetActive(true);
+    }
+    public void ReviveCounter()
+    {
+        GameManager.instance.deadPlayers--;
     }
 
     public void Unpause()
@@ -178,16 +188,15 @@ public class GameManager : MonoBehaviour
 
     public void Reset()
     {
-        Unpause();
+        Unpause();    
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
-
-    public void DeadReset()
+    public void GameOverMenu()
     {
-        if (deadPlayers == 2)
-        {
-            Reset();
-        }
+        Time.timeScale = 0f;
+        eventSystem.firstSelectedGameObject = firstSelectedGameOverScreen;
+        eventSystem.SetSelectedGameObject(eventSystem.firstSelectedGameObject);
+        GameManager.instance.gameOverScreen.SetActive(true);
     }
 
     public void AddExperience(float amount)
@@ -293,6 +302,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        Time.timeScale = 1f;
         if (instance == null)
         {
             instance = this;
@@ -303,8 +313,6 @@ public class GameManager : MonoBehaviour
             GameManager.instance.Init();
             Destroy(gameObject);
         }
-
-        DontDestroyOnLoad(gameObject);
     }
 
     private void Start()
@@ -347,12 +355,17 @@ public class GameManager : MonoBehaviour
         GameManager.instance.canvas = GameObject.FindGameObjectWithTag("Canvas");
         GameManager.instance.canvasRect = canvas.GetComponent<RectTransform>();
         GameManager.instance.pauseScreen = GameManager.instance.canvas.transform.Find("PauseScreen").gameObject;
+        GameManager.instance.gameOverScreen = GameManager.instance.canvas.transform.Find("GameOverScreen").gameObject;
+        GameManager.instance.firstSelectedPauseScreen = GameManager.instance.pauseScreen.transform.Find("Unpause").gameObject;
+        GameManager.instance.firstSelectedGameOverScreen = GameManager.instance.gameOverScreen.transform.Find("Restart (1)").gameObject;
+        GameManager.instance.eventSystem = EventSystem.current.GetComponent<EventSystem>();
         GameManager.instance.changingRooms = false;
         GameManager.instance.doors = new List<DoorController>();
         GameManager.instance.AlanItemList = new List<GameObject>();
         GameManager.instance.AlbusItemList = new List<GameObject>();
         GameManager.instance.bossUI.SetActive(false);
         GameManager.instance.pauseScreen.SetActive(false);
+        GameManager.instance.gameOverScreen.SetActive(false);
         GameManager.instance.isPaused = false;
         currentFloorTransitionTime = 0f;
 
