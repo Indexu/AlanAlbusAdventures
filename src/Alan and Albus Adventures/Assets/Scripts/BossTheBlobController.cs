@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class BossTheBlobController : Boss
@@ -7,6 +8,7 @@ public class BossTheBlobController : Boss
     public float projectileForce;
     public float fireRate;
     public GameObject projectile;
+    public List<AudioClip> blobFireSounds;
 
     private float nextFire;
     private Vector2 moveVector;
@@ -42,7 +44,8 @@ public class BossTheBlobController : Boss
         if (nextFire < Time.time)
         {
             nextFire = Time.time + fireRate;
-
+            int index = Random.Range(0, blobFireSounds.Count);
+            SoundManager.instance.PlaySounds(blobFireSounds.ElementAt(index));
             var projectileInstance = (GameObject)Instantiate(projectile, transform.position, transform.rotation);
             projectileInstance.GetComponent<Rigidbody2D>().AddForce(targetVector.normalized * projectileForce, ForceMode2D.Impulse);
 

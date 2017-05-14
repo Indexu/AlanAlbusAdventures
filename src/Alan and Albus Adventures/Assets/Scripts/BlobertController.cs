@@ -8,6 +8,7 @@ public class BlobertController : Boss
     public float spawnInterval;
     public GameObject enemyHealthBar;
     public GameObject[] blobs;
+    public AudioClip spawnSound;
 
     private const float firstWait = 3.5f;
     private bool startRoutine;
@@ -53,6 +54,7 @@ public class BlobertController : Boss
             blobInstance.GetComponent<Enemy>().experienceValue = 0;
 
             GameManager.instance.EnemySpawned();
+            SoundManager.instance.PlaySounds(spawnSound);
 
             yield return new WaitForSeconds(spawnInterval);
         }

@@ -343,7 +343,8 @@ MonoBehaviour:
   minTime: 0.5
   maxTime: 1.5
   projectile: {fileID: 1905940428374980, guid: 07fa7630f630c45c8bf2249a8da4a83a, type: 2}
-  blobFireSounds: []
+  blobFireSounds:
+  - {fileID: 8300000, guid: e224283060f59449bb6c69a08f0d0aff, type: 3}
 --- !u!114 &114538596077188904
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -411,7 +412,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -2142754077
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 8a001c908c7de7543a9ee9b97a790d81, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

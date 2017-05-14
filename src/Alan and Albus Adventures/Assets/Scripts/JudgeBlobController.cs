@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class JudgeBlobController : Boss
@@ -66,7 +67,8 @@ public class JudgeBlobController : Boss
         if (nextFire < Time.time)
         {
             nextFire = Time.time + fireRate;
-
+            int index = Random.Range(0, blobFireSounds.Count);
+            SoundManager.instance.PlaySounds(blobFireSounds.ElementAt(index));
             var projectileInstance = (GameObject)Instantiate(projectile, transform.position, transform.rotation);
             projectileInstance.GetComponent<Rigidbody2D>().AddForce(rotatingAimVector.normalized * projectileForce, ForceMode2D.Impulse);
 

@@ -330,6 +330,7 @@ MonoBehaviour:
   enrageDuration: 3
   enrageSpeedIncrease: 3
   enrageColor: {r: 1, g: 0, b: 0, a: 1}
+  enrageSound: {fileID: 8300000, guid: 0108314b164f24f24b181c96f5dab39d, type: 3}
 --- !u!114 &114035776998461638
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -432,7 +433,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -2142754077
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: fb3df214fca20244285a8a0bde4a8f72, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

@@ -7,6 +7,7 @@ public class RagnarLodblobController : Boss
     public float enrageDuration;
     public float enrageSpeedIncrease;
     public Color enrageColor;
+    public AudioClip enrageSound;
 
     private const float firstWait = 3.5f;
     private bool startRoutine;
@@ -66,6 +67,7 @@ public class RagnarLodblobController : Boss
         {
             yield return new WaitForSeconds(enrageDuration);
 
+            SoundManager.instance.PlaySounds(enrageSound);
             spriteRenderer.color = enrageColor;
             hitParticleMain.startColor = psEnrageColor;
             critParticleMain.startColor = psEnrageColor;
