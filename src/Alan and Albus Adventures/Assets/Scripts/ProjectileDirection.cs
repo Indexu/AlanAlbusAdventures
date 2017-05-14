@@ -66,12 +66,6 @@ public class ProjectileDirection : MonoBehaviour
                 isCrit = true;
             }
 
-            if (!collidingEnemies.Any())
-            {
-                int index = Random.Range(0, projectileSound.Count);
-                SoundManager.instance.PlaySounds(projectileSound.ElementAt(index));
-            }
-
             projectileComponent.isCrit = isCrit;
 
             projectileComponent.Init();
@@ -166,6 +160,11 @@ public class ProjectileDirection : MonoBehaviour
         {
             yield return new WaitForSeconds(interval);
             spriteRenderer.sprite = sprite;
+        }
+        if (!collidingEnemies.Any())
+        {
+            int index = Random.Range(0, projectileSound.Count);
+            SoundManager.instance.PlaySounds(projectileSound.ElementAt(index));
         }
     }
 }
