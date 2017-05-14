@@ -68,12 +68,14 @@ MonoBehaviour:
   timeBeforeAttacking: 0.15
   maxExperience: 50
   currentExperience: 0
+  AlanItemList: []
+  AlbusItemList: []
   dropChance: 0.25
-  healthPotionChance: 1
-  commonChance: 0.4
-  rareChance: 0.3
-  epicChance: 0.2
-  legendaryChance: 0.1
+  healthPotionChance: 0.15
+  commonChance: 0.45
+  rareChance: 0.35
+  epicChance: 0.15
+  legendaryChance: 0.05
   healthPotion: {fileID: 1547922813008042, guid: 9b3f70908459363448952ce0a91bbcf6,
     type: 2}
   maxHealthItems:

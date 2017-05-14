@@ -526,7 +526,7 @@ public class UIManager : MonoBehaviour
 
         if (hasPostfix)
         {
-            postfixText.text = "of " + Item.PropertyToString(postFixProperty);
+            postfixText.text = "of " + Item.PostfixToString(postfix) + " " + Item.PropertyToString(postFixProperty);
 
             switch (postfix)
             {

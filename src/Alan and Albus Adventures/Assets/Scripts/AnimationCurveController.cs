@@ -6,7 +6,6 @@ public class AnimationCurveController : MonoBehaviour
 {
     public AnimationCurve hitAnim;
 
-    private VitalityController vc;
     private IEnumerator co;
     private Vector3 originalScale;
     private float hitMagnitute = 0.1f;
@@ -21,7 +20,6 @@ public class AnimationCurveController : MonoBehaviour
 
     private void Start()
     {
-        vc = GetComponent<VitalityController>();
         originalScale = transform.localScale;
     }
 

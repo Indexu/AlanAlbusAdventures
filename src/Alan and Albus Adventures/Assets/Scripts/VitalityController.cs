@@ -30,7 +30,6 @@ public class VitalityController : MonoBehaviour
 
     private float damageAmount = -1;
     private Stats stats;
-    private GameManager gameManager;
     private Rigidbody2D rb2d;
     private float enemyMaxHealth;
     private bool knockback;
@@ -51,6 +50,7 @@ public class VitalityController : MonoBehaviour
     private const float colorSpeed = 200f / 255f;
     private bool colorUp;
     private Inventory inventory;
+    private Color originalColor;
 
     public void Damage(float amount, bool isMagical, bool isCrit)
     {
@@ -64,8 +64,6 @@ public class VitalityController : MonoBehaviour
             damageAmount = amount;
 
             selectedParticle = (isCrit ? critParticle : hitParticle);
-
-            acc.Hit();
 
             CheckHealth();
 
@@ -85,6 +83,7 @@ public class VitalityController : MonoBehaviour
             currentHealth = (stats.maxHealth * inventory.GetStatBonus(Property.MAXHEALTH));
         }
         doUpdateUI = true;
+        lowHealth = player && ((float)currentHealth / (float)stats.maxHealth < lowHealthThreshold);
     }
 
     public void Revive()
@@ -116,7 +115,6 @@ public class VitalityController : MonoBehaviour
 
     private void Start()
     {
-        gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
         rb2d = GetComponent<Rigidbody2D>();
         bounds = GetComponent<Renderer>().bounds;
         acc = GetComponent<AnimationCurveController>();
@@ -129,6 +127,7 @@ public class VitalityController : MonoBehaviour
             player = true;
             doUpdateUI = true;
             stats = GetComponent<Stats>();
+            originalColor = spriteRenderer.color;
 
             FindHealthBar();
         }
@@ -195,6 +194,13 @@ public class VitalityController : MonoBehaviour
 
             spriteRenderer.color = color;
         }
+        else if (player && !isDead)
+        {
+            if (spriteRenderer.color != originalColor)
+            {
+                spriteRenderer.color = originalColor;
+            }
+        }
     }
 
     private void FixedUpdate()
@@ -213,11 +219,12 @@ public class VitalityController : MonoBehaviour
 
     private void CheckHealth()
     {
-        if (currentHealth <= 0)
+        if (currentHealth <= 0 && !isDead)
         {
+            isDead = true;
+
             if (player)
             {
-                isDead = true;
                 currentHealth = 0;
                 spriteRenderer.color = Color.gray;
                 int index = Random.Range(0, playerDeathSound.Count);
@@ -244,6 +251,7 @@ public class VitalityController : MonoBehaviour
                 int index = Random.Range(0, blobDamageSound.Count);
                 bool critHit = (selectedParticle == critParticle);
                 SoundManager.instance.PlayDamageSounds(blobDamageSound.ElementAt(index), critHit);
+                acc.Hit();
             }
             else if (tag == "player")
             {

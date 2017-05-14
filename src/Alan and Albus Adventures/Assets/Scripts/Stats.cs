@@ -31,6 +31,7 @@ public class Stats : MonoBehaviour
     private int viewing;
 
     private VitalityController vc;
+    private PlayerController pc;
     private Inventory inventory;
     private int playerID;
     private const float maxHealthYPos = 248f;
@@ -56,33 +57,40 @@ public class Stats : MonoBehaviour
 
     public void UpgradeMovementSpeed()
     {
-        movementSpeed += 15;
+        movementSpeed += 1;
     }
 
     public void UpgradeMaxHealth()
     {
-        maxHealth += 2;
-        vc.currentHealth += 2;
+        maxHealth += 5;
+        vc.currentHealth += 5;
     }
 
     public void UpgradeCritHitChance()
     {
-        critHitChance += 2f;
+        critHitChance += 4f;
     }
 
     public void UpgradeCritHitDamage()
     {
-        critHitDamage += 5f;
+        critHitDamage += 2f;
     }
 
     public void UpgradeBaseDamage()
     {
-        baseDamage += 1f;
+        if (pc.playerID == 0)
+        {
+            baseDamage += 0.5f;
+        }
+        else
+        {
+            baseDamage += 1f;
+        }
     }
 
     public void UpgradeAttackSpeed()
     {
-        attackSpeed -= 0.1f;
+        attackSpeed -= 0.04f;
     }
 
     public void UpgradeStat()
@@ -203,8 +211,8 @@ public class Stats : MonoBehaviour
         movementSpeedText.text = ms.ToString("0");
         maxHealthText.text = mh.ToString("0");
         critHitChanceText.text = cc.ToString("0") + "%";
-        critHitDamageText.text = cd.ToString("0") + "x";
-        baseDamageText.text = bd.ToString("0");
+        critHitDamageText.text = cd.ToString("0.0") + "x";
+        baseDamageText.text = bd.ToString("0.0");
         attackSpeedText.text = atk.ToString("0.00") + "s";
 
         movementSpeedBonusText.text = "(x" + inventory.GetStatBonus(Property.MOVEMENTSPEED).ToString("0.00") + ")";
@@ -286,8 +294,9 @@ public class Stats : MonoBehaviour
         statsTable.SetActive(false);
         viewing--;
 
-        if (viewing == 0)
+        if (viewing <= 0)
         {
+            viewing = 0;
             UIManager.instance.HideExperienceBar();
         }
     }
@@ -301,6 +310,7 @@ public class Stats : MonoBehaviour
     private void Start()
     {
         vc = GetComponent<VitalityController>();
+        pc = GetComponent<PlayerController>();
         inventory = GetComponent<Inventory>();
 
         selectedStat = 1;

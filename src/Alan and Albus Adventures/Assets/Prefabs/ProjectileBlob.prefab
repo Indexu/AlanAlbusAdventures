@@ -352,11 +352,11 @@ MonoBehaviour:
   magicalDamage: 0
   Attacking: 0
   knockbackForceOnTouch: 100
-  experienceValue: 0
+  experienceValue: 5
   leftSprite: {fileID: 21300000, guid: 4a3b9d3ef9fc9724083dc0bef05841ea, type: 3}
   rightSprite: {fileID: 21300000, guid: 8bba5253d7f9a91489dd9ffa8b96666c, type: 3}
   projectileForce: 10
-  fireRate: 1
+  fireRate: 0.8
   minTime: 0.5
   maxTime: 1.5
   projectile: {fileID: 1905940428374980, guid: 07fa7630f630c45c8bf2249a8da4a83a, type: 2}
