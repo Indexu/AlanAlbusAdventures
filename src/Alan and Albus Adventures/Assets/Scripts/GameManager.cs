@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour
     public float timeBeforeAttacking;
     public float maxExperience;
     public float currentExperience;
+    public bool won;
 
     // Loot
     public List<GameObject> AlanItemList;
@@ -66,7 +67,6 @@ public class GameManager : MonoBehaviour
     private bool changingFloors;
     private const float statPointUpOffset = 150f;
     private string dialogText;
-    private bool won;
 
     public void NextFloor()
     {
@@ -96,6 +96,7 @@ public class GameManager : MonoBehaviour
             dialogText = "YAY!!! I'm saved!\nThank you Alan and Albus!\nYou are my bestest friends!\nHow do we get out...";
             UIManager.instance.HideAllTooltips();
             UIManager.instance.ClearDoorButtons();
+            SoundManager.instance.theme.Stop();
             SoundManager.instance.PlaySounds(winSound);
             StartCoroutine(StoryModeFadeToBlack());
         }

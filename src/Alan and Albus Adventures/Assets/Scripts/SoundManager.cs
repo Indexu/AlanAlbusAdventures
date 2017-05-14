@@ -49,7 +49,7 @@ public class SoundManager : MonoBehaviour
 	}
 	void Update ()
      {
-         if (!theme.isPlaying)
+         if (!theme.isPlaying && !GameManager.instance.won)
          {
 			int curr = Random.Range(0, themes.Count);
 			if(previousPlayed != curr)
