@@ -131,8 +131,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1607047575115512}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.25, y: 37.32, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 40, z: 0}
   m_LocalScale: {x: 4.4972234, y: 4.4972234, z: 2.2486117}
   m_Children:
   - {fileID: 4105337745905204}
@@ -235,7 +235,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2881d2ef720a4e878df00f03341aee1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vc: {fileID: 0}
+  vc: {fileID: 114391854451563084}
   reviveTime: 2.5
 --- !u!114 &114247891959450244
 MonoBehaviour:
@@ -252,18 +252,18 @@ MonoBehaviour:
   attackForce: 15
   projectile: {fileID: 1158575290130484, guid: 8a9525ab72dc2421bb9417486ff5301f, type: 2}
   projectileSound:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 8300000, guid: 3d6cfc110b17d0e46bade064bd025726, type: 3}
+  - {fileID: 8300000, guid: fd380da3485a709458d027c18f0f8f17, type: 3}
+  - {fileID: 8300000, guid: 6646e0c7e5aa6c343924a771a5bdf297, type: 3}
+  - {fileID: 8300000, guid: ee6c21496ebc57c4d9c07f3bca47daf6, type: 3}
   projectileHitSound:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 8300000, guid: 3d6cfc110b17d0e46bade064bd025726, type: 3}
+  - {fileID: 8300000, guid: fd380da3485a709458d027c18f0f8f17, type: 3}
+  - {fileID: 8300000, guid: 6646e0c7e5aa6c343924a771a5bdf297, type: 3}
+  - {fileID: 8300000, guid: ee6c21496ebc57c4d9c07f3bca47daf6, type: 3}
   critProjectileHitSound:
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 8300000, guid: fd380da3485a709458d027c18f0f8f17, type: 3}
+  - {fileID: 8300000, guid: 3d6cfc110b17d0e46bade064bd025726, type: 3}
   AlanAttackSprites: []
   AlbusAttackSprites:
   - {fileID: 21300000, guid: db3b4cec1fbe64c0d82870f05b17ead9, type: 3}
@@ -288,7 +288,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d86cfd3d2857a4ec496620be2e0e5e1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentHealth: 20
+  currentHealth: 10
   magicResistance: 1
   physicalResistance: 1
   isDead: 0
@@ -306,13 +306,13 @@ MonoBehaviour:
   reviveParticle: {fileID: 1913297041956092, guid: 4a6f544d71bc245ee836746135189f69,
     type: 2}
   boss: 0
-  player: 0
+  player: 1
   blobDeathSound: []
   blobDamageSound: []
   playerDamageSound:
-  - {fileID: 0}
+  - {fileID: 8300000, guid: 858f7a75734a92247a5b9afa18aba11f, type: 3}
   playerDeathSound:
-  - {fileID: 0}
+  - {fileID: 8300000, guid: 4aa6dec80a1c61247980b51aef1194dc, type: 3}
   playerReviveSound: {fileID: 8300000, guid: c51b01899cc31cb49806da27676b7da7, type: 3}
   doUpdateUI: 0
 --- !u!114 &114426173884873286
