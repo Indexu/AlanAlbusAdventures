@@ -84,6 +84,11 @@ public class VitalityController : MonoBehaviour
         }
         doUpdateUI = true;
         lowHealth = player && ((float)currentHealth / (float)stats.maxHealth < lowHealthThreshold);
+
+        if (!lowHealth)
+        {
+            spriteRenderer.color = originalColor;
+        }
     }
 
     public void Revive()
@@ -91,7 +96,7 @@ public class VitalityController : MonoBehaviour
         isDead = false;
         lowHealth = false;
         currentHealth += stats.maxHealth / 2;
-        spriteRenderer.color = Color.white;
+        spriteRenderer.color = originalColor;
         doUpdateUI = true;
         isInvincibilityFrame = true;
         SoundManager.instance.PlaySounds(playerReviveSound);
@@ -193,13 +198,6 @@ public class VitalityController : MonoBehaviour
             }
 
             spriteRenderer.color = color;
-        }
-        else if (player && !isDead)
-        {
-            if (spriteRenderer.color != originalColor)
-            {
-                spriteRenderer.color = originalColor;
-            }
         }
     }
 
@@ -323,7 +321,7 @@ public class VitalityController : MonoBehaviour
 
     private IEnumerator InvincibiltyFrame()
     {
-        var num = 4;
+        var num = 3;
         var interval = (invincibilityFrameTime / num) / 2;
 
         for (int i = 0; i < num; i++)

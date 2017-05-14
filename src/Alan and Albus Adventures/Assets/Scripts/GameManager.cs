@@ -188,7 +188,7 @@ public class GameManager : MonoBehaviour
 
     public void Reset()
     {
-        Unpause();    
+        Unpause();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
     public void GameOverMenu()
@@ -670,5 +670,10 @@ public class GameManager : MonoBehaviour
 
             yield return null;
         }
+
+        yield return new WaitForSeconds(2f);
+
+        UIManager.instance.SetTransitionText(string.Empty);
+        GameOverMenu();
     }
 }
