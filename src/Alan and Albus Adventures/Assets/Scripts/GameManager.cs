@@ -330,6 +330,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        GameManager.instance.eventSystem = EventSystem.current.GetComponent<EventSystem>();
         UIManager.instance.SetExperienceBar(currentExperience, maxExperience);
     }
 
@@ -371,7 +372,6 @@ public class GameManager : MonoBehaviour
         GameManager.instance.gameOverScreen = GameManager.instance.canvas.transform.Find("GameOverScreen").gameObject;
         GameManager.instance.firstSelectedPauseScreen = GameManager.instance.pauseScreen.transform.Find("Unpause").gameObject;
         GameManager.instance.firstSelectedGameOverScreen = GameManager.instance.gameOverScreen.transform.Find("Restart (1)").gameObject;
-        GameManager.instance.eventSystem = EventSystem.current.GetComponent<EventSystem>();
         GameManager.instance.changingRooms = false;
         GameManager.instance.doors = new List<DoorController>();
         GameManager.instance.AlanItemList = new List<GameObject>();
