@@ -36,11 +36,20 @@ public class Projectile : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collider)
     {
         var tag = collider.gameObject.tag;
+        var destroy = true;
 
         if (tag == "Player" || tag == "Enemy")
         {
             var vitalityController = collider.gameObject.GetComponent<VitalityController>();
-            vitalityController.Damage(damage, isMagical, isCrit);
+
+            if (!vitalityController.isDead)
+            {
+                vitalityController.Damage(damage, isMagical, isCrit);
+            }
+            else
+            {
+                destroy = false;
+            }
         }
         else
         {
@@ -48,6 +57,9 @@ public class Projectile : MonoBehaviour
             Instantiate(hitParticle, transform.position, Quaternion.identity);
         }
 
-        GameObject.Destroy(gameObject);
+        if (destroy)
+        {
+            GameObject.Destroy(gameObject);
+        }
     }
 }

@@ -3,6 +3,8 @@
 *.unity.meta
 !Menu.unity
 !Menu.unity.meta
+!StoryMode.unity
+!StoryMode.unity.meta
 !Main.unity
 !Main.unity.meta
 

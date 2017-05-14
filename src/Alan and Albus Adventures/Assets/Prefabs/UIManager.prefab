@@ -58,6 +58,7 @@ MonoBehaviour:
   reviveUI: {fileID: 1029737049646680, guid: a9e0472c595404a0d9214cac07236987, type: 2}
   button: {fileID: 1571872881633036, guid: b5fbeda5d17004c9498265a7b6837c66, type: 2}
   tooltip: {fileID: 1893542291004044, guid: ea3462cd9827f466e87318f4a33cf16f, type: 2}
+  dialog: {fileID: 1011947002562952, guid: 3b10bff942cf940f7a1a3020e21f826c, type: 2}
   rareItemColor: {r: 0.014705896, g: 0.5107507, b: 1, a: 1}
   epicItemColor: {r: 0.7372549, g: 0, b: 1, a: 1}
   legendaryItemColor: {r: 1, g: 0.5176471, b: 0, a: 1}

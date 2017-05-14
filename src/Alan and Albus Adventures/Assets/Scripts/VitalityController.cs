@@ -322,7 +322,7 @@ public class VitalityController : MonoBehaviour
 
     private IEnumerator InvincibiltyFrame()
     {
-        var num = 3;
+        var num = 4;
         var interval = (invincibilityFrameTime / num) / 2;
 
         for (int i = 0; i < num; i++)
