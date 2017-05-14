@@ -88,6 +88,7 @@ public class FloorManager : MonoBehaviour
         SpawnStartTutorial();
         PlacePlayersAndCamera();
 
+        enemyScalar += 0.25f;
         floorLevel++;
     }
 
@@ -377,8 +378,6 @@ public class FloorManager : MonoBehaviour
                 }
             }
         }
-
-        enemyScalar += 0.25f;
     }
 
     private void SpawnBoss()
