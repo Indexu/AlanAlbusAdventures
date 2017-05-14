@@ -96,7 +96,7 @@ public class GameManager : MonoBehaviour
             dialogText = "YAY!!! I'm saved!\nThank you Alan and Albus!\nYou are my bestest friends!\nHow do we get out...";
             UIManager.instance.HideAllTooltips();
             UIManager.instance.ClearDoorButtons();
-            SoundManager.instance.theme.Stop();
+            SoundManager.instance.theme.StopTheme();
             SoundManager.instance.PlaySounds(winSound);
             StartCoroutine(StoryModeFadeToBlack());
         }

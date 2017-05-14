@@ -89,4 +89,9 @@ public class SoundManager : MonoBehaviour
 	{
 		projectileHittingWallAudioSource.PlayOneShot(projectileHittingWallSounds, 0.1f);
 	}
+
+    public void StopTheme()
+    {
+        theme.Stop();
+    }
 }
