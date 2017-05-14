@@ -54,6 +54,11 @@ MonoBehaviour:
   gridLength: 5
   floorLevel: 1
   enemySpawnRadius: 0.7
+  minRooms: 5
+  maxRooms: 6
+  minBlobsPerRoom: 2
+  maxBlobsPerRoom: 3
+  maxBlobsThreshold: 6
   room: {fileID: 1487456660483142, guid: a5ecfd718d6fb41fea3fb003553f7e66, type: 2}
   doorwayUp: {fileID: 1589994340103016, guid: 3e3966cc5a2ee43368e0326aff7dae47, type: 2}
   doorwayDown: {fileID: 1441337403109678, guid: 99b2c62d085614762848f7310310a1f9,

@@ -48,6 +48,11 @@ public class FloorManager : MonoBehaviour
     public int gridLength;
     public int floorLevel;
     public float enemySpawnRadius;
+    public int minRooms;
+    public int maxRooms;
+    public int minBlobsPerRoom;
+    public int maxBlobsPerRoom;
+    public int maxBlobsThreshold;
     public GameObject room;
     public GameObject doorwayUp;
     public GameObject doorwayDown;
@@ -71,6 +76,8 @@ public class FloorManager : MonoBehaviour
     public void GenerateFloor()
     {
         Init();
+        MinMaxRooms();
+        MinMaxBlobs();
         GenerateCoords();
         InstantiateRooms();
         ConnectRooms();
@@ -119,7 +126,7 @@ public class FloorManager : MonoBehaviour
 
     private void GenerateCoords()
     {
-        var numberOfRooms = floorLevel + Random.Range(floorLevel / 2, floorLevel * 2);
+        var numberOfRooms = floorLevel + Random.Range(minRooms, maxRooms);
 
         if (gridLength * gridLength < numberOfRooms)
         {
@@ -134,7 +141,7 @@ public class FloorManager : MonoBehaviour
         roomCoords.Add(startCoords);
         AddAdjacentCoords(startCoords);
 
-        for (int i = 0; (i <= numberOfRooms && availableCoords.Count != 0); i++)
+        for (int i = 0; (i < numberOfRooms && availableCoords.Count != 0); i++)
         {
             var selectedRoomIndex = Random.Range(0, availableCoords.Count);
             var selectedRoomCoords = availableCoords[selectedRoomIndex];
@@ -346,7 +353,7 @@ public class FloorManager : MonoBehaviour
                 {
                     var maxRangeVector = grid[i, j].transform.position + (bounds.extents * enemySpawnRadius);
                     var minRangeVector = grid[i, j].transform.position - (bounds.extents * enemySpawnRadius);
-                    numberOfEnemies = Random.Range(floorLevel / 2, floorLevel * 3);
+                    numberOfEnemies = Random.Range(minBlobsPerRoom, maxBlobsPerRoom + 1);
 
                     for (int k = 0; k < numberOfEnemies; k++)
                     {
@@ -427,5 +434,23 @@ public class FloorManager : MonoBehaviour
         }
 
         GameManager.instance.mainCamera.transform.position = spawnRoom.transform.position + new Vector3(0f, 0f, -10f);
+    }
+
+    private void MinMaxRooms()
+    {
+        if (floorLevel != 1 && floorLevel % 2 == 1)
+        {
+            minRooms += 2;
+            maxRooms += 2;
+        }
+    }
+
+    private void MinMaxBlobs()
+    {
+        if (floorLevel != 1 && maxBlobsPerRoom < maxBlobsThreshold)
+        {
+            minBlobsPerRoom++;
+            maxBlobsPerRoom++;
+        }
     }
 }

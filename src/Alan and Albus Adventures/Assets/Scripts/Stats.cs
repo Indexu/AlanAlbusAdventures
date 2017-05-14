@@ -31,6 +31,7 @@ public class Stats : MonoBehaviour
     private int viewing;
 
     private VitalityController vc;
+    private PlayerController pc;
     private Inventory inventory;
     private int playerID;
     private const float maxHealthYPos = 248f;
@@ -77,7 +78,14 @@ public class Stats : MonoBehaviour
 
     public void UpgradeBaseDamage()
     {
-        baseDamage += 1f;
+        if (pc.playerID == 0)
+        {
+            baseDamage += 0.5f;
+        }
+        else
+        {
+            baseDamage += 1f;
+        }
     }
 
     public void UpgradeAttackSpeed()
@@ -203,8 +211,8 @@ public class Stats : MonoBehaviour
         movementSpeedText.text = ms.ToString("0");
         maxHealthText.text = mh.ToString("0");
         critHitChanceText.text = cc.ToString("0") + "%";
-        critHitDamageText.text = cd.ToString("0") + "x";
-        baseDamageText.text = bd.ToString("0");
+        critHitDamageText.text = cd.ToString("0.0") + "x";
+        baseDamageText.text = bd.ToString("0.0");
         attackSpeedText.text = atk.ToString("0.00") + "s";
 
         movementSpeedBonusText.text = "(x" + inventory.GetStatBonus(Property.MOVEMENTSPEED).ToString("0.00") + ")";
@@ -302,6 +310,7 @@ public class Stats : MonoBehaviour
     private void Start()
     {
         vc = GetComponent<VitalityController>();
+        pc = GetComponent<PlayerController>();
         inventory = GetComponent<Inventory>();
 
         selectedStat = 1;
