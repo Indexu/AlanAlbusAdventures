@@ -35,6 +35,7 @@ public class SoundManager : MonoBehaviour
 		theme = gameObject.AddComponent<AudioSource>();
 		previousPlayed = Random.Range(0,themes.Count);
 		theme.clip = themes[previousPlayed];
+		theme.volume = 0.2f;
 		theme.Play();
 		audioSources = new List<AudioSource>();
 		damageAudioSources = new List<AudioSource>();
