@@ -48,6 +48,11 @@ public class FloorManager : MonoBehaviour
     public int gridLength;
     public int floorLevel;
     public float enemySpawnRadius;
+    public int minRooms;
+    public int maxRooms;
+    public int minBlobsPerRoom;
+    public int maxBlobsPerRoom;
+    public int maxBlobsThreshold;
     public GameObject room;
     public GameObject doorwayUp;
     public GameObject doorwayDown;
@@ -55,6 +60,7 @@ public class FloorManager : MonoBehaviour
     public GameObject doorwayRight;
     public GameObject enemyHealthBar;
     public GameObject chest;
+    public GameObject startFloorTutorial;
     public List<GameObject> enemies;
     public List<GameObject> bosses;
 
@@ -66,16 +72,20 @@ public class FloorManager : MonoBehaviour
     private Point chestCoords;
     private Point bossCoords;
     private Bounds bounds;
+    private float enemyScalar = 1f;
 
     public void GenerateFloor()
     {
         Init();
+        MinMaxRooms();
+        MinMaxBlobs();
         GenerateCoords();
         InstantiateRooms();
         ConnectRooms();
         SpawnEnemies();
         SpawnBoss();
         SpawnChest();
+        SpawnStartTutorial();
         PlacePlayersAndCamera();
 
         floorLevel++;
@@ -117,7 +127,7 @@ public class FloorManager : MonoBehaviour
 
     private void GenerateCoords()
     {
-        var numberOfRooms = floorLevel + Random.Range(floorLevel / 2, floorLevel * 2);
+        var numberOfRooms = floorLevel + Random.Range(minRooms, maxRooms);
 
         if (gridLength * gridLength < numberOfRooms)
         {
@@ -132,9 +142,9 @@ public class FloorManager : MonoBehaviour
         roomCoords.Add(startCoords);
         AddAdjacentCoords(startCoords);
 
-        for (int i = 0; i <= numberOfRooms; i++)
+        for (int i = 0; (i < numberOfRooms && availableCoords.Count != 0); i++)
         {
-            var selectedRoomIndex = Random.Range(0, availableCoords.Count - 1);
+            var selectedRoomIndex = Random.Range(0, availableCoords.Count);
             var selectedRoomCoords = availableCoords[selectedRoomIndex];
             availableCoords.RemoveAt(selectedRoomIndex);
             roomCoords.Add(selectedRoomCoords);
@@ -332,6 +342,8 @@ public class FloorManager : MonoBehaviour
 
     private void SpawnEnemies()
     {
+        enemyScalar += 0.25f;
+
         var spawnVector = new Vector3();
         int numberOfEnemies;
         GameObject enemy;
@@ -344,7 +356,7 @@ public class FloorManager : MonoBehaviour
                 {
                     var maxRangeVector = grid[i, j].transform.position + (bounds.extents * enemySpawnRadius);
                     var minRangeVector = grid[i, j].transform.position - (bounds.extents * enemySpawnRadius);
-                    numberOfEnemies = Random.Range(floorLevel / 2, floorLevel * 3);
+                    numberOfEnemies = Random.Range(minBlobsPerRoom, maxBlobsPerRoom + 1);
 
                     for (int k = 0; k < numberOfEnemies; k++)
                     {
@@ -355,7 +367,13 @@ public class FloorManager : MonoBehaviour
                         var enemyInstance = Instantiate(enemy, spawnVector, Quaternion.identity, grid[i, j].transform);
                         var healthBar = Instantiate(enemyHealthBar, Vector3.zero, Quaternion.identity, GameManager.instance.canvas.transform);
 
-                        enemyInstance.GetComponent<VitalityController>().healthSlider = healthBar.GetComponent<Slider>();
+                        var enemyController = enemyInstance.GetComponent<Enemy>();
+                        var vc = enemyInstance.GetComponent<VitalityController>();
+
+                        enemyController.damage *= enemyScalar;
+                        vc.currentHealth *= enemyScalar;
+
+                        vc.healthSlider = healthBar.GetComponent<Slider>();
                         healthBar.SetActive(false);
                     }
                 }
@@ -407,6 +425,14 @@ public class FloorManager : MonoBehaviour
         Instantiate(chest, grid[chestCoords.X, chestCoords.Y].transform.position, Quaternion.identity, grid[chestCoords.X, chestCoords.Y].transform);
     }
 
+    private void SpawnStartTutorial()
+    {
+        if (floorLevel == 1)
+        {
+            Instantiate(startFloorTutorial, grid[startCoords.X, startCoords.Y].transform.position, Quaternion.identity, grid[startCoords.X, startCoords.Y].transform);
+        }
+    }
+
     private void PlacePlayersAndCamera()
     {
         var spawnRoom = grid[startCoords.X, startCoords.Y];
@@ -417,5 +443,23 @@ public class FloorManager : MonoBehaviour
         }
 
         GameManager.instance.mainCamera.transform.position = spawnRoom.transform.position + new Vector3(0f, 0f, -10f);
+    }
+
+    private void MinMaxRooms()
+    {
+        if (floorLevel != 1 && floorLevel % 2 == 1)
+        {
+            minRooms += 2;
+            maxRooms += 2;
+        }
+    }
+
+    private void MinMaxBlobs()
+    {
+        if (floorLevel != 1 && maxBlobsPerRoom < maxBlobsThreshold)
+        {
+            minBlobsPerRoom++;
+            maxBlobsPerRoom++;
+        }
     }
 }

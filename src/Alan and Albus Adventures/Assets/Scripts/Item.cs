@@ -83,6 +83,31 @@ public class Item : MonoBehaviour
         }
     }
 
+    public static string PostfixToString(Postfix post)
+    {
+        switch (post)
+        {
+            case Postfix.MINOR:
+                {
+                    return "Lesser";
+                }
+            case Postfix.LESSER:
+                {
+                    return "Greater";
+                }
+            case Postfix.SUPERIOR:
+                {
+                    return "Superior";
+                }
+            case Postfix.MAJOR:
+                {
+                    return "Mythical";
+                }
+            default:
+                return string.Empty;
+        }
+    }
+
     public void PickedUp()
     {
         GameObject.Destroy(gameObject);
@@ -135,6 +160,8 @@ public class Item : MonoBehaviour
         {
             GameObject.Destroy(tooltip);
         }
+
+        GameManager.instance.RemoveFromItemLists(gameObject);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

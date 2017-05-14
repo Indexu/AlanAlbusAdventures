@@ -318,11 +318,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 3
-  damage: 2
+  damage: 5
   magicalDamage: 0
   Attacking: 0
   knockbackForceOnTouch: 100
-  experienceValue: 0
+  experienceValue: 25
   leftSprite: {fileID: 21300000, guid: 0128f54c53aebee4486a58e426b1a78c, type: 3}
   rightSprite: {fileID: 21300000, guid: fb3df214fca20244285a8a0bde4a8f72, type: 3}
   BossName: "Ragnar Lo\xF0blob"
@@ -376,7 +376,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d86cfd3d2857a4ec496620be2e0e5e1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentHealth: 200
+  currentHealth: 100
   magicResistance: 1
   physicalResistance: 1
   isDead: 0

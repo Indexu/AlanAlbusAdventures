@@ -50,6 +50,7 @@ public class BlobertController : Boss
 
             blobInstance.GetComponent<VitalityController>().healthSlider = healthBar.GetComponent<Slider>();
             blobInstance.GetComponent<Enemy>().Attacking = true;
+            blobInstance.GetComponent<Enemy>().experienceValue = 0;
 
             GameManager.instance.EnemySpawned();
 

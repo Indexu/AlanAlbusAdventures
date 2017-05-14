@@ -303,7 +303,7 @@ MonoBehaviour:
   magicalDamage: 0
   Attacking: 0
   knockbackForceOnTouch: 100
-  experienceValue: 0
+  experienceValue: 25
   leftSprite: {fileID: 21300000, guid: 4cfd40c19d0c0e34d840064fbdeec178, type: 3}
   rightSprite: {fileID: 21300000, guid: 09bd875d967e22a43b3ec4e1c8b07514, type: 3}
   BossName: Daddy Blobert
@@ -325,7 +325,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d86cfd3d2857a4ec496620be2e0e5e1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentHealth: 200
+  currentHealth: 150
   magicResistance: 1
   physicalResistance: 1
   isDead: 0

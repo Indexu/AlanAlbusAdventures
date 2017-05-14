@@ -24,6 +24,8 @@ public class GameManager : MonoBehaviour
     public float currentExperience;
 
     // Loot
+    public List<GameObject> AlanItemList;
+    public List<GameObject> AlbusItemList;
     public float dropChance;
     public float healthPotionChance;
     // Please make these \/ add up to 1
@@ -48,7 +50,6 @@ public class GameManager : MonoBehaviour
     private Direction direction;
     private GameObject currentRoom;
     private int enemies;
-    private int killed;
     private List<DoorController> doors;
     private bool bossFight;
     private int deadPlayers;
@@ -59,11 +60,18 @@ public class GameManager : MonoBehaviour
 
     public void NextFloor()
     {
+        GameManager.instance.enemies = 0;
         GameManager.instance.changingRooms = true;
         GameManager.instance.changingFloors = true;
         UIManager.instance.HideAllTooltips();
         UIManager.instance.ClearDoorButtons();
         UIManager.instance.SetTransitionText("Floor " + floorManager.floorLevel);
+
+        foreach (var player in players)
+        {
+            player.GetComponent<Stats>().HideStats();
+            player.GetComponent<PlayerController>().inStatsScreen = false;
+        }
 
         StartCoroutine(FadeTransitionIn());
     }
@@ -71,6 +79,7 @@ public class GameManager : MonoBehaviour
     public void ChangeRooms(GameObject room, Transform door, Direction dir, bool boss)
     {
         GameManager.instance.changingRooms = true;
+        GameManager.instance.enemies = 0;
 
         GameManager.instance.bossFight = boss;
         GameManager.instance.currentRoom = room;
@@ -91,13 +100,14 @@ public class GameManager : MonoBehaviour
         foreach (var player in players)
         {
             player.GetComponent<PlayerController>().door = null;
+            player.GetComponent<Stats>().HideStats();
+            player.GetComponent<PlayerController>().inStatsScreen = false;
         }
     }
 
     public void EnemyKilled(float xp, Vector3 pos)
     {
         GameManager.instance.enemies--;
-        GameManager.instance.killed++;
 
         Debug.Log("EnemyKilled | ENEMIES: " + GameManager.instance.enemies);
         DropHealthPotion(pos);
@@ -109,7 +119,12 @@ public class GameManager : MonoBehaviour
             inCombat = false;
             UnlockDoors();
 
-            DropLoot(GameManager.instance.killed, false);
+            foreach (var player in players)
+            {
+                player.transform.Find("Aim").GetComponent<ProjectileDirection>().ClearCollidingEnemies();
+            }
+
+            DropLoot(Random.Range(1, 4), false);
 
             if (GameManager.instance.bossFight)
             {
@@ -121,7 +136,6 @@ public class GameManager : MonoBehaviour
     public void EnemySpawned()
     {
         GameManager.instance.enemies++;
-        GameManager.instance.killed--;
 
         Debug.Log("EnemySpawned | ENEMIES: " + GameManager.instance.enemies);
     }
@@ -218,7 +232,7 @@ public class GameManager : MonoBehaviour
                 itemComponent.quality = GetQualityOfItem();
                 for (int j = 0; j < (int)itemComponent.quality; j++)
                 {
-                    if (DidLootDrop())
+                    if (DidLootDrop() || itemComponent.quality == Quality.LEGENDARY)
                     {
                         itemComponent.bonusProperty = GetPropertyOfItem();
                         switch (itemComponent.bonusProperty)
@@ -230,16 +244,16 @@ public class GameManager : MonoBehaviour
                                 itemComponent.bonusBaseStat = 15;
                                 break;
                             case Property.ATTACKSPEED:
-                                itemComponent.bonusBaseStat = 10;
+                                itemComponent.bonusBaseStat = 12;
                                 break;
                             case Property.CRITCHANCE:
-                                itemComponent.bonusBaseStat = 5;
+                                itemComponent.bonusBaseStat = 8;
                                 break;
                             case Property.CRITDAMAGE:
-                                itemComponent.bonusBaseStat = 10;
+                                itemComponent.bonusBaseStat = 20;
                                 break;
                             case Property.BASEDAMAGE:
-                                itemComponent.bonusBaseStat = 15;
+                                itemComponent.bonusBaseStat = 10;
                                 break;
                         };
                         itemComponent.bonusQuality = GetPostfixOfItem();
@@ -257,6 +271,12 @@ public class GameManager : MonoBehaviour
         {
             Instantiate(healthPotion, pos, Quaternion.identity, GameManager.instance.currentRoom.transform);
         }
+    }
+
+    public void RemoveFromItemLists(GameObject item)
+    {
+        GameManager.instance.AlanItemList.Remove(item);
+        GameManager.instance.AlbusItemList.Remove(item);
     }
 
     private void Awake()
@@ -317,6 +337,8 @@ public class GameManager : MonoBehaviour
         GameManager.instance.pauseScreen = GameManager.instance.canvas.transform.Find("PauseScreen").gameObject;
         GameManager.instance.changingRooms = false;
         GameManager.instance.doors = new List<DoorController>();
+        GameManager.instance.AlanItemList = new List<GameObject>();
+        GameManager.instance.AlbusItemList = new List<GameObject>();
         GameManager.instance.bossUI.SetActive(false);
         GameManager.instance.pauseScreen.SetActive(false);
         GameManager.instance.isPaused = false;
@@ -357,42 +379,44 @@ public class GameManager : MonoBehaviour
     {
         GameManager.instance.doors.Clear();
 
+        GameManager.instance.enemies = 0;
+
         var enemyList = new List<Enemy>();
         var children = currentRoom.GetComponentsInChildren<Transform>();
         foreach (var child in children)
         {
-            if (child.gameObject.tag == "Enemy")
+            if (child.tag == "Enemy" && child.gameObject.activeSelf)
             {
                 enemyList.Add(child.gameObject.GetComponent<Enemy>());
-                enemies++;
+                GameManager.instance.enemies++;
 
                 if (bossFight)
                 {
-                    var vc = child.gameObject.GetComponent<VitalityController>();
+                    var vc = child.GetComponent<VitalityController>();
                     if (vc.boss)
                     {
                         vc.doUpdateUI = true;
                     }
                 }
             }
-            else if (child.gameObject.tag == "Door")
+            else if (child.tag == "Door")
             {
                 var door = child.gameObject.GetComponent<DoorController>();
                 doors.Add(door);
             }
         }
 
-        if (enemies != 0)
+        if (GameManager.instance.enemies != 0)
         {
-            inCombat = true;
+            GameManager.instance.inCombat = true;
             LockDoors();
 
-            if (bossFight)
+            if (GameManager.instance.bossFight)
             {
                 StartBossFight();
             }
 
-            yield return new WaitForSeconds(timeBeforeAttacking);
+            yield return new WaitForSeconds(GameManager.instance.timeBeforeAttacking);
             foreach (var enemy in enemyList)
             {
                 enemy.Attacking = true;
@@ -403,7 +427,6 @@ public class GameManager : MonoBehaviour
         var playersLayer = LayerMask.NameToLayer("Players");
         var doorsLayer = LayerMask.NameToLayer("DoorTriggers");
         Physics2D.IgnoreLayerCollision(playersLayer, doorsLayer, false);
-        killed = 0;
     }
 
     private void LockDoors()
@@ -443,12 +466,12 @@ public class GameManager : MonoBehaviour
 
     private bool DidLootDrop()
     {
-        return Random.Range(0f, 1f) <= dropChance;
+        return Random.value <= dropChance;
     }
 
     private Quality GetQualityOfItem()
     {
-        var quality = Random.Range(0f, 1f);
+        var quality = Random.value;
         if (quality <= legendaryChance)
         {
             return Quality.LEGENDARY;
@@ -469,7 +492,7 @@ public class GameManager : MonoBehaviour
 
     private Postfix GetPostfixOfItem()
     {
-        var quality = Random.Range(0f, 1f);
+        var quality = Random.value;
         if (quality <= legendaryChance)
         {
             return Postfix.MAJOR;

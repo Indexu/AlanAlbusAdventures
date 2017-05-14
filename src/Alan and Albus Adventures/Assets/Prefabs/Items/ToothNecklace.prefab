@@ -117,7 +117,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   quality: 0
   property: 4
-  baseStat: 15
+  baseStat: 20
   bonusQuality: 0
   bonusProperty: 0
   bonusBaseStat: 0
@@ -154,8 +154,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1224094433
-  m_SortingLayer: 1
+  m_SortingLayerID: 2001766893
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 95c4ab108acb54824869a89afcf1a607, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

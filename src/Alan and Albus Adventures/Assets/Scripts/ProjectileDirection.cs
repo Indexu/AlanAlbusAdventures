@@ -37,6 +37,11 @@ public class ProjectileDirection : MonoBehaviour
         transform.position = playerPos + offset;
     }
 
+    public void ClearCollidingEnemies()
+    {
+        collidingEnemies.Clear();
+    }
+
     public void Shoot(Vector2 rotationVector)
     {
         if (nextFire < Time.time)

@@ -263,7 +263,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d86cfd3d2857a4ec496620be2e0e5e1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentHealth: 15
+  currentHealth: 40
   magicResistance: 1
   physicalResistance: 1
   isDead: 0
@@ -336,11 +336,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 3
-  damage: 1
+  damage: 2
   magicalDamage: 0
   Attacking: 0
   knockbackForceOnTouch: 100
-  experienceValue: 0
+  experienceValue: 10
   leftSprite: {fileID: 21300000, guid: 8d7f4cb42bcedb548833fad3dd6adad1, type: 3}
   rightSprite: {fileID: 21300000, guid: f27a4ed445f0c4d40982738a0e9046bf, type: 3}
 --- !u!212 &212250856944018922
