@@ -68,7 +68,7 @@ public class Stats : MonoBehaviour
 
     public void UpgradeCritHitChance()
     {
-        critHitChance += 5f;
+        critHitChance += 4f;
     }
 
     public void UpgradeCritHitDamage()
@@ -90,7 +90,7 @@ public class Stats : MonoBehaviour
 
     public void UpgradeAttackSpeed()
     {
-        attackSpeed -= 0.05f;
+        attackSpeed -= 0.04f;
     }
 
     public void UpgradeStat()
