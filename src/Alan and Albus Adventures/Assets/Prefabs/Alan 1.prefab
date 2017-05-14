@@ -330,7 +330,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSpeed: 7
   maxHealth: 30
-  critHitChance: 10
+  critHitChance: 8
   critHitDamage: 2
   baseDamage: 1
   attackSpeed: 0.8
@@ -452,7 +452,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -345702681
-  m_SortingLayer: 4
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300020, guid: cd73ebf854dc9fa47b781e06d5a36ccd, type: 3}
   m_Color: {r: 1, g: 0.5529412, b: 0, a: 0.409}
@@ -492,7 +492,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -822676547
-  m_SortingLayer: 5
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: bdcb025cc382b4ff0b2dbe2781625760, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
